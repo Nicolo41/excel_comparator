@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tabulate import tabulate
 from collections import defaultdict
+import subprocess
 
 # Créer la fenêtre principale
 root = tk.Tk()
@@ -12,9 +13,9 @@ root.title('Traitement des fichiers Excel')
 
 # Fonction pour traiter le fichier "Export_Livraisons - 20230713.xlsx"
 def traiter_livraisons():
-    fichier_livraisons = filedialog.askopenfilename(filetypes=[('Export_Livraisons - 20230713.xlsx', '*.xlsx')])
+    fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     df_livraisons = pd.read_excel(fichier_livraisons)
-
+    
     # Extraire les colonnes des vidanges (de D à N)
     colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)
     # Créer un dictionnaire pour stocker les clients, leurs vidanges et les quantités correspondantes
@@ -51,8 +52,8 @@ def traiter_livraisons():
     # Convertir la liste de listes en DataFrame pandas
     df_output = pd.DataFrame(table_data, columns=headers)
 
-    # Enregistrer le DataFrame dans un fichier Excel
-    nom_fichier_excel = 'output_livraisons.xlsx'
+    # Enregistrer le DataFrame dans un fichier Excel dans le dossier des téléchargements
+    nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', 'output_livraisons.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
 
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès sous le nom:", nom_fichier_excel)
@@ -122,7 +123,8 @@ def traiter_vidanges():
     # print(tabulate(table_data, headers=headers, tablefmt='grid'))
 
     # Exporter le tableau en fichier Excel
-    fichier_sortie = 'Export_vidanges_tableau.xlsx'
+    
+    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'Export_vidanges_tableau.xlsx')
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
 
@@ -132,8 +134,8 @@ def traiter_vidanges():
 # Fonction pour comparer les deux fichiers générés
 def comparer_fichiers():
     # Chemin des fichiers Excel à comparer
-    fichier_vidanges = 'Export_vidanges_tableau.xlsx'
-    fichier_livraisons = 'output_livraisons.xlsx'
+    fichier_vidanges = os.path.join(os.path.expanduser('~'), 'Downloads', 'Export_vidanges_tableau.xlsx')
+    fichier_livraisons = os.path.join(os.path.expanduser('~'), 'Downloads', 'output_livraisons.xlsx')
 
     if os.path.exists(fichier_vidanges) and os.path.exists(fichier_livraisons):
         # Charger les fichiers Excel en DataFrames
@@ -155,8 +157,8 @@ def comparer_fichiers():
         # print(df_diff)
         result_label.config(text=f"Comparaison des fichiers en cours...")
 
-        # Exporter les différences en fichier Excel
-        fichier_sortie = 'differences.xlsx'
+        # Exporter les différences en fichier Excel dans le dossier des téléchargements
+        fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'differences.xlsx')
         df_diff.to_excel(fichier_sortie, index=False)
 
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
@@ -179,6 +181,11 @@ def ouvrir_dernier_fichier():
         result_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
 
 
+def ouvrir_dossier_telechargements():
+    dossier_telechargements = os.path.join(os.path.expanduser('~'), 'Downloads')
+    subprocess.Popen(f'explorer "{dossier_telechargements}"')
+
+
 # Ajouter un widget Label pour afficher les résultats
 result_label = tk.Label(root, text="")
 result_label.pack(padx=20, pady=10)
@@ -199,6 +206,10 @@ btn_comparer_fichiers.pack(padx=20, pady=10)
 # Créer un bouton pour ouvrir le dernier fichier généré
 btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le dernier fichier généré', command=ouvrir_dernier_fichier)
 btn_ouvrir_fichier.pack(padx=20, pady=10)
+
+# Créer un bouton pour ouvrir le dossier des téléchargements
+btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements)
+btn_ouvrir_dossier.pack(padx=20, pady=10)
 
 # Lancer l'interface graphique
 root.mainloop()
