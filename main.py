@@ -8,6 +8,8 @@ import subprocess
 from pathlib import Path
 
 # Créer la fenêtre principale
+print('Lancement de l\'application...')
+print ('Lançement de l\'interface graphique...')
 root = tk.Tk()
 root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
@@ -58,7 +60,7 @@ def traiter_livraisons():
     nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', 'output_livraisons.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
 
-    print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès sous le nom:", nom_fichier_excel)
+    print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\nVous pouvez maintenant traiter le fichier des vidanges.")
 
@@ -130,7 +132,7 @@ def traiter_vidanges():
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
 
-    print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
+    print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nVous pouvez maintenant comparer les deux fichiers générés.")
 
 # Fonction pour comparer les deux fichiers générés
@@ -163,11 +165,12 @@ def comparer_fichiers():
         fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'differences.xlsx')
         df_diff.to_excel(fichier_sortie, index=False)
 
+        print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
-        result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nVous pouvez maintenant ouvrir le fichier généré.")
+        result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nVous pouvez maintenant ouvrir le fichier généré.\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
     else: 
-        print(f"Les fichiers '{fichier_vidanges}' et '{fichier_livraisons}' n'existent pas.")
-        result_label.config(text=f"Les fichiers '{fichier_vidanges}' et '{fichier_livraisons}' n'existent pas.")
+        print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
+        result_label.config(text=f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
     
 
 # Fonction pour ouvrir le dernier fichier généré
@@ -193,6 +196,8 @@ def ouvrir_dernier_fichier():
 def ouvrir_dossier_telechargements():
     dossier_telechargements = os.path.join(os.path.expanduser('~'), 'Downloads')
     subprocess.Popen(f'explorer "{dossier_telechargements}"')
+    print(f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
+    result_label.config(text=f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
 
 
 # Ajouter un widget Label pour afficher les résultats
