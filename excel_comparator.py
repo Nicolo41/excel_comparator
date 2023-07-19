@@ -14,6 +14,8 @@ root = tk.Tk()
 root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 
+# Définir la taille de la fenêtre
+root.geometry("800x600")
 
 # Fonction pour traiter le fichier des livraisons
 def traiter_livraisons():
@@ -62,7 +64,9 @@ def traiter_livraisons():
 
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
     # Afficher le résultat dans la fenêtre
-    result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\nVous pouvez maintenant traiter le fichier des vidanges.")
+    result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\n")
+    up_label.config(text="Vous pouvez maintenant traiter le fichier des vidanges !")
+    
 
 
 # Fonction pour traiter le fichier des vidanges
@@ -127,13 +131,13 @@ def traiter_vidanges():
     # print(tabulate(table_data, headers=headers, tablefmt='grid'))
 
     # Exporter le tableau en fichier Excel
-    
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'Export_vidanges_tableau.xlsx')
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
 
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
-    result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nVous pouvez maintenant comparer les deux fichiers générés.")
+    result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
+    up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
 
 # Fonction pour comparer les deux fichiers générés
 def comparer_fichiers():
@@ -167,10 +171,11 @@ def comparer_fichiers():
 
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
-        result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nVous pouvez maintenant ouvrir le fichier généré.\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
+        result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
+        up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
-        result_label.config(text=f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
+        warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
     
 
 # Fonction pour ouvrir le dernier fichier généré
@@ -190,7 +195,7 @@ def ouvrir_dernier_fichier():
         result_label.config(text=f"Le dernier fichier généré a été ouvert : {chemin_fichier_genere}")
     else:
         print(f"Le fichier '{fichier_genere}' n'existe pas.")
-        result_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
+        warn_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
 
 
 # Fonction pour ouvrir le dossier des téléchargements
@@ -203,13 +208,27 @@ def ouvrir_dossier_telechargements():
 # Fonction pour quitter la fenêtre
 def quitter_fenetre():
     root.quit()
-
+    print('Fermeture de l\'application...')
+    quit_label = tk.Label(root, text="Fermeture de l'application...")
+    quit_label.pack()
 
 # Ajouter un widget Label pour afficher les résultats
 result_label = tk.Label(root, text="")
 result_label.pack(padx=20, pady=10)
 
-result_label.config(text="Interface pour traiter les fichiers Excel.\nSeuls les fichiers Excel en .xlsx sont acceptés.\n\n Cliquez sur les boutons dans l'ordre\n\n Attendez l'autorisation avant de cliquer sur le bouton suivant.")
+# Ajouter un widget Label pour afficher les instructions
+up_label = tk.Label(root, text="", foreground="blue")
+up_label.pack(padx=20, pady=10)
+
+# Ajouter un widget Label pour afficher les erreurs
+warn_label = tk.Label(root, text="", foreground="red")
+warn_label.pack(padx=20, pady=10)
+
+result_label.config(text="Interface pour traiter les fichiers Excel.\nSeuls les fichiers Excel en .xlsx sont acceptés.\n\n Cliquez sur les boutons dans l'ordre\nUn message en bleu vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
+
+# Warning
+warn_label.config(text="!! Attendez l'étape suivante avant de cliquer sur le prochain bouton !!\n")
+
 
 
 # Créer des boutons pour les différentes opérations
@@ -231,8 +250,9 @@ btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargemen
 btn_ouvrir_dossier.pack(padx=20, pady=10)
 
 # Créer un bouton pour quitter la fenêtre
-btn_quitter = tk.Button(root, text='Quitter', command=quitter_fenetre)
+btn_quitter = tk.Button(root, text='Quitter l\'application', foreground="red", command=quitter_fenetre)
 btn_quitter.pack(padx=20, pady=10)
+
 
 # Lancer l'interface graphique
 root.mainloop()
