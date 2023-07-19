@@ -6,6 +6,8 @@ from tabulate import tabulate
 from collections import defaultdict
 import subprocess
 from pathlib import Path
+from tkinter import ttk
+
 
 # Créer la fenêtre principale
 print('Lancement de l\'application...')
@@ -21,6 +23,9 @@ root.geometry("800x600")
 def traiter_livraisons():
     fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     df_livraisons = pd.read_excel(fichier_livraisons)
+    
+    # Démarrer la barre de progression
+    # progress_bar.start()
     
     # Extraire les colonnes des vidanges (de D à N)
     colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)
@@ -61,6 +66,12 @@ def traiter_livraisons():
     # Enregistrer le DataFrame dans un fichier Excel dans le dossier des téléchargements
     nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', 'output_livraisons.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
+    
+    # Arrêter la barre de progression
+    # progress_bar.stop()
+    
+    progress_bar.step(35) 
+
 
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
     # Afficher le résultat dans la fenêtre
@@ -134,6 +145,8 @@ def traiter_vidanges():
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'Export_vidanges_tableau.xlsx')
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
+    
+    progress_bar.step(35) 
 
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
@@ -168,6 +181,8 @@ def comparer_fichiers():
         # Exporter les différences en fichier Excel dans le dossier des téléchargements
         fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'differences.xlsx')
         df_diff.to_excel(fichier_sortie, index=False)
+        
+        progress_bar.step(30) 
 
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
@@ -249,9 +264,19 @@ btn_ouvrir_fichier.pack(padx=20, pady=10)
 btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements)
 btn_ouvrir_dossier.pack(padx=20, pady=10)
 
+# Ajouter une barre de progression
+# progress_bar = ttk.Progressbar(root, mode='indeterminate')
+# progress_bar.pack(fill='x', padx=20, pady=10)
+
+progress_bar = ttk.Progressbar(root, mode='determinate', maximum=100)
+progress_bar.pack(fill='x', padx=20, pady=10)
+
+
 # Créer un bouton pour quitter la fenêtre
 btn_quitter = tk.Button(root, text='Quitter l\'application', foreground="red", command=quitter_fenetre)
 btn_quitter.pack(padx=20, pady=10)
+
+
 
 
 # Lancer l'interface graphique
