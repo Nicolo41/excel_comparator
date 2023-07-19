@@ -15,7 +15,7 @@ root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 
 
-# Fonction pour traiter le fichier "Export_Livraisons - 20230713.xlsx"
+# Fonction pour traiter le fichier des livraisons
 def traiter_livraisons():
     fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     df_livraisons = pd.read_excel(fichier_livraisons)
@@ -65,7 +65,7 @@ def traiter_livraisons():
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\nVous pouvez maintenant traiter le fichier des vidanges.")
 
 
-# Fonction pour traiter le fichier "Export vidanges Descartes 01-06 au 13-07.xlsx"
+# Fonction pour traiter le fichier des vidanges
 def traiter_vidanges():
     fichier_vidanges = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     df_vidanges = pd.read_excel(fichier_vidanges)
@@ -193,11 +193,16 @@ def ouvrir_dernier_fichier():
         result_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
 
 
+# Fonction pour ouvrir le dossier des téléchargements
 def ouvrir_dossier_telechargements():
     dossier_telechargements = os.path.join(os.path.expanduser('~'), 'Downloads')
     subprocess.Popen(f'explorer "{dossier_telechargements}"')
     print(f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
     result_label.config(text=f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
+    
+# Fonction pour quitter la fenêtre
+def quitter_fenetre():
+    root.quit()
 
 
 # Ajouter un widget Label pour afficher les résultats
@@ -224,6 +229,10 @@ btn_ouvrir_fichier.pack(padx=20, pady=10)
 # Créer un bouton pour ouvrir le dossier des téléchargements
 btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements)
 btn_ouvrir_dossier.pack(padx=20, pady=10)
+
+# Créer un bouton pour quitter la fenêtre
+btn_quitter = tk.Button(root, text='Quitter', command=quitter_fenetre)
+btn_quitter.pack(padx=20, pady=10)
 
 # Lancer l'interface graphique
 root.mainloop()
