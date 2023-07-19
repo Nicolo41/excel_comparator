@@ -10,6 +10,7 @@ from pathlib import Path
 # Créer la fenêtre principale
 root = tk.Tk()
 root.title('Traitement des fichiers Excel')
+print('Ouverture fenêtre principale...')
 
 
 # Fonction pour traiter le fichier "Export_Livraisons - 20230713.xlsx"
