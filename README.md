@@ -1,6 +1,6 @@
 # ecarts_vidanges
 
-Programme dans ```main.py```
+Programme dans ```excel.comparator.py```
 
 .exe dans dossier ```dist```
 
@@ -29,4 +29,4 @@ Requirements :
 
 Environnement virtuel :
 
-```pyinstaller --onefile --add-data "requirements.txt;." main.py``` 
+```pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py``` 
