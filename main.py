@@ -5,6 +5,7 @@ from tkinter import filedialog
 from tabulate import tabulate
 from collections import defaultdict
 import subprocess
+from pathlib import Path
 
 # Créer la fenêtre principale
 root = tk.Tk()
@@ -170,12 +171,19 @@ def comparer_fichiers():
 
 # Fonction pour ouvrir le dernier fichier généré
 def ouvrir_dernier_fichier():
-    fichier_genere = 'differences.xlsx'  
-    print('--------------------')
-    if os.path.exists(fichier_genere):
-        os.startfile(fichier_genere)
+    # Obtenez le chemin complet du dossier des téléchargements
+    dossier_telechargements = Path.home() / 'Downloads'
+
+    # Nom du fichier généré
+    fichier_genere = 'differences.xlsx'
+
+    # Chemin complet du fichier
+    chemin_fichier_genere = dossier_telechargements / fichier_genere
+
+    if chemin_fichier_genere.exists():
+        os.startfile(str(chemin_fichier_genere))
         print(f"Le dernier fichier généré '{fichier_genere}' a été ouvert.")
-        result_label.config(text=f"Le dernier fichier généré a été ouvert : {fichier_genere}")
+        result_label.config(text=f"Le dernier fichier généré a été ouvert : {chemin_fichier_genere}")
     else:
         print(f"Le fichier '{fichier_genere}' n'existe pas.")
         result_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
