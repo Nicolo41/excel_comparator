@@ -7,6 +7,8 @@ from collections import defaultdict
 import subprocess
 from pathlib import Path
 from tkinter import ttk
+import tkinter.messagebox as messagebox
+
 
 
 # Créer la fenêtre principale
@@ -188,6 +190,9 @@ def comparer_fichiers():
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
+        
+        progress_bar.step(100)
+        
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
         warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
@@ -195,6 +200,7 @@ def comparer_fichiers():
 
 # Fonction pour ouvrir le dernier fichier généré
 def ouvrir_dernier_fichier():
+    progress_bar.step(100)
     # Obtenez le chemin complet du dossier des téléchargements
     dossier_telechargements = Path.home() / 'Downloads'
 
@@ -215,6 +221,7 @@ def ouvrir_dernier_fichier():
 
 # Fonction pour ouvrir le dossier des téléchargements
 def ouvrir_dossier_telechargements():
+    progress_bar.step(100)
     dossier_telechargements = os.path.join(os.path.expanduser('~'), 'Downloads')
     subprocess.Popen(f'explorer "{dossier_telechargements}"')
     print(f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
@@ -226,6 +233,44 @@ def quitter_fenetre():
     print('Fermeture de l\'application...')
     quit_label = tk.Label(root, text="Fermeture de l'application...")
     quit_label.pack()
+    
+def afficher_aide():
+    message_aide = """
+    IMPORTANT : \n
+    - Seuls les fichiers Excel en .xlsx sont acceptés. 
+    - Bien attendre le message en bleu avant de cliquer sur le bouton suivant. 
+    - Il est conseillé de suivre l'ordre des boutons pour éviter les erreurs. \n
+    Voici les détails des boutons : \n
+    - Cliquez sur le bouton "Traiter le fichier des livraisons" pour traiter le fichier des livraisons.
+    - Cliquez sur le bouton "Traiter le fichier des vidanges" pour traiter le fichier des vidanges.
+    - Cliquez sur le bouton "Comparer les fichiers générés" pour comparer les deux fichiers générés.
+    - Cliquez sur le bouton "Ouvrir le dernier fichier généré" pour ouvrir le dernier fichier généré.
+    - Cliquez sur le bouton "Ouvrir le dossier des téléchargements" pour ouvrir le dossier des téléchargements.
+    - Pour quitter l'application, cliquez sur le bouton "Quitter".
+    \n
+    En cas d'erreur : 
+    - Vérifiez le format des fichiers Excel (.xlsx).
+    - Vérifiez que les fichiers Excel sont correctes et ne contiennent pas d'erreurs.
+    - Vérifiez que les fichiers Excel sont bien enregistrés dans le dossier des téléchargements. \n
+    Si toutes ces vérifications sont correctes, veuillez réessayer les opérations dans l'ordre.
+    
+    
+    
+    Développé par : BROAGE Nicolas
+    """
+    messagebox.showinfo("Aide", message_aide)
+
+# Créer un menu
+menu_bar = tk.Menu(root)
+root.config(menu=menu_bar)
+
+# Créer un sous-menu "Aide"
+menu_aide = tk.Menu(menu_bar, tearoff=False)
+menu_bar.add_cascade(label='Aide', menu=menu_aide)
+
+# Ajouter un élément dans le sous-menu "Aide" pour afficher l'aide
+menu_aide.add_command(label='Afficher les instructions d\'utilisation', command=afficher_aide)
+
 
 # Ajouter un widget Label pour afficher les résultats
 result_label = tk.Label(root, text="")
@@ -239,7 +284,7 @@ up_label.pack(padx=20, pady=10)
 warn_label = tk.Label(root, text="", foreground="red")
 warn_label.pack(padx=20, pady=10)
 
-result_label.config(text="Interface pour traiter les fichiers Excel.\nSeuls les fichiers Excel en .xlsx sont acceptés.\n\n Cliquez sur les boutons dans l'ordre\nUn message en bleu vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
+result_label.config(text="Interface pour traiter les fichiers Excel.\n\n Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUn message en bleu vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
 
 # Warning
 warn_label.config(text="!! Attendez l'étape suivante avant de cliquer sur le prochain bouton !!\n")
