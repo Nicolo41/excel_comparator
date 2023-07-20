@@ -211,6 +211,7 @@ def ouvrir_dernier_fichier():
     chemin_fichier_genere = dossier_telechargements / fichier_genere
 
     if chemin_fichier_genere.exists():
+        progress_bar.step(100)
         os.startfile(str(chemin_fichier_genere))
         print(f"Le dernier fichier généré '{fichier_genere}' a été ouvert.")
         result_label.config(text=f"Le dernier fichier généré a été ouvert : {chemin_fichier_genere}")
