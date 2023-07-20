@@ -195,7 +195,7 @@ def comparer_fichiers():
         
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
-        warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
+        warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
     
 
 # Fonction pour ouvrir le dernier fichier généré
