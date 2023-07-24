@@ -350,7 +350,7 @@ warn_label.pack(padx=20, pady=10)
 result_label.config(text="Interface pour traiter les fichiers Excel.\n\n Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUn message en bleu vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
 
 # Warning
-warn_label.config(text="!! Attendez l'étape suivante avant de cliquer sur le prochain bouton !!\n")
+# warn_label.config(text="!! Attendez l'étape suivante avant de cliquer sur le prochain bouton !!\n")
 
 
 
