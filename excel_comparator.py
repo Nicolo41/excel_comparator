@@ -264,13 +264,6 @@ def comparer_fichiers():
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
         
-
-        
-        # progress_bar.set(100)
-        
-        # Forcer la mise à jour de la fenêtre principale
-        # root.update()
-        
                     
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
