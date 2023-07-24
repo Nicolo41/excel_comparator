@@ -1,17 +1,21 @@
 # ecarts_vidanges
 
-Programme dans ```excel.comparator.py```
+Programme ```excel.comparator.py``` permettant une comparaison rapide et efficace de grands tableaux Excel.
 
-.exe dans dossier ```dist```
+L'enjeu était de trouver un moyen de voir rapidement les ecarts qui peuvent survenirs entre deux tableurs.
+
+Le programme doit être executable depuis n'importe quelle machine -> Pyinstaller créé un environnenement virtuel et permet d'avoir le script, les images et les dépendances dans un .exe .
 
 
 Libs :  requirements.txt
 
-pandas
-
-tabulate
+pandas==1.3.3
 
 tkinter
+
+tabulate==0.8.9
+
+Pillow==8.3.2
 
 
 Requirements : 
@@ -25,6 +29,8 @@ Requirements :
 ``` pip install collections ```
 
 ``` pip install subprocess ```
+
+``` pip install Pillow ```
 
 
 Environnement virtuel :
