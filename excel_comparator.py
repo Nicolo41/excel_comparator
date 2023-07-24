@@ -30,12 +30,11 @@ root.iconphoto(True, icone)
 root.tk.call('wm', 'iconphoto', root._w, icone)
 
 # Définir la taille de la fenêtre
-root.geometry("800x600")
+root.geometry("850x650")
 
 # Définir une fonction pour changer l'icône des nouvelles fenêtres
 def changer_icone_fenetre(fenetre):
     fenetre.iconphoto(True, icone)
-
 
 
 # Fonction pour traiter le fichier des livraisons
@@ -104,12 +103,10 @@ def traiter_livraisons():
           
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
     # Afficher le résultat dans la fenêtre
-    result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\n")
+    result_label.config(text=f"Le fichier Excel a été enregistré avec succès\n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
     up_label.config(text="Vous pouvez maintenant traiter le fichier des vidanges !")
     
-
-
 # Fonction pour traiter le fichier des vidanges
 def traiter_vidanges():
     fichier_vidanges = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
@@ -196,10 +193,9 @@ def traiter_vidanges():
         
 
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
-    result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
+    result_label.config(text=f"Le fichier Excel a été enregistré avec succès \n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
-    
     
     
     # Fonction de validation pour les fichiers
@@ -300,7 +296,7 @@ def comparer_fichiers():
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
         messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
-        result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
+        result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
         
                     
@@ -507,6 +503,14 @@ ico_error = ImageTk.PhotoImage(icone_error)
 ico_git = ImageTk.PhotoImage(icone_git)
 
 
+# Créer un widget Label pour afficher l'image en arrière-plan
+background_label = tk.Label(root, image=icone)
+background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+# Ajouter d'autres widgets sur la fenêtre
+label1 = tk.Label(root, text="Bienvenue !", font=('Arial', 20))
+label1.pack(pady=20)
+
 # Créer un menu
 menu_bar = tk.Menu(root)
 root.config(menu=menu_bar)
@@ -534,7 +538,7 @@ up_label.pack(padx=20, pady=10)
 warn_label = tk.Label(root, text="", foreground="red")
 warn_label.pack(padx=20, pady=10)
 
-result_label.config(text="Interface pour traiter les fichiers Excel.\n\n Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUn message en bleu vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
+result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
 
 # Créer des boutons pour les différentes opérations
 btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livraisons', command=traiter_livraisons, image = ico_excel, compound='left')
