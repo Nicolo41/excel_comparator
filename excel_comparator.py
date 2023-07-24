@@ -35,8 +35,6 @@ def traiter_livraisons():
     
     df_livraisons = pd.read_excel(fichier_livraisons)
     
-    # Démarrer la barre de progression
-    # progress_bar.start()
     
     # Extraire les colonnes des vidanges (de D à N)
     colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)
@@ -61,6 +59,19 @@ def traiter_livraisons():
                 else:
                     clients_vidanges[client][vidange] += quantite
 
+    # Fonction pour mettre à jour la barre de progression
+    def update_progress(progress):
+        progress_bar.step(progress)
+        root.update_idletasks()
+
+    
+    nb_etapes = 5
+
+    # Mettre à jour la barre de progression progressivement
+    for i in range(1, nb_etapes + 1):
+        root.after(i * 100, update_progress, 49 // nb_etapes)
+    
+
     # Créer une liste de listes pour le tableau
     table_data = []
     for client, vidanges in clients_vidanges.items():
@@ -77,12 +88,7 @@ def traiter_livraisons():
     # Enregistrer le DataFrame dans un fichier Excel dans le dossier des téléchargements
     nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', 'output_livraisons.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
-    
-    # Arrêter la barre de progression
-    # progress_bar.stop()
-    
-    progress_bar.step(35) 
-
+          
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\n")
@@ -163,12 +169,25 @@ def traiter_vidanges():
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
     
-    progress_bar.step(35) 
+    
+    def update_progress(progress):
+        progress_bar.step(progress)
+        root.update_idletasks()
+
+    
+    nb_etapes = 5
+
+    # Mettre à jour la barre de progression progressivement
+    for i in range(1, nb_etapes + 1):
+        root.after(i * 100, update_progress, 50 // nb_etapes)
+        
 
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
     messagebox.showinfo("Prêt", "Le fichier est bien été enregistré !")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
+    
+    
     
     # Fonction de validation pour les fichiers
 def valider_fichier(fichier):
@@ -222,17 +241,37 @@ def comparer_fichiers():
         fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'differences.xlsx')
         df_diff.to_excel(fichier_sortie, index=False)
         
-        progress_bar.step(30) 
+        # progress_bar.step(30) 
 
+        # Mettre à jour la barre de progression pendant le traitement
+        def update_progress():
+            if progress < 100:
+                progress_bar.step(1)
+                root.after(100, update_progress)
+
+        progress = 0
+        progress_bar.step(0)  # Début du traitement, barre de progression à 0%
+        root.after(100, update_progress)  # Démarre la mise à jour de la barre de progression
+
+        # Fin du traitement, barre de progression à 100%
+        progress = 100
+        # Fin du traitement, barre de progression à 100%
+        # progress_bar.step(100)
+        
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
         messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !")
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
         
-        # Mettre à jour la barre de progression à 100% après un délai de 100 millisecondes
-        root.after(100, progress_bar.step, 100)
-                
+
+        
+        # progress_bar.set(100)
+        
+        # Forcer la mise à jour de la fenêtre principale
+        # root.update()
+        
+                    
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
         warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
