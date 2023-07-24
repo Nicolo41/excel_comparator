@@ -174,14 +174,14 @@ def valider_fichier(fichier):
         return False
 
     # Vérifier que le fichier contient les colonnes attendues
-    colonnes_attendues = ['Customer Name', 'Lignes de la commande/Quantité facturée', 'Lignes de la commande/Article']
-    df = pd.read_excel(fichier)
-    colonnes_fichier = df.columns.tolist()
+    # colonnes_attendues = ['Customer Name', 'Lignes de la commande/Quantité facturée', 'Lignes de la commande/Article']
+    # df = pd.read_excel(fichier)
+    # colonnes_fichier = df.columns.tolist()
 
-    if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
-        return False
+    # if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
+    #     return False
 
-    return True
+    # return True
 
 # Fonction pour comparer les deux fichiers générés
 def comparer_fichiers():
