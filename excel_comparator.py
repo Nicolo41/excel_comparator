@@ -307,14 +307,14 @@ icone_exit = Image.open('img/exit.png')
 # Redimensionner les icônes
 largeur_icone = 32
 hauteur_icone = 32
-icone_excel_resized = icone_excel.resize((largeur_icone, hauteur_icone), Image.ANTIALIAS)
-icone_compare_resized = icone_compare.resize((largeur_icone, hauteur_icone), Image.ANTIALIAS)
-icone_exit_resized = icone_exit.resize((largeur_icone, hauteur_icone), Image.ANTIALIAS)
+icone_excel.thumbnail((largeur_icone, hauteur_icone))
+icone_compare.thumbnail((largeur_icone, hauteur_icone))
+icone_exit.thumbnail((largeur_icone, hauteur_icone))
 
 # Créer un objet ImageTk.PhotoImage à partir de l'icône redimensionnée
-ico_excel = ImageTk.PhotoImage(icone_excel_resized)
-ico_compare = ImageTk.PhotoImage(icone_compare_resized)
-ico_exit = ImageTk.PhotoImage(icone_exit_resized)
+ico_excel = ImageTk.PhotoImage(icone_excel)
+ico_compare = ImageTk.PhotoImage(icone_compare)
+ico_exit = ImageTk.PhotoImage(icone_exit)
 
 
 
@@ -351,13 +351,13 @@ warn_label.config(text="!! Attendez l'étape suivante avant de cliquer sur le pr
 
 
 # Créer des boutons pour les différentes opérations
-btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livraisons', command=traiter_livraisons)
+btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livraisons', command=traiter_livraisons, image = ico_excel, compound='left')
 btn_traiter_livraisons.pack(padx=20, pady=10)
 
-btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier des vidanges', command=traiter_vidanges)
+btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier des vidanges', command=traiter_vidanges, image = ico_excel, compound='left')
 btn_traiter_vidanges.pack(padx=20, pady=10)
 
-btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers générés', command=comparer_fichiers)
+btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers générés', command=comparer_fichiers, image = ico_compare, compound='left')
 btn_comparer_fichiers.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dernier fichier généré
@@ -377,7 +377,7 @@ progress_bar.pack(fill='x', padx=20, pady=10)
 
 
 # Créer un bouton pour quitter la fenêtre
-btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image=ico_exit, compound='left')
+btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image = ico_exit, compound='left')
 btn_quitter.pack(padx=20, pady=10)
 
 
