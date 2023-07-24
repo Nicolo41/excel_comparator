@@ -27,9 +27,9 @@ def traiter_livraisons():
     fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
 
     # Valider le fichier avant de continuer
-    if not valider_fichier(fichier_livraisons):
-        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
-        return
+    # if not valider_fichier(fichier_livraisons):
+    #     messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+    #     return
     
     df_livraisons = pd.read_excel(fichier_livraisons)
     
@@ -80,6 +80,7 @@ def traiter_livraisons():
     # progress_bar.stop()
     
     progress_bar.step(35) 
+    messagebox.showinfo("Validation", "Le fichier est bien été enregistré !")
 
 
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
@@ -94,9 +95,9 @@ def traiter_vidanges():
     fichier_vidanges = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     
      # Valider le fichier avant de continuer
-    if not valider_fichier(fichier_vidanges):
-        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
-        return
+    # if not valider_fichier(fichier_vidanges):
+    #     messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+    #     return
     
     df_vidanges = pd.read_excel(fichier_vidanges)
 
@@ -162,6 +163,7 @@ def traiter_vidanges():
     df_export.to_excel(fichier_sortie, index=False)
     
     progress_bar.step(35) 
+    messagebox.showinfo("Validation", "Le fichier est bien été enregistré !")
 
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
@@ -173,7 +175,7 @@ def valider_fichier(fichier):
     if not fichier.lower().endswith('.xlsx'):
         return False
 
-    # Vérifier que le fichier contient les colonnes attendues
+    # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
     # colonnes_attendues = ['Customer Name', 'Lignes de la commande/Quantité facturée', 'Lignes de la commande/Article']
     # df = pd.read_excel(fichier)
     # colonnes_fichier = df.columns.tolist()
@@ -214,6 +216,7 @@ def comparer_fichiers():
         df_diff.to_excel(fichier_sortie, index=False)
         
         progress_bar.step(30) 
+        messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !")
 
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
@@ -350,7 +353,6 @@ progress_bar.pack(fill='x', padx=20, pady=10)
 # Créer un bouton pour quitter la fenêtre
 btn_quitter = tk.Button(root, text='Quitter l\'application', foreground="red", command=quitter_fenetre)
 btn_quitter.pack(padx=20, pady=10)
-
 
 
 
