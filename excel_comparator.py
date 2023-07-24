@@ -298,6 +298,8 @@ def afficher_aide():
 icone_excel = Image.open('img/excel.png')
 icone_compare = Image.open('img/compare.png')
 icone_exit = Image.open('img/exit.png')
+icone_fichier = Image.open('img/fichier.png')
+icone_folder = Image.open('img/folder.png')
 
 # Créer des objets ImageTk.PhotoImage à partir des icônes chargées
 # icone_excel = ImageTk.PhotoImage(img_excel)
@@ -310,13 +312,15 @@ hauteur_icone = 32
 icone_excel.thumbnail((largeur_icone, hauteur_icone))
 icone_compare.thumbnail((largeur_icone, hauteur_icone))
 icone_exit.thumbnail((largeur_icone, hauteur_icone))
+icone_fichier.thumbnail((largeur_icone, hauteur_icone))
+icone_folder.thumbnail((largeur_icone, hauteur_icone))
 
 # Créer un objet ImageTk.PhotoImage à partir de l'icône redimensionnée
 ico_excel = ImageTk.PhotoImage(icone_excel)
 ico_compare = ImageTk.PhotoImage(icone_compare)
 ico_exit = ImageTk.PhotoImage(icone_exit)
-
-
+ico_fichier = ImageTk.PhotoImage(icone_fichier)
+ico_folder = ImageTk.PhotoImage(icone_folder)
 
 
 # Créer un menu
@@ -361,11 +365,11 @@ btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers généré
 btn_comparer_fichiers.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dernier fichier généré
-btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le dernier fichier généré', command=ouvrir_dernier_fichier)
+btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le dernier fichier généré', command=ouvrir_dernier_fichier, image = ico_fichier, compound='left')
 btn_ouvrir_fichier.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dossier des téléchargements
-btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements)
+btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements, image = ico_folder, compound='left')
 btn_ouvrir_dossier.pack(padx=20, pady=10)
 
 # Ajouter une barre de progression
