@@ -10,6 +10,7 @@ from tkinter import ttk
 import tkinter.messagebox as messagebox
 from tkinter import Button
 from PIL import Image, ImageTk
+from datetime import date
 
 
 
@@ -29,9 +30,9 @@ def traiter_livraisons():
     fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
 
     # Valider le fichier avant de continuer
-    # if not valider_fichier(fichier_livraisons):
-    #     messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
-    #     return
+    if not valider_fichier_livraison(fichier_livraisons):
+        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        return
     
     df_livraisons = pd.read_excel(fichier_livraisons)
     
@@ -86,13 +87,13 @@ def traiter_livraisons():
     df_output = pd.DataFrame(table_data, columns=headers)
 
     # Enregistrer le DataFrame dans un fichier Excel dans le dossier des téléchargements
-    nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', 'output_livraisons.xlsx')
+    nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', f'output_livraisons_{date.today()}.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
           
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\n")
-    messagebox.showinfo("Prêt", "Le fichier est bien été enregistré !")
+    messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
     up_label.config(text="Vous pouvez maintenant traiter le fichier des vidanges !")
     
 
@@ -102,9 +103,9 @@ def traiter_vidanges():
     fichier_vidanges = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     
      # Valider le fichier avant de continuer
-    # if not valider_fichier(fichier_vidanges):
-    #     messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
-    #     return
+    if not valider_fichier_vidanges(fichier_vidanges):
+        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        return
     
     df_vidanges = pd.read_excel(fichier_vidanges)
 
@@ -165,7 +166,7 @@ def traiter_vidanges():
     # print(tabulate(table_data, headers=headers, tablefmt='grid'))
 
     # Exporter le tableau en fichier Excel
-    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'Export_vidanges_tableau.xlsx')
+    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'Export_vidanges_tableau_{date.today()}.xlsx')
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
     
@@ -184,32 +185,54 @@ def traiter_vidanges():
 
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
-    messagebox.showinfo("Prêt", "Le fichier est bien été enregistré !")
+    messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
     
     
     
     # Fonction de validation pour les fichiers
-def valider_fichier(fichier):
+def valider_fichier_vidanges(fichier):
     # Vérifier que le fichier est au format xlsx
+    print('----------')
+    print(f"Vérification du format du fichier en cours...")
     if not fichier.lower().endswith('.xlsx'):
         return False
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
-    # colonnes_attendues = ['Customer Name', 'Lignes de la commande/Quantité facturée', 'Lignes de la commande/Article']
-    # df = pd.read_excel(fichier)
-    # colonnes_fichier = df.columns.tolist()
+    print('Vérification du contenu du fichier en cours...')
+    colonnes_attendues = ['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée' ]
+    df = pd.read_excel(fichier)
+    colonnes_fichier = df.columns.tolist()
 
-    # if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
-    #     return False
+    if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
+        return False
 
-    # return True
+    return True
+
+
+def valider_fichier_livraison(fichier):
+    # Vérifier que le fichier est au format xlsx
+    print('----------')
+    print(f"Vérification du format du fichier en cours...")
+    if not fichier.lower().endswith('.xlsx'):
+        return False
+
+    # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
+    print('Vérification du contenu du fichier en cours...')
+    colonnes_attendues = ['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidanges champignons', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool' ]
+    df = pd.read_excel(fichier)
+    colonnes_fichier = df.columns.tolist()
+
+    if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
+        return False
+
+    return True
 
 # Fonction pour comparer les deux fichiers générés
 def comparer_fichiers():
     # Chemin des fichiers Excel à comparer
-    fichier_vidanges = os.path.join(os.path.expanduser('~'), 'Downloads', 'Export_vidanges_tableau.xlsx')
-    fichier_livraisons = os.path.join(os.path.expanduser('~'), 'Downloads', 'output_livraisons.xlsx')
+    fichier_vidanges = os.path.join(os.path.expanduser('~'), 'Downloads', f'Export_vidanges_tableau_{date.today()}.xlsx')
+    fichier_livraisons = os.path.join(os.path.expanduser('~'), 'Downloads', f'output_livraisons_{date.today()}.xlsx')
 
     if os.path.exists(fichier_vidanges) and os.path.exists(fichier_livraisons):
         # Charger les fichiers Excel en DataFrames
@@ -218,7 +241,7 @@ def comparer_fichiers():
         
         # Vérifier que les fichiers contiennent des données
         if df_vidanges.empty or df_livraisons.empty:
-            messagebox.showwarning("Avertissement", "Les fichiers ne contiennent pas de données.")
+            messagebox.showerror("Avertissement", "Les fichiers ne contiennent pas de données.")
             print("Les fichiers ne contiennent pas de données.")
             return
 
@@ -238,7 +261,7 @@ def comparer_fichiers():
         result_label.config(text=f"Comparaison des fichiers en cours...")
 
         # Exporter les différences en fichier Excel dans le dossier des téléchargements
-        fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', 'differences.xlsx')
+        fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
         df_diff.to_excel(fichier_sortie, index=False)
         
         # progress_bar.step(30) 
@@ -260,7 +283,7 @@ def comparer_fichiers():
         
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
-        messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !")
+        messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
         
@@ -268,6 +291,7 @@ def comparer_fichiers():
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
         warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
+        messagebox.showerror("Erreur", "Il n'y a pas de fichier à comparer !\nVeuillez traiter les fichiers avant de les comparer")
     
 
 # Fonction pour ouvrir le dernier fichier généré
