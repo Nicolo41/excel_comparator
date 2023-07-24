@@ -80,12 +80,11 @@ def traiter_livraisons():
     # progress_bar.stop()
     
     progress_bar.step(35) 
-    messagebox.showinfo("Validation", "Le fichier est bien été enregistré !")
-
 
     print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {nom_fichier_excel}\n\n")
+    messagebox.showinfo("Prêt", "Le fichier est bien été enregistré !")
     up_label.config(text="Vous pouvez maintenant traiter le fichier des vidanges !")
     
 
@@ -163,10 +162,10 @@ def traiter_vidanges():
     df_export.to_excel(fichier_sortie, index=False)
     
     progress_bar.step(35) 
-    messagebox.showinfo("Validation", "Le fichier est bien été enregistré !")
 
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
+    messagebox.showinfo("Prêt", "Le fichier est bien été enregistré !")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
     
     # Fonction de validation pour les fichiers
@@ -216,10 +215,10 @@ def comparer_fichiers():
         df_diff.to_excel(fichier_sortie, index=False)
         
         progress_bar.step(30) 
-        messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !")
 
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
+        messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !")
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
         
