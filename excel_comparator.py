@@ -11,6 +11,7 @@ import tkinter.messagebox as messagebox
 from tkinter import Button
 from PIL import Image, ImageTk
 from datetime import date
+import webbrowser
 
 
 
@@ -423,7 +424,7 @@ def err_300():
 
 def type_erreur():
     types_errors_window = tk.Toplevel(root)
-    types_errors_window.title("Aide/Types d'erreurs")
+    types_errors_window.title("Types d'erreurs")
     types_errors_window.geometry("700x400")  # Définir la taille de la fenêtre
 
     # Ajouter les boutons d'erreurs à la fenêtre pop-up
@@ -433,6 +434,35 @@ def type_erreur():
     tk.Button(types_errors_window, text="Erreur 103 : Les fichiers ne contiennent pas de données", command=err_103, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
     tk.Button(types_errors_window, text="Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer", command=err_200, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
     tk.Button(types_errors_window, text="Erreur 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer", command=err_300, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+
+def ouvrir_github():
+    # Ouvrir le lien GitHub dans le navigateur web par défaut
+    webbrowser.open("https://github.com/Nicolo41/excel_comparator")
+    
+def afficher_fct() :
+    message = f"""
+    L'application suivante sert à traiter des fichiers Excel. \nCette interface utilisateur ainsi que les fonctions ont été développées en Python. \n\n
+    L'application permet de comparer deux fichiers Excel et de voir s'il y a des différences entre les deux. \n\n
+    
+    PROCESUS : \n
+    - L'utilisateur doit sélectionner un fichier Excel contenant les données des livraisons. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client. \n\n
+    - L'utilisateur doit sélectionner un fichier Excel contenant les données des vidanges. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client. \n\n
+    - Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers générés', le script va comparer les deux fichiers générés et créer un nouveau fichier Excel contenant les différences entre les deux. \n\n
+    
+    Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de la création. \n\n
+    Lien vers le code source :  \n\n
+    """
+    # messagebox.showinfo("Fonctionnement de l'application", message)
+    types_errors_window = tk.Toplevel(root)
+    types_errors_window.title("Fonctionnement de l'application")
+    
+    # Afficher le message dans la fenêtre pop-up
+    tk.Label(types_errors_window, text=message, wraplength=600).pack(padx=20, pady=10)
+
+    # Ajouter un bouton pour ouvrir le lien GitHub
+    btn_github = tk.Button(types_errors_window, text="GitHub", command=ouvrir_github, image=ico_git, compound='left')
+    btn_github.pack(pady=20, padx=20)
+
     
 
 # Charger les icônes
@@ -442,6 +472,7 @@ icone_exit = Image.open('img/exit.png')
 icone_fichier = Image.open('img/fichier.png')
 icone_folder = Image.open('img/folder.png')
 icone_error = Image.open('img/error.png')
+icone_git = Image.open('img/git.png')
 
 # Redimensionner les icônes
 largeur_icone = 32
@@ -452,6 +483,7 @@ icone_exit.thumbnail((largeur_icone, hauteur_icone))
 icone_fichier.thumbnail((largeur_icone, hauteur_icone))
 icone_folder.thumbnail((largeur_icone, hauteur_icone))
 icone_error.thumbnail((largeur_icone, hauteur_icone))
+icone_git.thumbnail((largeur_icone, hauteur_icone))
 
 # Créer un objet ImageTk.PhotoImage à partir de l'icône redimensionnée
 ico_excel = ImageTk.PhotoImage(icone_excel)
@@ -460,6 +492,7 @@ ico_exit = ImageTk.PhotoImage(icone_exit)
 ico_fichier = ImageTk.PhotoImage(icone_fichier)
 ico_folder = ImageTk.PhotoImage(icone_folder)
 ico_error = ImageTk.PhotoImage(icone_error)
+ico_git = ImageTk.PhotoImage(icone_git)
 
 
 # Créer un menu
@@ -472,9 +505,9 @@ menu_bar.add_cascade(label='Aide', menu=menu_aide)
 
 # Ajouter un élément dans le sous-menu "Aide" pour afficher l'aide
 menu_aide.add_command(label='Général', command=afficher_aide)
+menu_aide.add_command(label='Fonctionnement de l\'application', command=afficher_fct)
 menu_aide.add_command(label='Afficher les instructions d\'utilisation des boutons', command=afficher_instructions_boutons)
 menu_aide.add_command(label='Types d\'erreurs', command=type_erreur)
-
 
 
 # Ajouter un widget Label pour afficher les résultats
