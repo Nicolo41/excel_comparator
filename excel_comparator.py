@@ -21,9 +21,16 @@ print('Ouverture fenêtre principale...')
 # Définir la taille de la fenêtre
 root.geometry("800x600")
 
+
 # Fonction pour traiter le fichier des livraisons
 def traiter_livraisons():
     fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
+
+    # Valider le fichier avant de continuer
+    if not valider_fichier(fichier_livraisons):
+        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        return
+    
     df_livraisons = pd.read_excel(fichier_livraisons)
     
     # Démarrer la barre de progression
@@ -85,6 +92,12 @@ def traiter_livraisons():
 # Fonction pour traiter le fichier des vidanges
 def traiter_vidanges():
     fichier_vidanges = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
+    
+     # Valider le fichier avant de continuer
+    if not valider_fichier(fichier_vidanges):
+        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        return
+    
     df_vidanges = pd.read_excel(fichier_vidanges)
 
     # Votre code de traitement pour le fichier des vidanges ici...
@@ -153,6 +166,22 @@ def traiter_vidanges():
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\n")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
+    
+    # Fonction de validation pour les fichiers
+def valider_fichier(fichier):
+    # Vérifier que le fichier est au format xlsx
+    if not fichier.lower().endswith('.xlsx'):
+        return False
+
+    # Vérifier que le fichier contient les colonnes attendues
+    colonnes_attendues = ['Customer Name', 'Lignes de la commande/Quantité facturée', 'Lignes de la commande/Article']
+    df = pd.read_excel(fichier)
+    colonnes_fichier = df.columns.tolist()
+
+    if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
+        return False
+
+    return True
 
 # Fonction pour comparer les deux fichiers générés
 def comparer_fichiers():
