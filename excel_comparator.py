@@ -440,7 +440,7 @@ def ouvrir_github():
     webbrowser.open("https://github.com/Nicolo41/excel_comparator")
     
 def afficher_fct() :
-    message = f"""
+    message = """
     L'application suivante sert à traiter des fichiers Excel. \nCette interface utilisateur ainsi que les fonctions ont été développées en Python. \n\n
     L'application permet de comparer deux fichiers Excel et de voir s'il y a des différences entre les deux. \n\n
     
