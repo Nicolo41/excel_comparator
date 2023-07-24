@@ -14,7 +14,6 @@ from datetime import date
 import webbrowser
 
 
-
 # Créer la fenêtre principale
 print('Lancement de l\'application...')
 print ('Lançement de l\'interface graphique...')
@@ -22,8 +21,21 @@ root = tk.Tk()
 root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 
+# Charger l'icône au format .png
+icone = Image.open('img/logo_jr.png')
+icone = ImageTk.PhotoImage(icone)
+root.iconphoto(True, icone)
+
+# Définir l'icône pour la fenêtre principale
+root.tk.call('wm', 'iconphoto', root._w, icone)
+
 # Définir la taille de la fenêtre
 root.geometry("800x600")
+
+# Définir une fonction pour changer l'icône des nouvelles fenêtres
+def changer_icone_fenetre(fenetre):
+    fenetre.iconphoto(True, icone)
+
 
 
 # Fonction pour traiter le fichier des livraisons
@@ -551,6 +563,7 @@ progress_bar.pack(fill='x', padx=20, pady=10)
 btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image = ico_exit, compound='left')
 btn_quitter.pack(padx=20, pady=10)
 
+changer_icone_fenetre(root)
 
 # Lancer l'interface graphique
 root.mainloop()
