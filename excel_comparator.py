@@ -8,7 +8,7 @@ import subprocess
 from pathlib import Path
 from tkinter import ttk
 import tkinter.messagebox as messagebox
-from tkinter import Tk, Button
+from tkinter import Button
 from PIL import Image, ImageTk
 
 

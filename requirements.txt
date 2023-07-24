@@ -1,3 +1,4 @@
-pandas
-tabulate
+pandas==1.3.3
 tkinter
+tabulate==0.8.9
+Pillow==8.3.2
