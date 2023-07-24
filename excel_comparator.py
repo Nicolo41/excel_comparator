@@ -31,7 +31,7 @@ def traiter_livraisons():
 
     # Valider le fichier avant de continuer
     if not valider_fichier_livraison(fichier_livraisons):
-        messagebox.showerror("Erreur #100", "Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
     df_livraisons = pd.read_excel(fichier_livraisons)
@@ -103,7 +103,7 @@ def traiter_vidanges():
     
      # Valider le fichier avant de continuer
     if not valider_fichier_vidanges(fichier_vidanges):
-        messagebox.showerror("Erreur #100", "Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
     df_vidanges = pd.read_excel(fichier_vidanges)
@@ -195,7 +195,7 @@ def valider_fichier_vidanges(fichier):
     print('----------')
     print(f"Vérification du format du fichier en cours...")
     if not fichier.lower().endswith('.xlsx'):
-        messagebox.showerror("Erreur #101", "Erreur 101 : Le fichier sélectionné n'est pas au bon format.")
+        messagebox.showerror("Erreur #101", "Le fichier sélectionné n'est pas au bon format.")
         return False
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
@@ -205,7 +205,7 @@ def valider_fichier_vidanges(fichier):
     colonnes_fichier = df.columns.tolist()
 
     if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
-        messagebox.showerror("Erreur #102", "Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.")
+        messagebox.showerror("Erreur #102", "Le fichier sélectionné ne contient pas les données attendues.")
         return False
 
     return True
@@ -216,7 +216,7 @@ def valider_fichier_livraison(fichier):
     print('----------')
     print(f"Vérification du format du fichier en cours...")
     if not fichier.lower().endswith('.xlsx'):
-        messagebox.showerror("Erreur #101", "Erreur 101 : Le fichier sélectionné n'est pas au bon format.")
+        messagebox.showerror("Erreur #101", "Le fichier sélectionné n'est pas au bon format.")
         return False
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
@@ -226,7 +226,7 @@ def valider_fichier_livraison(fichier):
     colonnes_fichier = df.columns.tolist()
 
     if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
-        messagebox.showerror("Erreur #102", "Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.")
+        messagebox.showerror("Erreur #102", "Le fichier sélectionné ne contient pas les données attendues.")
         return False
 
     return True
@@ -294,7 +294,7 @@ def comparer_fichiers():
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
         warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
-        messagebox.showerror("Erreur #200", "Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
+        messagebox.showerror("Erreur #200", "Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
     
 
 # Fonction pour ouvrir le dernier fichier généré
@@ -317,7 +317,7 @@ def ouvrir_dernier_fichier():
     else:
         print(f"Le fichier '{fichier_genere}' n'existe pas.")
         warn_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
-        messagebox.showerror("Erreur #300", "Erreur 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer")
+        messagebox.showerror("Erreur #300", "Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer")
 
 
 # Fonction pour ouvrir le dossier des téléchargements
@@ -343,11 +343,10 @@ def afficher_aide():
     - Seuls les fichiers Excel en .xlsx sont acceptés. 
     - Bien attendre la fenêtre pop-up avant de cliquer sur le bouton suivant. 
     - Il est conseillé de suivre l'ordre des boutons pour éviter les erreurs. \n\n
-    En cas d'erreur : 
-    - Lire le message d'erreur.
+    En cas d'erreur : \n
+    - Lire le message d'erreur, une rubrique traitant les erreurs est disponible dans l'onglet 'Aide'.
     - Vérifiez le format des fichiers Excel (.xlsx).
-    - Vérifiez que les fichiers Excel sont correctes et ne contiennent pas d'erreurs.
-    - Vérifiez que les fichiers Excel sont bien enregistrés dans le dossier des téléchargements. \n
+    - Vérifiez que les fichiers Excel sont correctement structuré et ne contiennent pas d'erreurs.\n
     Si toutes ces vérifications sont correctes, veuillez réessayer les opérations dans l'ordre.
     
     
@@ -374,20 +373,67 @@ def afficher_instructions_boutons():
     Note : Suivez l'ordre des boutons pour éviter les erreurs lors du traitement des fichiers.
     """
     messagebox.showinfo("Instructions d'utilisation", message)
-
-def type_erreur():
-    message = """
+    
+    
+def err_100():
+    message_100 = """
     Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.
+    Pour régler cette erreur :
+    - Assurez-vous que le fichier est au format Excel (.xlsx).
+    - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée'.
+    """ 
+    messagebox.showinfo("Erreur 100", message_100)
+        
+def err_101():
+    message_101 = """
     Erreur 101 : Le fichier sélectionné n'est pas au bon format.
-    Error 102 : Le fichier sélectionné ne contient pas les données attendues.
-    Error 103 : Les fichiers ne contiennent pas de données.
-    Error 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer.
-    Error 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer.
+    Pour régler cette erreur :
+    - Assurez-vous que le fichier est au format Excel (.xlsx).
+    """
+    messagebox.showinfo("Erreur 101", message_101)
     
-    
+def err_102():
+    message_102 = """
+    Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.
     
     """
-    messagebox.showinfo("Types d'erreurs", message)
+    messagebox.showinfo("Erreur 102", message_102)
+        
+def err_103():
+    message_103 = """
+    Erreur 103 : Les fichiers ne contiennent pas de données.
+    
+    """
+    messagebox.showinfo("Erreur 103", message_103)
+        
+def err_200():
+    message_200 = """
+    Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !
+    
+    """
+    messagebox.showinfo("Erreur 200", message_200)
+    
+def err_300():
+    message_300 = """
+    Erreur 300 : Le fichier des comparaisons n'existe pas.
+    
+    """
+    messagebox.showinfo("Erreur 300", message_300)
+
+
+def type_erreur():
+    types_errors_window = tk.Toplevel(root)
+    types_errors_window.title("Aide/Types d'erreurs")
+    types_errors_window.geometry("700x400")  # Définir la taille de la fenêtre
+
+    # Ajouter les boutons d'erreurs à la fenêtre pop-up
+    tk.Button(types_errors_window, text="Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues", command=err_100, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+    tk.Button(types_errors_window, text="Erreur 101 : Le fichier sélectionné n'est pas au bon format", command=err_101, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+    tk.Button(types_errors_window, text="Erreur 102 : Le fichier sélectionné ne contient pas les données attendues", command=err_102, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+    tk.Button(types_errors_window, text="Erreur 103 : Les fichiers ne contiennent pas de données", command=err_103, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+    tk.Button(types_errors_window, text="Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer", command=err_200, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+    tk.Button(types_errors_window, text="Erreur 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer", command=err_300, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+    
 
 # Charger les icônes
 icone_excel = Image.open('img/excel.png')
@@ -395,6 +441,7 @@ icone_compare = Image.open('img/compare.png')
 icone_exit = Image.open('img/exit.png')
 icone_fichier = Image.open('img/fichier.png')
 icone_folder = Image.open('img/folder.png')
+icone_error = Image.open('img/error.png')
 
 # Redimensionner les icônes
 largeur_icone = 32
@@ -404,6 +451,7 @@ icone_compare.thumbnail((largeur_icone, hauteur_icone))
 icone_exit.thumbnail((largeur_icone, hauteur_icone))
 icone_fichier.thumbnail((largeur_icone, hauteur_icone))
 icone_folder.thumbnail((largeur_icone, hauteur_icone))
+icone_error.thumbnail((largeur_icone, hauteur_icone))
 
 # Créer un objet ImageTk.PhotoImage à partir de l'icône redimensionnée
 ico_excel = ImageTk.PhotoImage(icone_excel)
@@ -411,6 +459,7 @@ ico_compare = ImageTk.PhotoImage(icone_compare)
 ico_exit = ImageTk.PhotoImage(icone_exit)
 ico_fichier = ImageTk.PhotoImage(icone_fichier)
 ico_folder = ImageTk.PhotoImage(icone_folder)
+ico_error = ImageTk.PhotoImage(icone_error)
 
 
 # Créer un menu
@@ -424,7 +473,7 @@ menu_bar.add_cascade(label='Aide', menu=menu_aide)
 # Ajouter un élément dans le sous-menu "Aide" pour afficher l'aide
 menu_aide.add_command(label='Général', command=afficher_aide)
 menu_aide.add_command(label='Afficher les instructions d\'utilisation des boutons', command=afficher_instructions_boutons)
-menu_aide.add_command(label='Les différents types d\'erreurs', command=type_erreur)
+menu_aide.add_command(label='Types d\'erreurs', command=type_erreur)
 
 
 
@@ -441,11 +490,6 @@ warn_label = tk.Label(root, text="", foreground="red")
 warn_label.pack(padx=20, pady=10)
 
 result_label.config(text="Interface pour traiter les fichiers Excel.\n\n Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUn message en bleu vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
-
-# Warning
-# warn_label.config(text="!! Attendez l'étape suivante avant de cliquer sur le prochain bouton !!\n")
-
-
 
 # Créer des boutons pour les différentes opérations
 btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livraisons', command=traiter_livraisons, image = ico_excel, compound='left')
@@ -473,7 +517,6 @@ progress_bar.pack(fill='x', padx=20, pady=10)
 # Créer un bouton pour quitter la fenêtre
 btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image = ico_exit, compound='left')
 btn_quitter.pack(padx=20, pady=10)
-
 
 
 # Lancer l'interface graphique
