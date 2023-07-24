@@ -196,6 +196,12 @@ def comparer_fichiers():
         # Charger les fichiers Excel en DataFrames
         df_vidanges = pd.read_excel(fichier_vidanges)
         df_livraisons = pd.read_excel(fichier_livraisons)
+        
+        # Vérifier que les fichiers contiennent des données
+        if df_vidanges.empty or df_livraisons.empty:
+            messagebox.showwarning("Avertissement", "Les fichiers ne contiennent pas de données.")
+            print("Les fichiers ne contiennent pas de données.")
+            return
 
         # Extraire les colonnes des articles du DataFrame df_vidanges
         colonnes_articles = list(df_vidanges.columns)[1:]
@@ -224,8 +230,9 @@ def comparer_fichiers():
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès sous le nom: {fichier_sortie}\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.\n\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
         
-        progress_bar.step(100)
-        
+        # Mettre à jour la barre de progression à 100% après un délai de 100 millisecondes
+        root.after(100, progress_bar.step, 100)
+                
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
         warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
@@ -373,9 +380,6 @@ btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargemen
 btn_ouvrir_dossier.pack(padx=20, pady=10)
 
 # Ajouter une barre de progression
-# progress_bar = ttk.Progressbar(root, mode='indeterminate')
-# progress_bar.pack(fill='x', padx=20, pady=10)
-
 progress_bar = ttk.Progressbar(root, mode='determinate', maximum=100)
 progress_bar.pack(fill='x', padx=20, pady=10)
 
