@@ -31,7 +31,7 @@ def traiter_livraisons():
 
     # Valider le fichier avant de continuer
     if not valider_fichier_livraison(fichier_livraisons):
-        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        messagebox.showerror("Erreur #100", "Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
     df_livraisons = pd.read_excel(fichier_livraisons)
@@ -42,7 +42,6 @@ def traiter_livraisons():
     # Créer un dictionnaire pour stocker les clients, leurs vidanges et les quantités correspondantes
     clients_vidanges = defaultdict(dict)
 
-    # print(tabulate(table_data, headers=headers, tablefmt='grid'))
     print('--------------------')
     print(f"Lecture du fichier '{fichier_livraisons}' en cours...")
     # Afficher le résultat dans la fenêtre
@@ -104,7 +103,7 @@ def traiter_vidanges():
     
      # Valider le fichier avant de continuer
     if not valider_fichier_vidanges(fichier_vidanges):
-        messagebox.showerror("Erreur", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        messagebox.showerror("Erreur #100", "Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
     df_vidanges = pd.read_excel(fichier_vidanges)
@@ -196,6 +195,7 @@ def valider_fichier_vidanges(fichier):
     print('----------')
     print(f"Vérification du format du fichier en cours...")
     if not fichier.lower().endswith('.xlsx'):
+        messagebox.showerror("Erreur #101", "Erreur 101 : Le fichier sélectionné n'est pas au bon format.")
         return False
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
@@ -205,6 +205,7 @@ def valider_fichier_vidanges(fichier):
     colonnes_fichier = df.columns.tolist()
 
     if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
+        messagebox.showerror("Erreur #102", "Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.")
         return False
 
     return True
@@ -215,6 +216,7 @@ def valider_fichier_livraison(fichier):
     print('----------')
     print(f"Vérification du format du fichier en cours...")
     if not fichier.lower().endswith('.xlsx'):
+        messagebox.showerror("Erreur #101", "Erreur 101 : Le fichier sélectionné n'est pas au bon format.")
         return False
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
@@ -224,6 +226,7 @@ def valider_fichier_livraison(fichier):
     colonnes_fichier = df.columns.tolist()
 
     if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
+        messagebox.showerror("Erreur #102", "Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.")
         return False
 
     return True
@@ -241,7 +244,7 @@ def comparer_fichiers():
         
         # Vérifier que les fichiers contiennent des données
         if df_vidanges.empty or df_livraisons.empty:
-            messagebox.showerror("Avertissement", "Les fichiers ne contiennent pas de données.")
+            messagebox.showerror("Erreur #103", "Les fichiers ne contiennent pas de données.")
             print("Les fichiers ne contiennent pas de données.")
             return
 
@@ -291,7 +294,7 @@ def comparer_fichiers():
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
         warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
-        messagebox.showerror("Erreur", "Il n'y a pas de fichier à comparer !\nVeuillez traiter les fichiers avant de les comparer")
+        messagebox.showerror("Erreur #200", "Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
     
 
 # Fonction pour ouvrir le dernier fichier généré
@@ -314,6 +317,7 @@ def ouvrir_dernier_fichier():
     else:
         print(f"Le fichier '{fichier_genere}' n'existe pas.")
         warn_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
+        messagebox.showerror("Erreur #300", "Erreur 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer")
 
 
 # Fonction pour ouvrir le dossier des téléchargements
@@ -371,6 +375,19 @@ def afficher_instructions_boutons():
     """
     messagebox.showinfo("Instructions d'utilisation", message)
 
+def type_erreur():
+    message = """
+    Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.
+    Erreur 101 : Le fichier sélectionné n'est pas au bon format.
+    Error 102 : Le fichier sélectionné ne contient pas les données attendues.
+    Error 103 : Les fichiers ne contiennent pas de données.
+    Error 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer.
+    Error 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer.
+    
+    
+    
+    """
+    messagebox.showinfo("Types d'erreurs", message)
 
 # Charger les icônes
 icone_excel = Image.open('img/excel.png')
@@ -378,11 +395,6 @@ icone_compare = Image.open('img/compare.png')
 icone_exit = Image.open('img/exit.png')
 icone_fichier = Image.open('img/fichier.png')
 icone_folder = Image.open('img/folder.png')
-
-# Créer des objets ImageTk.PhotoImage à partir des icônes chargées
-# icone_excel = ImageTk.PhotoImage(img_excel)
-# icone_comprare = ImageTk.PhotoImage(img_compare)
-# icone_exit = ImageTk.PhotoImage(img_exit)
 
 # Redimensionner les icônes
 largeur_icone = 32
@@ -412,6 +424,7 @@ menu_bar.add_cascade(label='Aide', menu=menu_aide)
 # Ajouter un élément dans le sous-menu "Aide" pour afficher l'aide
 menu_aide.add_command(label='Général', command=afficher_aide)
 menu_aide.add_command(label='Afficher les instructions d\'utilisation des boutons', command=afficher_instructions_boutons)
+menu_aide.add_command(label='Les différents types d\'erreurs', command=type_erreur)
 
 
 
