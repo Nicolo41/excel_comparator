@@ -333,19 +333,14 @@ def quitter_fenetre():
     
 def afficher_aide():
     message_aide = """
+    RUBRIQUE D'AIDE : \n\n
+    Tous les fichiers générés sont disponibles dans le dossier des téléchargements. \n\nLeur nom contient la date du jour. \n\n
     IMPORTANT : \n
     - Seuls les fichiers Excel en .xlsx sont acceptés. 
-    - Bien attendre le message en bleu avant de cliquer sur le bouton suivant. 
-    - Il est conseillé de suivre l'ordre des boutons pour éviter les erreurs. \n
-    Voici les détails des boutons : \n
-    - Cliquez sur le bouton "Traiter le fichier des livraisons" pour traiter le fichier des livraisons.
-    - Cliquez sur le bouton "Traiter le fichier des vidanges" pour traiter le fichier des vidanges.
-    - Cliquez sur le bouton "Comparer les fichiers générés" pour comparer les deux fichiers générés.
-    - Cliquez sur le bouton "Ouvrir le dernier fichier généré" pour ouvrir le dernier fichier généré.
-    - Cliquez sur le bouton "Ouvrir le dossier des téléchargements" pour ouvrir le dossier des téléchargements.
-    - Pour quitter l'application, cliquez sur le bouton "Quitter".
-    \n
+    - Bien attendre la fenêtre pop-up avant de cliquer sur le bouton suivant. 
+    - Il est conseillé de suivre l'ordre des boutons pour éviter les erreurs. \n\n
     En cas d'erreur : 
+    - Lire le message d'erreur.
     - Vérifiez le format des fichiers Excel (.xlsx).
     - Vérifiez que les fichiers Excel sont correctes et ne contiennent pas d'erreurs.
     - Vérifiez que les fichiers Excel sont bien enregistrés dans le dossier des téléchargements. \n
@@ -356,6 +351,26 @@ def afficher_aide():
     Développé par : BROAGE Nicolas
     """
     messagebox.showinfo("Aide", message_aide)
+
+def afficher_instructions_boutons():
+    message = """
+    Instructions d'utilisation :
+    - Bouton 'Traiter le fichier des livraisons': Cliquez sur ce bouton pour traiter le fichier des livraisons. Une fois le traitement terminé, le fichier généré sera enregistré dans le dossier des téléchargements.
+
+    - Bouton 'Traiter le fichier des vidanges': Cliquez sur ce bouton pour traiter le fichier des vidanges. Une fois le traitement terminé, le fichier généré sera enregistré dans le dossier des téléchargements.
+
+    - Bouton 'Comparer les fichiers générés': Cliquez sur ce bouton pour comparer les deux fichiers générés. Une fois la comparaison terminée, le résultat sera enregistré dans un nouveau fichier Excel dans le dossier des téléchargements.
+
+    - Bouton 'Ouvrir le dernier fichier généré': Cliquez sur ce bouton pour ouvrir le dernier fichier Excel généré. Assurez-vous que le fichier existe dans le dossier des téléchargements.
+
+    - Bouton 'Ouvrir le dossier des téléchargements': Cliquez sur ce bouton pour ouvrir le dossier des téléchargements où tous les fichiers générés sont enregistrés.
+
+    - Bouton 'Quitter l'application': Cliquez sur ce bouton pour fermer l'application.
+
+    Note : Suivez l'ordre des boutons pour éviter les erreurs lors du traitement des fichiers.
+    """
+    messagebox.showinfo("Instructions d'utilisation", message)
+
 
 # Charger les icônes
 icone_excel = Image.open('img/excel.png')
@@ -395,7 +410,9 @@ menu_aide = tk.Menu(menu_bar, tearoff=False)
 menu_bar.add_cascade(label='Aide', menu=menu_aide)
 
 # Ajouter un élément dans le sous-menu "Aide" pour afficher l'aide
-menu_aide.add_command(label='Afficher les instructions d\'utilisation', command=afficher_aide)
+menu_aide.add_command(label='Général', command=afficher_aide)
+menu_aide.add_command(label='Afficher les instructions d\'utilisation des boutons', command=afficher_instructions_boutons)
+
 
 
 # Ajouter un widget Label pour afficher les résultats
