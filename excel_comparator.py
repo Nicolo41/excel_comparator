@@ -8,6 +8,8 @@ import subprocess
 from pathlib import Path
 from tkinter import ttk
 import tkinter.messagebox as messagebox
+from tkinter import Tk, Button
+from PIL import Image, ImageTk
 
 
 
@@ -292,6 +294,31 @@ def afficher_aide():
     """
     messagebox.showinfo("Aide", message_aide)
 
+# Charger les icônes
+icone_excel = Image.open('img/excel.png')
+icone_compare = Image.open('img/compare.png')
+icone_exit = Image.open('img/exit.png')
+
+# Créer des objets ImageTk.PhotoImage à partir des icônes chargées
+# icone_excel = ImageTk.PhotoImage(img_excel)
+# icone_comprare = ImageTk.PhotoImage(img_compare)
+# icone_exit = ImageTk.PhotoImage(img_exit)
+
+# Redimensionner les icônes
+largeur_icone = 32
+hauteur_icone = 32
+icone_excel_resized = icone_excel.resize((largeur_icone, hauteur_icone), Image.ANTIALIAS)
+icone_compare_resized = icone_compare.resize((largeur_icone, hauteur_icone), Image.ANTIALIAS)
+icone_exit_resized = icone_exit.resize((largeur_icone, hauteur_icone), Image.ANTIALIAS)
+
+# Créer un objet ImageTk.PhotoImage à partir de l'icône redimensionnée
+ico_excel = ImageTk.PhotoImage(icone_excel_resized)
+ico_compare = ImageTk.PhotoImage(icone_compare_resized)
+ico_exit = ImageTk.PhotoImage(icone_exit_resized)
+
+
+
+
 # Créer un menu
 menu_bar = tk.Menu(root)
 root.config(menu=menu_bar)
@@ -350,7 +377,7 @@ progress_bar.pack(fill='x', padx=20, pady=10)
 
 
 # Créer un bouton pour quitter la fenêtre
-btn_quitter = tk.Button(root, text='Quitter l\'application', foreground="red", command=quitter_fenetre)
+btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image=ico_exit, compound='left')
 btn_quitter.pack(padx=20, pady=10)
 
 
