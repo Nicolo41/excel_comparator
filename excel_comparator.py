@@ -9,7 +9,8 @@ from pathlib import Path
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from tkinter import Button
-from PIL import Image, ImageTk
+# from PIL import Image, ImageTk
+from tkinter import PhotoImage
 from datetime import date
 import webbrowser
 
@@ -22,9 +23,12 @@ root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 
 # Charger l'icône au format .png
-icone = Image.open('img/logo_jr.png')
-icone = ImageTk.PhotoImage(icone)
-root.iconphoto(True, icone)
+# icone = Image.open('img/logo_jr.png')
+# icone = ImageTk.PhotoImage(icone)
+# root.iconphoto(True, icone)
+
+# Charger l'icône au format .png avec tkinter
+icone = tk.PhotoImage(file='img/logo_jr2.png')
 
 # Définir l'icône pour la fenêtre principale
 root.tk.call('wm', 'iconphoto', root._w, icone)
@@ -473,38 +477,39 @@ def afficher_fct() :
 
     
 
-# Charger les icônes
-icone_excel = Image.open('img/excel.png')
-icone_compare = Image.open('img/compare.png')
-icone_exit = Image.open('img/exit.png')
-icone_fichier = Image.open('img/fichier.png')
-icone_folder = Image.open('img/folder.png')
-icone_error = Image.open('img/error.png')
-icone_git = Image.open('img/git.png')
+# Charger les icônes au format .png avec tkinter
+ico_excel = PhotoImage(file='img/excel2.png')
+ico_compare = PhotoImage(file='img/compare2.png')
+ico_exit = PhotoImage(file='img/exit2.png')
+ico_fichier = PhotoImage(file='img/fichier2.png')
+ico_folder = PhotoImage(file='img/folder2.png')
+ico_error = PhotoImage(file='img/error2.png')
+ico_git = PhotoImage(file='img/git2.png')
+bg = PhotoImage(file='img/logo_jr.png')
 
 # Redimensionner les icônes
-largeur_icone = 32
-hauteur_icone = 32
-icone_excel.thumbnail((largeur_icone, hauteur_icone))
-icone_compare.thumbnail((largeur_icone, hauteur_icone))
-icone_exit.thumbnail((largeur_icone, hauteur_icone))
-icone_fichier.thumbnail((largeur_icone, hauteur_icone))
-icone_folder.thumbnail((largeur_icone, hauteur_icone))
-icone_error.thumbnail((largeur_icone, hauteur_icone))
-icone_git.thumbnail((largeur_icone, hauteur_icone))
+# largeur_icone = 32
+# hauteur_icone = 32
+# icone_excel.thumbnail((largeur_icone, hauteur_icone))
+# icone_compare.thumbnail((largeur_icone, hauteur_icone))
+# icone_exit.thumbnail((largeur_icone, hauteur_icone))
+# icone_fichier.thumbnail((largeur_icone, hauteur_icone))
+# icone_folder.thumbnail((largeur_icone, hauteur_icone))
+# icone_error.thumbnail((largeur_icone, hauteur_icone))
+# icone_git.thumbnail((largeur_icone, hauteur_icone))
 
 # Créer un objet ImageTk.PhotoImage à partir de l'icône redimensionnée
-ico_excel = ImageTk.PhotoImage(icone_excel)
-ico_compare = ImageTk.PhotoImage(icone_compare)
-ico_exit = ImageTk.PhotoImage(icone_exit)
-ico_fichier = ImageTk.PhotoImage(icone_fichier)
-ico_folder = ImageTk.PhotoImage(icone_folder)
-ico_error = ImageTk.PhotoImage(icone_error)
-ico_git = ImageTk.PhotoImage(icone_git)
+# ico_excel = ImageTk.PhotoImage(icone_excel)
+# ico_compare = ImageTk.PhotoImage(icone_compare)
+# ico_exit = ImageTk.PhotoImage(icone_exit)
+# ico_fichier = ImageTk.PhotoImage(icone_fichier)
+# ico_folder = ImageTk.PhotoImage(icone_folder)
+# ico_error = ImageTk.PhotoImage(icone_error)
+# ico_git = ImageTk.PhotoImage(icone_git)
 
 
 # Créer un widget Label pour afficher l'image en arrière-plan
-background_label = tk.Label(root, image=icone)
+background_label = tk.Label(root, image=bg)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Ajouter d'autres widgets sur la fenêtre
