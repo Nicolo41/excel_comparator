@@ -446,6 +446,10 @@ def type_erreur():
     tk.Button(types_errors_window, text="Erreur 103 : Les fichiers ne contiennent pas de données", command=err_103, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
     tk.Button(types_errors_window, text="Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer", command=err_200, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
     tk.Button(types_errors_window, text="Erreur 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer", command=err_300, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
+    
+    # Ajouter le bouton "OK" pour fermer la fenêtre
+    btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy)
+    btn_ok.pack(pady=10)
 
 def ouvrir_github():
     # Ouvrir le lien GitHub dans le navigateur web par défaut
@@ -474,6 +478,9 @@ def afficher_fct() :
     # Ajouter un bouton pour ouvrir le lien GitHub
     btn_github = tk.Button(types_errors_window, text="GitHub", command=ouvrir_github, image=ico_git, compound='left')
     btn_github.pack(pady=20, padx=20)
+    # Ajouter le bouton "OK" pour fermer la fenêtre
+    btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy)
+    btn_ok.pack(pady=10)
 
     
 
