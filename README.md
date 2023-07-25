@@ -1,23 +1,49 @@
-#Ecarts_vidanges
-***
-excel_comparator
+# ecarts_vidanges
 
-Programme excel_comparator.py permettant une comparaison rapide et efficace de grands tableaux Excel.
+Programme ```excel.comparator.py``` permettant une comparaison rapide et efficace de grands tableaux Excel.
+Programme `excel.comparator.py` permettant une comparaison rapide et efficace de grands tableaux Excel.
 
-##Objectif
-L'enjeu était de trouver un moyen de voir rapidement les écarts qui peuvent survenir entre deux tableurs Excel.
+L'enjeu était de trouver un moyen de voir rapidement les ecarts qui peuvent survenirs entre deux tableurs.
 
-##Fonctionnalités
-Traitement de fichiers Excel pour extraire et regrouper les données.
-Comparaison de deux fichiers Excel pour identifier les différences entre eux.
-Export des résultats dans un nouveau fichier Excel.
-##Installation
-Assurez-vous d'avoir Python installé sur votre machine.
+Le programme doit être executable depuis n'importe quelle machine -> Pyinstaller créé un environnenement virtuel et permet d'avoir le script, les images et les dépendances dans un .exe .
 
-Clonez le dépôt : git clone https://github.com/Nicolo41/excel_comparator.git
-Installez les dépendances : ```pip install -r requirements.txt```
-##Utilisation
-Exécutez le programme en utilisant Python : ```python excel_comparator.py```
 
-##Environnement virtuel
-Vous pouvez également créer un exécutable à partir du script en utilisant Pyinstaller : ```pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py ```
+Libs :  requirements.txt
+Libs : requirements.txt
+
+pandas==1.3.3
+
+tkinter
+
+tabulate==0.8.9
+
+Pillow==8.3.2
+
+
+Requirements : 
+Pour installer les libs : `pip install -r requirements.txt`
+
+``` pip install pandas ```
+Requirements :
+
+``` pip install tkinter ```
+`pip install pandas`
+
+``` pip install tabulate ``` (optional)
+`pip install tkinter`
+
+``` pip install collections ```
+`pip install tabulate` (optional)
+
+``` pip install subprocess ```
+`pip install collections`
+
+``` pip install Pillow ```
+`pip install subprocess`
+
+`pip freeze > requirements.txt`
+
+Environnement virtuel :
+
+```pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py``` 
+`pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py`
