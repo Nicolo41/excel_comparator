@@ -2,14 +2,12 @@ import os
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
-from tabulate import tabulate
 from collections import defaultdict
 import subprocess
 from pathlib import Path
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from tkinter import Button
-# from PIL import Image, ImageTk
 from tkinter import PhotoImage
 from datetime import date
 import webbrowser
@@ -22,10 +20,6 @@ root = tk.Tk()
 root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 
-# Charger l'icône au format .png
-# icone = Image.open('img/logo_jr.png')
-# icone = ImageTk.PhotoImage(icone)
-# root.iconphoto(True, icone)
 
 # Charger l'icône au format .png avec tkinter
 icone = tk.PhotoImage(file='img/logo_jr2.png')
@@ -36,7 +30,7 @@ root.tk.call('wm', 'iconphoto', root._w, icone)
 # Définir la taille de la fenêtre
 root.geometry("850x650")
 
-# Définir une fonction pour changer l'icône des nouvelles fenêtres
+# Fonction pour changer l'icône des nouvelles fenêtres
 def changer_icone_fenetre(fenetre):
     fenetre.iconphoto(True, icone)
 
@@ -45,7 +39,7 @@ def changer_icone_fenetre(fenetre):
 def traiter_livraisons():
     fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
 
-    # Valider le fichier avant de continuer
+    # Valider le fichier avant de continuer                                                                              MODIF A FAIRE POUR NOUV EXCEL
     if not valider_fichier_livraison(fichier_livraisons):
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
@@ -54,7 +48,7 @@ def traiter_livraisons():
     
     
     # Extraire les colonnes des vidanges (de D à N)
-    colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)
+    colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)            MODIF A FAIRE POUR NOUV EXCEL
     # Créer un dictionnaire pour stocker les clients, leurs vidanges et les quantités correspondantes
     clients_vidanges = defaultdict(dict)
 
@@ -62,7 +56,6 @@ def traiter_livraisons():
     print(f"Lecture du fichier '{fichier_livraisons}' en cours...")
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Lecture du fichier '{fichier_livraisons}' en cours...")
-    
     
     # Parcourir chaque ligne du DataFrame des livraisons
     for index, row in df_livraisons.iterrows():
@@ -122,8 +115,7 @@ def traiter_vidanges():
     
     df_vidanges = pd.read_excel(fichier_vidanges)
 
-    # Votre code de traitement pour le fichier des vidanges ici...
-    # Extraire les colonnes des clients, des quantités facturées et des articles
+    # Extraire les colonnes des clients, des quantités facturées et des articles                                                              MODIF A FAIRE POUR NOUV EXCEL
     colonnes_clients = ['Client']
     colonnes_quantites = ['Lignes de la commande/Quantité facturée']
     colonnes_articles = ['Lignes de la commande/Article']
@@ -202,7 +194,8 @@ def traiter_vidanges():
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
     
     
-    # Fonction de validation pour les fichiers
+    # Fonctions de validation pour les fichiers
+    
 def valider_fichier_vidanges(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
@@ -313,13 +306,10 @@ def comparer_fichiers():
 # Fonction pour ouvrir le dernier fichier généré
 def ouvrir_dernier_fichier():
     progress_bar.step(100)
-    # Obtenez le chemin complet du dossier des téléchargements
     dossier_telechargements = Path.home() / 'Downloads'
 
-    # Nom du fichier généré
     fichier_genere = 'differences.xlsx'
 
-    # Chemin complet du fichier
     chemin_fichier_genere = dossier_telechargements / fichier_genere
 
     if chemin_fichier_genere.exists():
@@ -494,26 +484,6 @@ ico_folder = PhotoImage(file='img/folder2.png')
 ico_error = PhotoImage(file='img/error2.png')
 ico_git = PhotoImage(file='img/git2.png')
 bg = PhotoImage(file='img/logo_jr.png')
-
-# Redimensionner les icônes
-# largeur_icone = 32
-# hauteur_icone = 32
-# icone_excel.thumbnail((largeur_icone, hauteur_icone))
-# icone_compare.thumbnail((largeur_icone, hauteur_icone))
-# icone_exit.thumbnail((largeur_icone, hauteur_icone))
-# icone_fichier.thumbnail((largeur_icone, hauteur_icone))
-# icone_folder.thumbnail((largeur_icone, hauteur_icone))
-# icone_error.thumbnail((largeur_icone, hauteur_icone))
-# icone_git.thumbnail((largeur_icone, hauteur_icone))
-
-# Créer un objet ImageTk.PhotoImage à partir de l'icône redimensionnée
-# ico_excel = ImageTk.PhotoImage(icone_excel)
-# ico_compare = ImageTk.PhotoImage(icone_compare)
-# ico_exit = ImageTk.PhotoImage(icone_exit)
-# ico_fichier = ImageTk.PhotoImage(icone_fichier)
-# ico_folder = ImageTk.PhotoImage(icone_folder)
-# ico_error = ImageTk.PhotoImage(icone_error)
-# ico_git = ImageTk.PhotoImage(icone_git)
 
 
 # Créer un widget Label pour afficher l'image en arrière-plan
