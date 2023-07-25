@@ -408,28 +408,29 @@ def err_101():
 def err_102():
     message_102 = """
     Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.
-    
+    Pour régler cette erreur :
+    - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée'.
     """
     messagebox.showinfo("Erreur 102", message_102)
         
 def err_103():
     message_103 = """
     Erreur 103 : Les fichiers ne contiennent pas de données.
-    
+    Ce message indique que le fichier est vide. Assurez-vous de choisir le bon fichier.
     """
     messagebox.showinfo("Erreur 103", message_103)
         
 def err_200():
     message_200 = """
     Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !
-    
+    Ce message indique qu'il manque un fichier à comparer. Assurez-vous de traiter les fichiers avant de les comparer.
     """
     messagebox.showinfo("Erreur 200", message_200)
     
 def err_300():
     message_300 = """
     Erreur 300 : Le fichier des comparaisons n'existe pas.
-    
+    Ce message indique que la comparaison n'a pas été effectuée.
     """
     messagebox.showinfo("Erreur 300", message_300)
 
