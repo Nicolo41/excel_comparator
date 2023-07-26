@@ -19,8 +19,15 @@ Clonez le dépôt : ```git clone https://github.com/Nicolo41/excel_comparator.gi
 Installez les dépendances : ```pip install -r requirements.txt```
 
 Choix de ne pas utiliser la lib PIL, Pillow car non exempte de failles de sécurité -> gestion des images directement avec Tkinter -> redim manuel
+| Python 3.11.x   | :white_check_mark: |
+| ----------------| ------------------ |
+| pandas==2.0.3   | :white_check_mark: |
+| collections     | :white_check_mark: |
+| tabulate==0.9.0 | :white_check_mark: |
+| PIL             | :x:                |
 ## Utilisation
 Exécutez le programme en utilisant Python : ```python excel_comparator.py```
+
 
 ## Environnement virtuel
 Créer un exécutable à partir du script en utilisant Pyinstaller : ```pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py```
