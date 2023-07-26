@@ -12,6 +12,7 @@ from tkinter import PhotoImage
 from datetime import date
 import webbrowser
 
+                                                ### FENETRE PRINCIPALE ###
 
 # Créer la fenêtre principale
 print('Lancement de l\'application...')
