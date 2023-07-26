@@ -12,20 +12,6 @@ from tkinter import PhotoImage
 from datetime import date
 import webbrowser
 
-# Charger les icônes au format .png avec tkinter
-ico_excel = PhotoImage(file='img/excel2.png')
-ico_compare = PhotoImage(file='img/compare2.png')
-ico_exit = PhotoImage(file='img/exit2.png')
-ico_fichier = PhotoImage(file='img/fichier2.png')
-ico_folder = PhotoImage(file='img/folder2.png')
-ico_error = PhotoImage(file='img/error2.png')
-ico_git = PhotoImage(file='img/git2.png')
-ico_ok = PhotoImage(file='img/ok.png')
-#background
-bg = PhotoImage(file='img/logo_jr.png')
-#icone fenêtres
-icone = tk.PhotoImage(file='img/logo_jr2.png')
-
 
 # Créer la fenêtre principale
 print('Lancement de l\'application...')
@@ -34,6 +20,8 @@ root = tk.Tk()
 root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 
+#icone fenêtres
+icone = tk.PhotoImage(file='img/logo_jr2.png')
 # Définir l'icône pour la fenêtre principale
 root.tk.call('wm', 'iconphoto', root._w, icone)
 
@@ -477,7 +465,21 @@ def afficher_fct() :
     # Ajouter le bouton "OK" pour fermer la fenêtre
     btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
-    
+  
+                                              ### ICONES ET IMAGES ###  
+
+# Charger les icônes au format .png avec tkinter
+ico_excel = PhotoImage(file='img/excel2.png')
+ico_compare = PhotoImage(file='img/compare2.png')
+ico_exit = PhotoImage(file='img/exit2.png')
+ico_fichier = PhotoImage(file='img/fichier2.png')
+ico_folder = PhotoImage(file='img/folder2.png')
+ico_error = PhotoImage(file='img/error2.png')
+ico_git = PhotoImage(file='img/git2.png')
+ico_ok = PhotoImage(file='img/ok.png')
+#background
+bg = PhotoImage(file='img/logo_jr.png')
+
 
                                             ### WIDGETS, BOUTONS ET MENUS ###
                                             
