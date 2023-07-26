@@ -12,6 +12,20 @@ from tkinter import PhotoImage
 from datetime import date
 import webbrowser
 
+# Charger les icônes au format .png avec tkinter
+ico_excel = PhotoImage(file='img/excel2.png')
+ico_compare = PhotoImage(file='img/compare2.png')
+ico_exit = PhotoImage(file='img/exit2.png')
+ico_fichier = PhotoImage(file='img/fichier2.png')
+ico_folder = PhotoImage(file='img/folder2.png')
+ico_error = PhotoImage(file='img/error2.png')
+ico_git = PhotoImage(file='img/git2.png')
+ico_ok = PhotoImage(file='img/ok.png')
+#background
+bg = PhotoImage(file='img/logo_jr.png')
+#icone fenêtres
+icone = tk.PhotoImage(file='img/logo_jr2.png')
+
 
 # Créer la fenêtre principale
 print('Lancement de l\'application...')
@@ -20,15 +34,13 @@ root = tk.Tk()
 root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 
-
-# Charger l'icône au format .png avec tkinter
-icone = tk.PhotoImage(file='img/logo_jr2.png')
-
 # Définir l'icône pour la fenêtre principale
 root.tk.call('wm', 'iconphoto', root._w, icone)
 
 # Définir la taille de la fenêtre
 root.geometry("850x680")
+
+                                                    ### FONCTIONS ###
 
 # Fonction pour changer l'icône des nouvelles fenêtres
 def changer_icone_fenetre(fenetre):
@@ -45,7 +57,6 @@ def traiter_livraisons():
         return
     
     df_livraisons = pd.read_excel(fichier_livraisons)
-    
     
     # Extraire les colonnes des vidanges (de D à N)
     colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)            MODIF A FAIRE POUR NOUV EXCEL
@@ -73,7 +84,6 @@ def traiter_livraisons():
         progress_bar.step(progress)
         root.update_idletasks()
 
-    
     nb_etapes = 5
 
     # Mettre à jour la barre de progression progressivement
@@ -90,7 +100,6 @@ def traiter_livraisons():
     # Afficher le tableau
     headers = ['Client'] + list(colonnes_vidanges)
 
-
     # Convertir la liste de listes en DataFrame pandas
     df_output = pd.DataFrame(table_data, columns=headers)
 
@@ -103,6 +112,7 @@ def traiter_livraisons():
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès\n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
     up_label.config(text="Vous pouvez maintenant traiter le fichier des vidanges !")
+    
     
 # Fonction pour traiter le fichier des vidanges
 def traiter_vidanges():
@@ -126,7 +136,6 @@ def traiter_vidanges():
     # Variables temporaires pour stocker le client actuel et les articles associés
     client_actuel = None
     articles_actuels = {}
-    
     
     print('--------------------')
     print(f"Lecture du fichier '{fichier_vidanges}' en cours...")
@@ -175,11 +184,9 @@ def traiter_vidanges():
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
     
-    
     def update_progress(progress):
         progress_bar.step(progress)
         root.update_idletasks()
-
     
     nb_etapes = 5
 
@@ -187,15 +194,14 @@ def traiter_vidanges():
     for i in range(1, nb_etapes + 1):
         root.after(i * 100, update_progress, 50 // nb_etapes)
         
-
     print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès \n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
     
     
-    # Fonctions de validation pour les fichiers
-    
+# Fonctions de validation pour les fichiers
+
 def valider_fichier_vidanges(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
@@ -237,6 +243,7 @@ def valider_fichier_livraison(fichier):
 
     return True
 
+
 # Fonction pour comparer les deux fichiers générés
 def comparer_fichiers():
     # Chemin des fichiers Excel à comparer
@@ -272,8 +279,6 @@ def comparer_fichiers():
         # Exporter les différences en fichier Excel dans le dossier des téléchargements
         fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
         df_diff.to_excel(fichier_sortie, index=False)
-        
-        # progress_bar.step(30) 
 
         # Mettre à jour la barre de progression pendant le traitement
         def update_progress():
@@ -285,17 +290,13 @@ def comparer_fichiers():
         progress_bar.step(0)  # Début du traitement, barre de progression à 0%
         root.after(100, update_progress)  # Démarre la mise à jour de la barre de progression
 
-        # Fin du traitement, barre de progression à 100%
         progress = 100
-        # Fin du traitement, barre de progression à 100%
-        # progress_bar.step(100)
-        
+     
         print('La comparaison est terminée !')
         print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
         messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
-        
                     
     else: 
         print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
@@ -331,12 +332,14 @@ def ouvrir_dossier_telechargements():
     print(f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
     result_label.config(text=f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
     
+    
 # Fonction pour quitter la fenêtre
 def quitter_fenetre():
     root.quit()
     print('Fermeture de l\'application...')
     quit_label = tk.Label(root, text="Fermeture de l'application...")
     quit_label.pack()
+    
     
 def afficher_aide():
     message_aide = """
@@ -357,6 +360,7 @@ def afficher_aide():
     Développé par : BROAGE Nicolas
     """
     messagebox.showinfo("Aide", message_aide)
+
 
 def afficher_instructions_boutons():
     message = f"""
@@ -442,6 +446,7 @@ def type_erreur():
     btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
 
+
 def ouvrir_github():
     # Ouvrir le lien GitHub dans le navigateur web par défaut
     webbrowser.open("https://github.com/Nicolo41/excel_comparator")
@@ -472,21 +477,10 @@ def afficher_fct() :
     # Ajouter le bouton "OK" pour fermer la fenêtre
     btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
-
     
 
-# Charger les icônes au format .png avec tkinter
-ico_excel = PhotoImage(file='img/excel2.png')
-ico_compare = PhotoImage(file='img/compare2.png')
-ico_exit = PhotoImage(file='img/exit2.png')
-ico_fichier = PhotoImage(file='img/fichier2.png')
-ico_folder = PhotoImage(file='img/folder2.png')
-ico_error = PhotoImage(file='img/error2.png')
-ico_git = PhotoImage(file='img/git2.png')
-ico_ok = PhotoImage(file='img/ok.png')
-bg = PhotoImage(file='img/logo_jr.png')
-
-
+                                            ### WIDGETS, BOUTONS ET MENUS ###
+                                            
 
 # Créer un widget Label pour afficher l'image en arrière-plan
 background_label = tk.Label(root, image=bg)
@@ -547,11 +541,12 @@ btn_ouvrir_dossier.pack(padx=20, pady=10)
 progress_bar = ttk.Progressbar(root, mode='determinate', maximum=100)
 progress_bar.pack(fill='x', padx=20, pady=10)
 
-
 # Créer un bouton pour quitter la fenêtre
 btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image = ico_exit, compound='left', font=('Arial', 10))
 btn_quitter.pack(padx=20, pady=10)
 
+
+# Changer l'icône des nouvelles fenêtres
 changer_icone_fenetre(root)
 
 # Lancer l'interface graphique
