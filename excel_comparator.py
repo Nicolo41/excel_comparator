@@ -421,7 +421,7 @@ def err_300():
 def type_erreur():
     types_errors_window = tk.Toplevel(root)
     types_errors_window.title("Types d'erreurs")
-    types_errors_window.geometry("700x400")  # Définir la taille de la fenêtre
+    types_errors_window.geometry("700x450")  # Définir la taille de la fenêtre
 
     # Ajouter les boutons d'erreurs à la fenêtre pop-up
     tk.Button(types_errors_window, text="Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues", command=err_100, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
