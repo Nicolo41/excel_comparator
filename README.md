@@ -48,5 +48,6 @@ Création d'un environnement virtuel PyInstaller -> pas de dépendance à avoir 
 Créer un exécutable à partir du script en utilisant Pyinstaller : ```pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py```
 
 ## Auteur
-Developpé par : ***BROAGE Nicolas*** / 07-2023.
-https://www.linkedin.com/in/nicolas-broage/ 
+*Developpé par :* ***BROAGE Nicolas*** */ 07-2023.*
+
+*https://www.linkedin.com/in/nicolas-broage/*
