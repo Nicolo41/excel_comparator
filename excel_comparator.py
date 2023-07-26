@@ -343,10 +343,6 @@ def afficher_aide():
     - Vérifiez le format des fichiers Excel (.xlsx).
     - Vérifiez que les fichiers Excel sont correctement structuré et ne contiennent pas d'erreurs.\n
     Si toutes ces vérifications sont correctes, veuillez réessayer les opérations dans l'ordre.
-    
-    
-    
-    Développé par : BROAGE Nicolas
     """
     messagebox.showinfo("Aide", message_aide)
 
