@@ -28,7 +28,7 @@ icone = tk.PhotoImage(file='img/logo_jr2.png')
 root.tk.call('wm', 'iconphoto', root._w, icone)
 
 # Définir la taille de la fenêtre
-root.geometry("850x650")
+root.geometry("850x680")
 
 # Fonction pour changer l'icône des nouvelles fenêtres
 def changer_icone_fenetre(fenetre):
