@@ -17,6 +17,8 @@ Export des résultats dans un nouveau fichier Excel.
 Clonez le dépôt : ```git clone https://github.com/Nicolo41/excel_comparator.git```
 
 Installez les dépendances : ```pip install -r requirements.txt```
+
+Choix de ne pas utiliser la lib PIL, Pillow car non exempte de failles de sécurité -> gestion des images directement avec Tkinter -> redim manuel
 ## Utilisation
 Exécutez le programme en utilisant Python : ```python excel_comparator.py```
 
