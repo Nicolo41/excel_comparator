@@ -50,4 +50,5 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : ```pyinstal
 ## Auteur
 *Developpé par :* ***BROAGE Nicolas*** */ 07-2023.*
 
+
 *https://www.linkedin.com/in/nicolas-broage/*
