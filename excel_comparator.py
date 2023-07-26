@@ -359,7 +359,7 @@ def afficher_aide():
     messagebox.showinfo("Aide", message_aide)
 
 def afficher_instructions_boutons():
-    message = """
+    message = f"""
     Instructions d'utilisation :
     - Bouton 'Traiter le fichier des livraisons': Cliquez sur ce bouton pour traiter le fichier des livraisons. Une fois le traitement terminé, le fichier généré sera enregistré dans le dossier des téléchargements.
 
@@ -439,7 +439,7 @@ def type_erreur():
     tk.Button(types_errors_window, text="Erreur 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer", command=err_300, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
     
     # Ajouter le bouton "OK" pour fermer la fenêtre
-    btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy)
+    btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
 
 def ouvrir_github():
@@ -470,7 +470,7 @@ def afficher_fct() :
     btn_github = tk.Button(types_errors_window, text="GitHub", command=ouvrir_github, image=ico_git, compound='left')
     btn_github.pack(pady=20, padx=20)
     # Ajouter le bouton "OK" pour fermer la fenêtre
-    btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy)
+    btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
 
     
@@ -483,7 +483,9 @@ ico_fichier = PhotoImage(file='img/fichier2.png')
 ico_folder = PhotoImage(file='img/folder2.png')
 ico_error = PhotoImage(file='img/error2.png')
 ico_git = PhotoImage(file='img/git2.png')
+ico_ok = PhotoImage(file='img/ok.png')
 bg = PhotoImage(file='img/logo_jr.png')
+
 
 
 # Créer un widget Label pour afficher l'image en arrière-plan
@@ -521,24 +523,24 @@ up_label.pack(padx=20, pady=10)
 warn_label = tk.Label(root, text="", foreground="red")
 warn_label.pack(padx=20, pady=10)
 
-result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.")
+result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.", font=('Arial', 10))
 
 # Créer des boutons pour les différentes opérations
-btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livraisons', command=traiter_livraisons, image = ico_excel, compound='left')
+btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livraisons', command=traiter_livraisons, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_livraisons.pack(padx=20, pady=10)
 
-btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier des vidanges', command=traiter_vidanges, image = ico_excel, compound='left')
+btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier des vidanges', command=traiter_vidanges, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_vidanges.pack(padx=20, pady=10)
 
-btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers générés', command=comparer_fichiers, image = ico_compare, compound='left')
+btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers générés', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
 btn_comparer_fichiers.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dernier fichier généré
-btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le dernier fichier généré', command=ouvrir_dernier_fichier, image = ico_fichier, compound='left')
+btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le dernier fichier généré', command=ouvrir_dernier_fichier, image = ico_fichier, compound='left', font=('Arial', 10))
 btn_ouvrir_fichier.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dossier des téléchargements
-btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements, image = ico_folder, compound='left')
+btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements, image = ico_folder, compound='left', font=('Arial', 10))
 btn_ouvrir_dossier.pack(padx=20, pady=10)
 
 # Ajouter une barre de progression
@@ -547,7 +549,7 @@ progress_bar.pack(fill='x', padx=20, pady=10)
 
 
 # Créer un bouton pour quitter la fenêtre
-btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image = ico_exit, compound='left')
+btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=root.quit, image = ico_exit, compound='left', font=('Arial', 10))
 btn_quitter.pack(padx=20, pady=10)
 
 changer_icone_fenetre(root)
