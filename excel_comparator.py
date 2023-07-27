@@ -14,7 +14,9 @@ import webbrowser
 import logging as log
 import colorama
 from openpyxl.styles import Font
-from openpyxl.utils.dataframe import dataframe_to_rows
+# from openpyxl.utils.dataframe import dataframe_to_rows
+# from openpyxl import Workbook
+
 
 colorama.init()
 
@@ -52,16 +54,16 @@ def changer_icone_fenetre(fenetre):
 # Fonction pour traiter le fichier des livraisons
 def traiter_chauffeur():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des livraisons"+ colorama.Style.RESET_ALL)
-    fichier_chauffeur = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])    
+    fichier_chauffeur = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
 
     # Valider le fichier avant de continuer                                                                              MODIF A FAIRE POUR NOUV EXCEL
     if not valider_fichier_chauffeur(fichier_chauffeur):
         log.error(colorama.Fore.RED +"Le fichier des livraisons sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
-    
+
     df_livraisons = pd.read_excel(fichier_chauffeur)
-    
+
     # Extraire les colonnes des vidanges (de D à N)
     log.debug("Extraction des colonnes des vidanges")
     colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)            MODIF A FAIRE POUR NOUV EXCEL
@@ -73,7 +75,7 @@ def traiter_chauffeur():
     print(f"Lecture du fichier '{fichier_chauffeur}' en cours...")
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Lecture du fichier '{fichier_chauffeur}' en cours...")
-    
+
     # Parcourir chaque ligne du DataFrame des livraisons
     for index, row in df_livraisons.iterrows():
         log.debug(f"Lecture de la ligne {index}")
@@ -97,7 +99,7 @@ def traiter_chauffeur():
     for i in range(1, nb_etapes + 1):
         log.debug(f"Etape de traitement {i} sur {nb_etapes}")
         root.after(i * 100, update_progress, 49 // nb_etapes)
-    
+
 
     # Créer une liste de listes pour le tableau
     table_data = []
@@ -117,25 +119,25 @@ def traiter_chauffeur():
     log.debug(f"Enregistrement du fichier Excel dans le dossier des téléchargements")
     nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_chauffeur_{date.today()}.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
-    
+
     print(colorama.Fore.BLUE +f"Le fichier Excel concernant '{fichier_chauffeur}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel+ colorama.Style.RESET_ALL)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès\n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
     up_label.config(text="Vous pouvez maintenant traiter le fichier des vidanges !")
-    
-    
+
+
 # Fonction pour traiter le fichier des vidanges
 def traiter_descartes():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des vidanges"+ colorama.Style.RESET_ALL)
     fichier_descartes = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
-    
+
      # Valider le fichier avant de continuer
     if not valider_fichier_descartes(fichier_descartes):
         log.error(colorama.Fore.RED +"Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
-    
+
     df_vidanges = pd.read_excel(fichier_descartes)
 
     # Extraire les colonnes des clients, des quantités facturées et des articles                                                              MODIF A FAIRE POUR NOUV EXCEL
@@ -150,7 +152,7 @@ def traiter_descartes():
     # Variables temporaires pour stocker le client actuel et les articles associés
     client_actuel = None
     articles_actuels = {}
-    
+
     print('--------------------')
     print(f"Lecture du fichier '{fichier_descartes}' en cours...")
     result_label.config(text=f"Lecture du fichier '{fichier_descartes}' en cours...")
@@ -198,11 +200,11 @@ def traiter_descartes():
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
-    
+
     def update_progress(progress):
         progress_bar.step(progress)
         root.update_idletasks()
-    
+
     nb_etapes = 5
 
     # Mettre à jour la barre de progression progressivement
@@ -213,8 +215,8 @@ def traiter_descartes():
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès \n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
-    
-    
+
+
 # Fonctions de validation pour les fichiers
 
 def valider_fichier_descartes(fichier):
@@ -263,67 +265,58 @@ def valider_fichier_chauffeur(fichier):
     return True
 
 
-# Fonction pour comparer les deux fichiers générés
-def comparer_fichiers():
-    log.info(colorama.Fore.YELLOW +"Comparaison des fichiers générés"+ colorama.Style.RESET_ALL)
-    # Chemin des fichiers Excel à comparer
-    fichier_chauffeur = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_chauffeur_{date.today()}.xlsx')
+def charger_df_descartes():
     fichier_descartes = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
+    if os.path.exists(fichier_descartes):
+        df_descartes = pd.read_excel(fichier_descartes)
+        return df_descartes
+    else:
+        return None
 
-    if os.path.exists(fichier_descartes) and os.path.exists(fichier_chauffeur):
-        # Charger les fichiers Excel en DataFrames
-        df_vidanges = pd.read_excel(fichier_descartes)
-        df_livraisons = pd.read_excel(fichier_chauffeur)
-        
-        # Vérifier que les fichiers contiennent des données
-        if df_vidanges.empty or df_livraisons.empty:
-            log.critical(colorama.Fore.RED +"Les fichiers ne contiennent pas de données."+ colorama.Style.RESET_ALL)
-            messagebox.showerror("Erreur #103", "Les fichiers ne contiennent pas de données.")
-            return
+def charger_df_chauffeur():
+    fichier_chauffeur = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_chauffeur_{date.today()}.xlsx')
+    if os.path.exists(fichier_chauffeur):
+        df_chauffeur = pd.read_excel(fichier_chauffeur)
+        return df_chauffeur
+    else:
+        return None
 
-        # Extraire les colonnes des articles du DataFrame df_vidanges
-        colonnes_articles = list(df_vidanges.columns)[1:]
+def comparer_fichiers():
+    log.info(colorama.Fore.YELLOW + "Comparaison des fichiers générés" + colorama.Style.RESET_ALL)
 
-        # Grouper par 'Client' et agréger les valeurs en les sommant
-        df_grouped = df_vidanges.groupby('Client', as_index=False).sum()
+    # Charger les DataFrames à partir des fichiers Excel
+    df_descartes = charger_df_descartes()
+    df_chauffeur = charger_df_chauffeur()
 
-        # Filtrer les lignes avec des écarts non nuls dans au moins une colonne
-        df_diff = df_grouped[df_grouped[colonnes_articles].ne(0).any(axis=1)]
-        
-        # Afficher les différences
-        print('--------------------')
-        print("Traitement des fichiers en cours...")
-        # print(df_diff)
-        result_label.config(text=f"Comparaison des fichiers en cours...")
-
-        # Exporter les différences en fichier Excel dans le dossier des téléchargements
-        fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
-        df_diff.to_excel(fichier_sortie, index=False)
-
-        # Mettre à jour la barre de progression pendant le traitement
-        def update_progress():
-            if progress < 100:
-                progress_bar.step(1)
-                root.after(100, update_progress)
-
-        progress = 0
-        progress_bar.step(0)  # Début du traitement, barre de progression à 0%
-        root.after(100, update_progress)  # Démarre la mise à jour de la barre de progression
-
-        progress = 100
-
-     
-        print(colorama.Fore.BLUE +'La comparaison est terminée !'+ colorama.Style.RESET_ALL)
-        print(colorama.Fore.BLUE +f"Le fichier Excel '{fichier_sortie}' a été créé avec succès."+ colorama.Style.RESET_ALL)
-        messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
-        result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
-        up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
-    else: 
-        log.critical(colorama.Fore.RED +"Il n'y a pas de fichier à comparer et/ou il en manque un !"+ colorama.Style.RESET_ALL)
-        print(colorama.Fore.RED +f"Les fichiers '{fichier_descartes}' et/ou '{fichier_chauffeur}' n'existent pas."+ colorama.Style.RESET_ALL)
-        warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_descartes}' \net/ou '{fichier_chauffeur}' n'existent pas.", foreground="red")
+    if df_descartes is None or df_chauffeur is None:
+        log.critical(colorama.Fore.RED + "Il n'y a pas de fichier à comparer et/ou il en manque un !" + colorama.Style.RESET_ALL)
+        print(colorama.Fore.RED + "Les fichiers 'df_descartes' et/ou 'df_chauffeur' n'existent pas." + colorama.Style.RESET_ALL)
+        warn_label.config(text="!! ATTENTION !! Les fichiers 'df_descartes' \net/ou 'df_chauffeur' n'existent pas.", foreground="red")
         messagebox.showerror("Erreur #200", "Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
-    
+        return
+
+    # Vérifier que les fichiers contiennent des données
+    if df_descartes.empty or df_chauffeur.empty:
+        log.critical(colorama.Fore.RED + "Les fichiers ne contiennent pas de données." + colorama.Style.RESET_ALL)
+        messagebox.showerror("Erreur #103", "Les fichiers ne contiennent pas de données.")
+        return
+
+    # Extraire les colonnes des articles du DataFrame df_descartes
+    colonnes_articles = list(df_descartes.columns)[1:]
+
+    # Filtrer les lignes avec des écarts non nuls dans au moins une colonne
+    df_diff = df_descartes[df_descartes[colonnes_articles].ne(0).any(axis=1)]
+
+    # Exporter les différences en fichier Excel dans le dossier des téléchargements
+    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
+    df_diff.to_excel(fichier_sortie, index=False)
+
+    print(colorama.Fore.BLUE + 'La comparaison est terminée !' + colorama.Style.RESET_ALL)
+    print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
+    messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
+    result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
+    up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
+
 
 # Fonction pour ouvrir le dernier fichier généré
 def ouvrir_dernier_fichier():
@@ -356,8 +349,8 @@ def ouvrir_dossier_telechargements():
     subprocess.Popen(f'explorer "{dossier_telechargements}"')
     print(colorama.Fore.BLUE +f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}"+ colorama.Style.RESET_ALL)
     result_label.config(text=f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
-    
-    
+
+
 # Fonction pour quitter la fenêtre
 def quitter_fenetre():
     root.quit()
@@ -366,15 +359,15 @@ def quitter_fenetre():
     print(colorama.Fore.RED +'Fermeture de l\'application...'+ colorama.Style.RESET_ALL)
     quit_label = tk.Label(root, text="Fermeture de l'application...")
     quit_label.pack()
-    
-    
+
+
 def afficher_aide():
     message_aide = """
     RUBRIQUE D'AIDE : \n\n
     Tous les fichiers générés sont disponibles dans le dossier des téléchargements. \n\nLeur nom contient la date du jour. \n\n
     IMPORTANT : \n
-    - Seuls les fichiers Excel en .xlsx sont acceptés. 
-    - Bien attendre la fenêtre pop-up avant de cliquer sur le bouton suivant. 
+    - Seuls les fichiers Excel en .xlsx sont acceptés.
+    - Bien attendre la fenêtre pop-up avant de cliquer sur le bouton suivant.
     - Il est conseillé de suivre l'ordre des boutons pour éviter les erreurs. \n\n
     En cas d'erreur : \n
     - Lire le message d'erreur, une rubrique traitant les erreurs est disponible dans l'onglet 'Aide'.
@@ -405,18 +398,18 @@ def afficher_instructions_boutons():
     """
     messagebox.showinfo("Instructions d'utilisation", message)
     log.debug(colorama.Fore.YELLOW +"Affichage des instructions d'utilisation des boutons"+ colorama.Style.RESET_ALL)
-    
-    
+
+
 def err_100():
     message_100 = """
     Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.
     Pour régler cette erreur :
     - Assurez-vous que le fichier est au format Excel (.xlsx).
     - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée'.
-    """ 
+    """
     messagebox.showinfo("Erreur 100", message_100)
     log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 100"+ colorama.Style.RESET_ALL)
-        
+
 def err_101():
     message_101 = """
     Erreur 101 : Le fichier sélectionné n'est pas au bon format.
@@ -425,7 +418,7 @@ def err_101():
     """
     messagebox.showinfo("Erreur 101", message_101)
     log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 101"+ colorama.Style.RESET_ALL)
-    
+
 def err_102():
     message_102 = """
     Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.
@@ -434,7 +427,7 @@ def err_102():
     """
     messagebox.showinfo("Erreur 102", message_102)
     log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 102"+ colorama.Style.RESET_ALL)
-        
+
 def err_103():
     message_103 = """
     Erreur 103 : Les fichiers ne contiennent pas de données.
@@ -442,7 +435,7 @@ def err_103():
     """
     messagebox.showinfo("Erreur 103", message_103)
     log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 103"+ colorama.Style.RESET_ALL)
-    
+
 def err_200():
     message_200 = """
     Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !
@@ -450,7 +443,7 @@ def err_200():
     """
     messagebox.showinfo("Erreur 200", message_200)
     log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 200"+ colorama.Style.RESET_ALL)
-    
+
 def err_300():
     message_300 = """
     Erreur 300 : Le fichier des comparaisons n'existe pas.
@@ -473,7 +466,7 @@ def type_erreur():
     tk.Button(types_errors_window, text="Erreur 103 : Les fichiers ne contiennent pas de données", command=err_103, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
     tk.Button(types_errors_window, text="Erreur 200 : Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer", command=err_200, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
     tk.Button(types_errors_window, text="Erreur 300 : Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer", command=err_300, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
-    
+
     # Ajouter le bouton "OK" pour fermer la fenêtre
     btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
@@ -483,24 +476,24 @@ def ouvrir_github():
     # Ouvrir le lien GitHub dans le navigateur web par défaut
     webbrowser.open("https://github.com/Nicolo41/excel_comparator")
     log.debug("Ouverture du lien GitHub")
-    
+
 def afficher_fct() :
     message = """
     L'application suivante sert à traiter des fichiers Excel. \nCette interface utilisateur ainsi que les fonctions ont été développées en Python. \n\n
     L'application permet de comparer deux fichiers Excel et de voir s'il y a des différences entre les deux. \n\n
-    
+
     PROCESUS : \n
     - L'utilisateur doit sélectionner un fichier Excel contenant les données des livraisons. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client. \n\n
     - L'utilisateur doit sélectionner un fichier Excel contenant les données des vidanges. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client. \n\n
     - Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers générés', le script va comparer les deux fichiers générés et créer un nouveau fichier Excel contenant les différences entre les deux. \n\n
-    
+
     Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de la création. \n\n
     Lien vers le code source :  \n\n
     """
     # messagebox.showinfo("Fonctionnement de l'application", message)
     types_errors_window = tk.Toplevel(root)
     types_errors_window.title("Fonctionnement de l'application")
-    
+
     # Afficher le message dans la fenêtre pop-up
     tk.Label(types_errors_window, text=message, wraplength=600).pack(padx=20, pady=10)
 
@@ -510,10 +503,10 @@ def afficher_fct() :
     # Ajouter le bouton "OK" pour fermer la fenêtre
     btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
-    
+
     log.debug(colorama.Fore.YELLOW +"Affichage du fonctionnement de l'application"+ colorama.Style.RESET_ALL)
-  
-                                              ### ICONES ET IMAGES ###  
+
+                                              ### ICONES ET IMAGES ###
 
 # Charger les icônes au format .png avec tkinter
 
@@ -531,7 +524,7 @@ bg = PhotoImage(file='img/logo_jr.png')
 
 
                                             ### WIDGETS, BOUTONS ET MENUS ###
-                                            
+
 
 # Créer un widget Label pour afficher l'image en arrière-plan
 background_label = tk.Label(root, image=bg)
