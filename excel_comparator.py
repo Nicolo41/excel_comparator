@@ -52,15 +52,15 @@ def changer_icone_fenetre(fenetre):
 # Fonction pour traiter le fichier des livraisons
 def traiter_livraisons():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des livraisons"+ colorama.Style.RESET_ALL)
-    fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])    
+    fichier_chauffeur = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])    
 
     # Valider le fichier avant de continuer                                                                              MODIF A FAIRE POUR NOUV EXCEL
-    if not valider_fichier_livraison(fichier_livraisons):
+    if not valider_fichier_livraison(fichier_chauffeur):
         log.error(colorama.Fore.RED +"Le fichier des livraisons sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
-    df_livraisons = pd.read_excel(fichier_livraisons)
+    df_livraisons = pd.read_excel(fichier_chauffeur)
     
     # Extraire les colonnes des vidanges (de D à N)
     log.debug("Extraction des colonnes des vidanges")
@@ -70,9 +70,9 @@ def traiter_livraisons():
     clients_vidanges = defaultdict(dict)
 
     print('--------------------')
-    print(f"Lecture du fichier '{fichier_livraisons}' en cours...")
+    print(f"Lecture du fichier '{fichier_chauffeur}' en cours...")
     # Afficher le résultat dans la fenêtre
-    result_label.config(text=f"Lecture du fichier '{fichier_livraisons}' en cours...")
+    result_label.config(text=f"Lecture du fichier '{fichier_chauffeur}' en cours...")
     
     # Parcourir chaque ligne du DataFrame des livraisons
     for index, row in df_livraisons.iterrows():
@@ -115,10 +115,10 @@ def traiter_livraisons():
 
     # Enregistrer le DataFrame dans un fichier Excel dans le dossier des téléchargements
     log.debug(f"Enregistrement du fichier Excel dans le dossier des téléchargements")
-    nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', f'output_livraisons_{date.today()}.xlsx')
+    nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_chauffeur_{date.today()}.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
     
-    print(colorama.Fore.BLUE +f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel+ colorama.Style.RESET_ALL)
+    print(colorama.Fore.BLUE +f"Le fichier Excel concernant '{fichier_chauffeur}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel+ colorama.Style.RESET_ALL)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès\n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
@@ -128,15 +128,15 @@ def traiter_livraisons():
 # Fonction pour traiter le fichier des vidanges
 def traiter_vidanges():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des vidanges"+ colorama.Style.RESET_ALL)
-    fichier_vidanges = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
+    fichier_descartes = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     
      # Valider le fichier avant de continuer
-    if not valider_fichier_vidanges(fichier_vidanges):
+    if not valider_fichier_vidanges(fichier_descartes):
         log.error(colorama.Fore.RED +"Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
-    df_vidanges = pd.read_excel(fichier_vidanges)
+    df_vidanges = pd.read_excel(fichier_descartes)
 
     # Extraire les colonnes des clients, des quantités facturées et des articles                                                              MODIF A FAIRE POUR NOUV EXCEL
     colonnes_clients = ['Client']
@@ -152,8 +152,8 @@ def traiter_vidanges():
     articles_actuels = {}
     
     print('--------------------')
-    print(f"Lecture du fichier '{fichier_vidanges}' en cours...")
-    result_label.config(text=f"Lecture du fichier '{fichier_vidanges}' en cours...")
+    print(f"Lecture du fichier '{fichier_descartes}' en cours...")
+    result_label.config(text=f"Lecture du fichier '{fichier_descartes}' en cours...")
 
     # Parcourir chaque ligne du DataFrame
     for _, row in df_vidanges.iterrows():
@@ -195,7 +195,7 @@ def traiter_vidanges():
     # print(tabulate(table_data, headers=headers, tablefmt='grid'))
 
     # Exporter le tableau en fichier Excel
-    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'Export_vidanges_tableau_{date.today()}.xlsx')
+    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
     df_export = pd.DataFrame(table_data, columns=headers)
     df_export.to_excel(fichier_sortie, index=False)
     
@@ -267,13 +267,13 @@ def valider_fichier_livraison(fichier):
 def comparer_fichiers():
     log.info(colorama.Fore.YELLOW +"Comparaison des fichiers générés"+ colorama.Style.RESET_ALL)
     # Chemin des fichiers Excel à comparer
-    fichier_vidanges = os.path.join(os.path.expanduser('~'), 'Downloads', f'Export_vidanges_tableau_{date.today()}.xlsx')
-    fichier_livraisons = os.path.join(os.path.expanduser('~'), 'Downloads', f'output_livraisons_{date.today()}.xlsx')
+    fichier_chauffeur = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_chauffeur_{date.today()}.xlsx')
+    fichier_descartes = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
 
-    if os.path.exists(fichier_vidanges) and os.path.exists(fichier_livraisons):
+    if os.path.exists(fichier_descartes) and os.path.exists(fichier_chauffeur):
         # Charger les fichiers Excel en DataFrames
-        df_vidanges = pd.read_excel(fichier_vidanges)
-        df_livraisons = pd.read_excel(fichier_livraisons)
+        df_vidanges = pd.read_excel(fichier_descartes)
+        df_livraisons = pd.read_excel(fichier_chauffeur)
         
         # Vérifier que les fichiers contiennent des données
         if df_vidanges.empty or df_livraisons.empty:
@@ -320,8 +320,8 @@ def comparer_fichiers():
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
     else: 
         log.critical(colorama.Fore.RED +"Il n'y a pas de fichier à comparer et/ou il en manque un !"+ colorama.Style.RESET_ALL)
-        print(colorama.Fore.RED +f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas."+ colorama.Style.RESET_ALL)
-        warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
+        print(colorama.Fore.RED +f"Les fichiers '{fichier_descartes}' et/ou '{fichier_chauffeur}' n'existent pas."+ colorama.Style.RESET_ALL)
+        warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_descartes}' \net/ou '{fichier_chauffeur}' n'existent pas.", foreground="red")
         messagebox.showerror("Erreur #200", "Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
     
 
@@ -331,20 +331,20 @@ def ouvrir_dernier_fichier():
     progress_bar.step(100)
     dossier_telechargements = Path.home() / 'Downloads'
 
-    fichier_genere = f'differences_{date.today()}.xlsx'
+    fichier_ecarts = f'differences_{date.today()}.xlsx'
 
-    chemin_fichier_genere = dossier_telechargements / fichier_genere
+    chemin_fichier_genere = dossier_telechargements / fichier_ecarts
 
     if chemin_fichier_genere.exists():
-        log.debug(f"Ouverture du fichier '{fichier_genere}'")
+        log.debug(f"Ouverture du fichier '{fichier_ecarts}'")
         progress_bar.step(100)
         os.startfile(str(chemin_fichier_genere))
-        print(colorama.Fore.BLUE +f"Le dernier fichier généré '{fichier_genere}' a été ouvert."+ colorama.Style.RESET_ALL)
+        print(colorama.Fore.BLUE +f"Le dernier fichier généré '{fichier_ecarts}' a été ouvert."+ colorama.Style.RESET_ALL)
         result_label.config(text=f"Le dernier fichier généré a été ouvert : {chemin_fichier_genere}")
     else:
         log.critical(colorama.Fore.RED +"Le fichier des comparaisons n'existe pas."+ colorama.Style.RESET_ALL)
-        print(colorama.Fore.RED +f"Le fichier '{fichier_genere}' n'existe pas."+ colorama.Style.RESET_ALL)
-        warn_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
+        print(colorama.Fore.RED +f"Le fichier '{fichier_ecarts}' n'existe pas."+ colorama.Style.RESET_ALL)
+        warn_label.config(text=f"Le fichier '{fichier_ecarts}' n'existe pas.")
         messagebox.showerror("Erreur #300", "Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer")
 
 
@@ -571,10 +571,10 @@ warn_label.pack(padx=20, pady=10)
 result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.", font=('Arial', 10))
 
 # Créer des boutons pour les différentes opérations
-btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livraisons', command=traiter_livraisons, image = ico_excel, compound='left', font=('Arial', 10))
+btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livreurs', command=traiter_livraisons, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_livraisons.pack(padx=20, pady=10)
 
-btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier des vidanges', command=traiter_vidanges, image = ico_excel, compound='left', font=('Arial', 10))
+btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Descartes', command=traiter_vidanges, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_vidanges.pack(padx=20, pady=10)
 
 btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers générés', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
