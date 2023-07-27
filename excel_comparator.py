@@ -12,6 +12,9 @@ from tkinter import PhotoImage
 from datetime import date
 import webbrowser
 import logging as log
+import colorama
+
+colorama.init()
 
                                                 ### FENETRE PRINCIPALE ###
 
@@ -20,13 +23,12 @@ log.basicConfig(level=log.DEBUG, format='%(asctime)s - %(levelname)s - %(message
 
 # Créer la fenêtre principale
 print('-----------------------')
-print('Lancement de l\'application...')
+print(colorama.Fore.YELLOW + "Lancement de l\'application..." + colorama.Style.RESET_ALL)
 print ('Lançement de l\'interface graphique...')
 root = tk.Tk()
 root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 print('-----------------------')
-
 #icone fenêtres
 icone = tk.PhotoImage(file='img/logo_jr2.png')
 # Définir l'icône pour la fenêtre principale
@@ -47,13 +49,13 @@ def changer_icone_fenetre(fenetre):
 
 # Fonction pour traiter le fichier des livraisons
 def traiter_livraisons():
-    log.info("Traitement du fichier des livraisons")
-    fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
+    log.info(colorama.Fore.YELLOW +"Traitement du fichier des livraisons"+ colorama.Style.RESET_ALL)
+    fichier_livraisons = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])    
 
     # Valider le fichier avant de continuer                                                                              MODIF A FAIRE POUR NOUV EXCEL
     if not valider_fichier_livraison(fichier_livraisons):
+        log.error(colorama.Fore.RED +"Le fichier des livraisons sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
-        log.error("Le fichier des livraisons sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
     df_livraisons = pd.read_excel(fichier_livraisons)
@@ -113,8 +115,8 @@ def traiter_livraisons():
     log.debug(f"Enregistrement du fichier Excel dans le dossier des téléchargements")
     nom_fichier_excel = os.path.join(os.path.expanduser('~'), 'Downloads', f'output_livraisons_{date.today()}.xlsx')
     df_output.to_excel(nom_fichier_excel, index=False)
-          
-    print(f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel)
+    
+    print(colorama.Fore.BLUE +f"Le fichier Excel concernant '{fichier_livraisons}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel+ colorama.Style.RESET_ALL)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès\n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
@@ -123,13 +125,13 @@ def traiter_livraisons():
     
 # Fonction pour traiter le fichier des vidanges
 def traiter_vidanges():
-    log.info("Traitement du fichier des vidanges")
+    log.info(colorama.Fore.YELLOW +"Traitement du fichier des vidanges"+ colorama.Style.RESET_ALL)
     fichier_vidanges = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     
      # Valider le fichier avant de continuer
     if not valider_fichier_vidanges(fichier_vidanges):
+        log.error(colorama.Fore.RED +"Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
-        log.error("Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
     
     df_vidanges = pd.read_excel(fichier_vidanges)
@@ -205,8 +207,7 @@ def traiter_vidanges():
     for i in range(1, nb_etapes + 1):
         log.debug(f"Etape de traitement {i} sur {nb_etapes}")
         root.after(i * 100, update_progress, 50 // nb_etapes)
-        
-    print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements.")
+    print(colorama.Fore.BLUE +f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements."+ colorama.Style.RESET_ALL)
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès \n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
@@ -217,21 +218,21 @@ def traiter_vidanges():
 def valider_fichier_vidanges(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
-    print(f"Vérification du format du fichier en cours...")
+    print(colorama.Fore.GREEN +"Vérification du format du fichier en cours..."+ colorama.Style.RESET_ALL)
     if not fichier.lower().endswith('.xlsx'):
+        log.critical(colorama.Fore.RED +"Le fichier sélectionné n'est pas au bon format."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #101", "Le fichier sélectionné n'est pas au bon format.")
-        log.critical("Le fichier sélectionné n'est pas au bon format.")
         return False
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
-    print('Vérification du contenu du fichier en cours...')
+    print(colorama.Fore.GREEN +'Vérification du contenu du fichier en cours...'+ colorama.Style.RESET_ALL)
     colonnes_attendues = ['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée' ]
     df = pd.read_excel(fichier)
     colonnes_fichier = df.columns.tolist()
 
     if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
         messagebox.showerror("Erreur #102", "Le fichier sélectionné ne contient pas les données attendues.")
-        log.critical("Le fichier sélectionné ne contient pas les données attendues.")
+        log.critical(colorama.Fore.RED +"Le fichier sélectionné ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         return False
 
     return True
@@ -240,21 +241,21 @@ def valider_fichier_vidanges(fichier):
 def valider_fichier_livraison(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
-    print(f"Vérification du format du fichier en cours...")
+    print(colorama.Fore.GREEN +"Vérification du format du fichier en cours..."+ colorama.Style.RESET_ALL)
     if not fichier.lower().endswith('.xlsx'):
+        log.critical(colorama.Fore.RED +"Le fichier sélectionné n'est pas au bon format."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #101", "Le fichier sélectionné n'est pas au bon format.")
-        log.critical("Le fichier sélectionné n'est pas au bon format.")
         return False
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
-    print('Vérification du contenu du fichier en cours...')
+    print(colorama.Fore.GREEN +'Vérification du contenu du fichier en cours...'+ colorama.Style.RESET_ALL)
     colonnes_attendues = ['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidanges champignons', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool' ]
     df = pd.read_excel(fichier)
     colonnes_fichier = df.columns.tolist()
 
     if not all(colonne in colonnes_fichier for colonne in colonnes_attendues):
+        log.critical(colorama.Fore.RED +"Le fichier sélectionné ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #102", "Le fichier sélectionné ne contient pas les données attendues.")
-        log.critical("Le fichier sélectionné ne contient pas les données attendues.")
         return False
 
     return True
@@ -262,7 +263,7 @@ def valider_fichier_livraison(fichier):
 
 # Fonction pour comparer les deux fichiers générés
 def comparer_fichiers():
-    log.info("Comparaison des fichiers générés")
+    log.info(colorama.Fore.YELLOW +"Comparaison des fichiers générés"+ colorama.Style.RESET_ALL)
     # Chemin des fichiers Excel à comparer
     fichier_vidanges = os.path.join(os.path.expanduser('~'), 'Downloads', f'Export_vidanges_tableau_{date.today()}.xlsx')
     fichier_livraisons = os.path.join(os.path.expanduser('~'), 'Downloads', f'output_livraisons_{date.today()}.xlsx')
@@ -274,8 +275,8 @@ def comparer_fichiers():
         
         # Vérifier que les fichiers contiennent des données
         if df_vidanges.empty or df_livraisons.empty:
+            log.critical(colorama.Fore.RED +"Les fichiers ne contiennent pas de données."+ colorama.Style.RESET_ALL)
             messagebox.showerror("Erreur #103", "Les fichiers ne contiennent pas de données.")
-            print("Les fichiers ne contiennent pas de données.")
             return
 
         # Extraire les colonnes des articles du DataFrame df_vidanges
@@ -286,7 +287,7 @@ def comparer_fichiers():
 
         # Filtrer les lignes avec des écarts non nuls dans au moins une colonne
         df_diff = df_grouped[df_grouped[colonnes_articles].ne(0).any(axis=1)]
-
+        
         # Afficher les différences
         print('--------------------')
         print("Traitement des fichiers en cours...")
@@ -309,21 +310,21 @@ def comparer_fichiers():
 
         progress = 100
      
-        print('La comparaison est terminée !')
-        print(f"Le fichier Excel '{fichier_sortie}' a été créé avec succès.")
+        print(colorama.Fore.BLUE +'La comparaison est terminée !'+ colorama.Style.RESET_ALL)
+        print(colorama.Fore.BLUE +f"Le fichier Excel '{fichier_sortie}' a été créé avec succès."+ colorama.Style.RESET_ALL)
         messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
         result_label.config(text=f"La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
         up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
     else: 
-        print(f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas.")
+        log.critical(colorama.Fore.RED +"Il n'y a pas de fichier à comparer et/ou il en manque un !"+ colorama.Style.RESET_ALL)
+        print(colorama.Fore.RED +f"Les fichiers '{fichier_vidanges}' et/ou '{fichier_livraisons}' n'existent pas."+ colorama.Style.RESET_ALL)
         warn_label.config(text=f"!! ATTENTION !! Les fichiers '{fichier_vidanges}' \net/ou '{fichier_livraisons}' n'existent pas.", foreground="red")
         messagebox.showerror("Erreur #200", "Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
-        log.critical("Il n'y a pas de fichier à comparer et/ou il en manque un !")
     
 
 # Fonction pour ouvrir le dernier fichier généré
 def ouvrir_dernier_fichier():
-    log.info("Ouverture du dernier fichier généré")
+    log.info(colorama.Fore.YELLOW +"Ouverture du dernier fichier généré"+ colorama.Style.RESET_ALL)
     progress_bar.step(100)
     dossier_telechargements = Path.home() / 'Downloads'
 
@@ -335,22 +336,22 @@ def ouvrir_dernier_fichier():
         log.debug(f"Ouverture du fichier '{fichier_genere}'")
         progress_bar.step(100)
         os.startfile(str(chemin_fichier_genere))
-        print(f"Le dernier fichier généré '{fichier_genere}' a été ouvert.")
+        print(colorama.Fore.BLUE +f"Le dernier fichier généré '{fichier_genere}' a été ouvert."+ colorama.Style.RESET_ALL)
         result_label.config(text=f"Le dernier fichier généré a été ouvert : {chemin_fichier_genere}")
     else:
-        print(f"Le fichier '{fichier_genere}' n'existe pas.")
+        log.critical(colorama.Fore.RED +"Le fichier des comparaisons n'existe pas."+ colorama.Style.RESET_ALL)
+        print(colorama.Fore.RED +f"Le fichier '{fichier_genere}' n'existe pas."+ colorama.Style.RESET_ALL)
         warn_label.config(text=f"Le fichier '{fichier_genere}' n'existe pas.")
         messagebox.showerror("Erreur #300", "Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer")
-        log.critical("Le fichier des comparaisons n'existe pas.")
 
 
 # Fonction pour ouvrir le dossier des téléchargements
 def ouvrir_dossier_telechargements():
-    log.info("Ouverture du dossier des téléchargements")
+    log.info(colorama.Fore.YELLOW +"Ouverture du dossier des téléchargements"+ colorama.Style.RESET_ALL)
     progress_bar.step(100)
     dossier_telechargements = os.path.join(os.path.expanduser('~'), 'Downloads')
     subprocess.Popen(f'explorer "{dossier_telechargements}"')
-    print(f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
+    print(colorama.Fore.BLUE +f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}"+ colorama.Style.RESET_ALL)
     result_label.config(text=f"Le dossier des téléchargements a été ouvert : {dossier_telechargements}")
     
     
@@ -358,8 +359,8 @@ def ouvrir_dossier_telechargements():
 def quitter_fenetre():
     root.quit()
     print('-----------------------')
-    print('Fermeture de l\'application...')
-    log.info("Fermeture de l'application")
+    log.info(colorama.Fore.RED +"Fermeture de l'application"+ colorama.Style.RESET_ALL)
+    print(colorama.Fore.RED +'Fermeture de l\'application...'+ colorama.Style.RESET_ALL)
     quit_label = tk.Label(root, text="Fermeture de l'application...")
     quit_label.pack()
     
@@ -379,7 +380,7 @@ def afficher_aide():
     Si toutes ces vérifications sont correctes, veuillez réessayer les opérations dans l'ordre.
     """
     messagebox.showinfo("Aide", message_aide)
-    log.debug("Affichage de l'aide")
+    log.debug(colorama.Fore.GREEN +"Affichage de l'aide"+ colorama.Style.RESET_ALL)
 
 
 def afficher_instructions_boutons():
@@ -400,7 +401,7 @@ def afficher_instructions_boutons():
     Note : Suivez l'ordre des boutons pour éviter les erreurs lors du traitement des fichiers.
     """
     messagebox.showinfo("Instructions d'utilisation", message)
-    log.debug("Affichage des instructions d'utilisation des boutons")
+    log.debug(colorama.Fore.YELLOW +"Affichage des instructions d'utilisation des boutons"+ colorama.Style.RESET_ALL)
     
     
 def err_100():
@@ -411,7 +412,7 @@ def err_100():
     - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée'.
     """ 
     messagebox.showinfo("Erreur 100", message_100)
-    log.debug("Affichage de l'erreur 100")
+    log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 100"+ colorama.Style.RESET_ALL)
         
 def err_101():
     message_101 = """
@@ -420,7 +421,7 @@ def err_101():
     - Assurez-vous que le fichier est au format Excel (.xlsx).
     """
     messagebox.showinfo("Erreur 101", message_101)
-    log.debug("Affichage de l'erreur 101")
+    log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 101"+ colorama.Style.RESET_ALL)
     
 def err_102():
     message_102 = """
@@ -429,7 +430,7 @@ def err_102():
     - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée'.
     """
     messagebox.showinfo("Erreur 102", message_102)
-    log.debug("Affichage de l'erreur 102")
+    log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 102"+ colorama.Style.RESET_ALL)
         
 def err_103():
     message_103 = """
@@ -437,7 +438,7 @@ def err_103():
     Ce message indique que le fichier est vide. Assurez-vous de choisir le bon fichier.
     """
     messagebox.showinfo("Erreur 103", message_103)
-    log.debug("Affichage de l'erreur 103")
+    log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 103"+ colorama.Style.RESET_ALL)
     
 def err_200():
     message_200 = """
@@ -445,7 +446,7 @@ def err_200():
     Ce message indique qu'il manque un fichier à comparer. Assurez-vous de traiter les fichiers avant de les comparer.
     """
     messagebox.showinfo("Erreur 200", message_200)
-    log.debug("Affichage de l'erreur 200")
+    log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 200"+ colorama.Style.RESET_ALL)
     
 def err_300():
     message_300 = """
@@ -453,14 +454,14 @@ def err_300():
     Ce message indique que la comparaison n'a pas été effectuée.
     """
     messagebox.showinfo("Erreur 300", message_300)
-    log.debug("Affichage de l'erreur 300")
+    log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 300"+ colorama.Style.RESET_ALL)
 
 
 def type_erreur():
     types_errors_window = tk.Toplevel(root)
     types_errors_window.title("Types d'erreurs")
     types_errors_window.geometry("700x450")  # Définir la taille de la fenêtre
-    log.debug("Ouverture de la fenêtre des types d'erreurs")
+    log.debug(colorama.Fore.YELLOW +"Ouverture de la fenêtre des types d'erreurs"+ colorama.Style.RESET_ALL)
 
     # Ajouter les boutons d'erreurs à la fenêtre pop-up
     tk.Button(types_errors_window, text="Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues", command=err_100, image=ico_error, compound='left', width=410,wraplength=400).pack(padx=20, pady=10)
@@ -507,7 +508,7 @@ def afficher_fct() :
     btn_ok = tk.Button(types_errors_window, text="OK", command=types_errors_window.destroy, image=ico_ok, compound='left')
     btn_ok.pack(pady=10)
     
-    log.debug("Affichage du fonctionnement de l'application")
+    log.debug(colorama.Fore.YELLOW +"Affichage du fonctionnement de l'application"+ colorama.Style.RESET_ALL)
   
                                               ### ICONES ET IMAGES ###  
 
