@@ -4,7 +4,7 @@
 
 Programme pour l'entreprise ***SA Jacques Remy & Fils***.
 
-Programme ```excel_comparator.py``` permettant une comparaison rapide et efficace de grands tableaux Excel.
+Programme `excel_comparator.py` permettant une comparaison rapide et efficace de grands tableaux Excel.
 ***
 ## Objectif
 L'enjeu était de trouver un moyen de voir rapidement les écarts qui peuvent survenir entre deux tableurs Excel et d'avoir un executable pour des machines sans dépendances Python;
@@ -23,9 +23,9 @@ Export des résultats dans un nouveau fichier Excel.
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
 
 ## Installation
-Clonez le dépôt : ```git clone https://github.com/Nicolo41/excel_comparator.git```
+Clonez le dépôt : `git clone https://github.com/Nicolo41/excel_comparator.git`
 
-Installez les dépendances : ```pip install -r requirements.txt```
+Installez les dépendances : `pip install -r requirements.txt`
 
 | Python 3.11.x   | :white_check_mark: |
 | ----------------| ------------------ |
@@ -37,7 +37,7 @@ Installez les dépendances : ```pip install -r requirements.txt```
 Choix de ne pas utiliser la lib PIL, Pillow car non exempte de failles de sécurité -> gestion des images directement avec Tkinter -> redimentionnement manuel (Gimp)
 
 ## Utilisation
-Exécutez le programme en utilisant Python : ```python excel_comparator.py```
+Exécutez le programme en utilisant Python : `python excel_comparator.py`
 
 
 ## Environnement virtuel
@@ -45,7 +45,7 @@ Je voulais faire en sorte que le programme soit executable depuis n'importe quel
 
 Création d'un environnement virtuel PyInstaller -> pas de dépendance à avoir pour executer le programme.
 
-Créer un exécutable à partir du script en utilisant Pyinstaller : ```pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py```
+Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py`
 
 ## Auteur
 *Developpé par :* ***BROAGE Nicolas*** */ 07-2023.*
