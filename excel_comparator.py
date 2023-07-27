@@ -50,7 +50,7 @@ def changer_icone_fenetre(fenetre):
 
 
 # Fonction pour traiter le fichier des livraisons
-def traiter_livraisons():
+def traiter_livreur():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des livraisons"+ colorama.Style.RESET_ALL)
     fichier_chauffeur = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])    
 
@@ -126,7 +126,7 @@ def traiter_livraisons():
     
     
 # Fonction pour traiter le fichier des vidanges
-def traiter_vidanges():
+def traiter_descartes():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des vidanges"+ colorama.Style.RESET_ALL)
     fichier_descartes = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     
@@ -571,10 +571,10 @@ warn_label.pack(padx=20, pady=10)
 result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.", font=('Arial', 10))
 
 # Créer des boutons pour les différentes opérations
-btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livreurs', command=traiter_livraisons, image = ico_excel, compound='left', font=('Arial', 10))
+btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livreurs', command=traiter_livreur, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_livraisons.pack(padx=20, pady=10)
 
-btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Descartes', command=traiter_vidanges, image = ico_excel, compound='left', font=('Arial', 10))
+btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Descartes', command=traiter_descartes, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_vidanges.pack(padx=20, pady=10)
 
 btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers générés', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
