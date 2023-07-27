@@ -50,12 +50,12 @@ def changer_icone_fenetre(fenetre):
 
 
 # Fonction pour traiter le fichier des livraisons
-def traiter_livreur():
+def traiter_chauffeur():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des livraisons"+ colorama.Style.RESET_ALL)
     fichier_chauffeur = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])    
 
     # Valider le fichier avant de continuer                                                                              MODIF A FAIRE POUR NOUV EXCEL
-    if not valider_fichier_livraison(fichier_chauffeur):
+    if not valider_fichier_chauffeur(fichier_chauffeur):
         log.error(colorama.Fore.RED +"Le fichier des livraisons sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
@@ -131,7 +131,7 @@ def traiter_descartes():
     fichier_descartes = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
     
      # Valider le fichier avant de continuer
-    if not valider_fichier_vidanges(fichier_descartes):
+    if not valider_fichier_descartes(fichier_descartes):
         log.error(colorama.Fore.RED +"Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
@@ -217,7 +217,7 @@ def traiter_descartes():
     
 # Fonctions de validation pour les fichiers
 
-def valider_fichier_vidanges(fichier):
+def valider_fichier_descartes(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
     print(colorama.Fore.GREEN +"Vérification du format du fichier en cours..."+ colorama.Style.RESET_ALL)
@@ -240,7 +240,7 @@ def valider_fichier_vidanges(fichier):
     return True
 
 
-def valider_fichier_livraison(fichier):
+def valider_fichier_chauffeur(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
     print(colorama.Fore.GREEN +"Vérification du format du fichier en cours..."+ colorama.Style.RESET_ALL)
@@ -571,7 +571,7 @@ warn_label.pack(padx=20, pady=10)
 result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.", font=('Arial', 10))
 
 # Créer des boutons pour les différentes opérations
-btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des livreurs', command=traiter_livreur, image = ico_excel, compound='left', font=('Arial', 10))
+btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des chauffeurs', command=traiter_chauffeur, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_livraisons.pack(padx=20, pady=10)
 
 btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Descartes', command=traiter_descartes, image = ico_excel, compound='left', font=('Arial', 10))
