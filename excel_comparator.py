@@ -13,6 +13,8 @@ from datetime import date
 import webbrowser
 import logging as log
 import colorama
+from openpyxl.styles import Font
+from openpyxl.utils.dataframe import dataframe_to_rows
 
 colorama.init()
 
@@ -309,6 +311,7 @@ def comparer_fichiers():
         root.after(100, update_progress)  # Démarre la mise à jour de la barre de progression
 
         progress = 100
+
      
         print(colorama.Fore.BLUE +'La comparaison est terminée !'+ colorama.Style.RESET_ALL)
         print(colorama.Fore.BLUE +f"Le fichier Excel '{fichier_sortie}' a été créé avec succès."+ colorama.Style.RESET_ALL)
