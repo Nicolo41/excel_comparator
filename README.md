@@ -21,6 +21,21 @@ Export des résultats dans un nouveau fichier Excel.
 - Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers générés', le script va comparer les deux fichiers générés et créer un nouveau fichier Excel contenant les différences entre les deux. 
 
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
+### Détail processus
+#### Fonction 1 (traiter_chauffeur) :
+- Elle extrait les colonnes des vidanges du DataFrame df_livraisons.
+
+- Elle crée un dictionnaire appelé clients_vidanges pour stocker les informations de chaque client, y compris les quantités pour chaque type de vidange.
+
+- Pour chaque ligne du DataFrame df_livraisons, la fonction identifie le client, puis parcourt les colonnes des vidanges pour récupérer les quantités associées à chaque type de vidange pour ce client.
+
+- Elle stocke les informations dans le dictionnaire clients_vidanges en utilisant le client comme clé principale et en ajoutant les quantités de vidanges associées à chaque type de vidange comme valeurs dans des sous-dictionnaires.
+
+- Si le même type de vidange pour le même client apparaît dans plusieurs lignes du fichier de livraisons, la fonction ajoute les quantités pour ce type de vidange au sous-dictionnaire correspondant du dictionnaire clients_vidanges.
+
+La fonction regroupe les données de vidanges pour chaque client et chaque type de vidange séparément dans le dictionnaire clients_vidanges. Ainsi, à la fin du traitement, clients_vidanges contiendra toutes les informations nécessaires pour chaque client, y compris les quantités pour chaque type de vidange.
+#### Fonction 2 
+
 
 ## Installation
 Clonez le dépôt : `git clone https://github.com/Nicolo41/excel_comparator.git`
