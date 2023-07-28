@@ -357,8 +357,8 @@ def ouvrir_dossier_telechargements():
 def quitter_fenetre():
     root.quit()
     print('-----------------------')
-    log.info(colorama.Fore.RED +"Fermeture de l'application"+ colorama.Style.RESET_ALL)
-    print(colorama.Fore.RED +'Fermeture de l\'application...'+ colorama.Style.RESET_ALL)
+    log.info(colorama.Fore.YELLOW +"Fermeture de l'application"+ colorama.Style.RESET_ALL)
+    print(colorama.Fore.YELLOW +'Fermeture de l\'application...'+ colorama.Style.RESET_ALL)
     quit_label = tk.Label(root, text="Fermeture de l'application...")
     quit_label.pack()
 
@@ -563,7 +563,7 @@ result_label.pack(padx=20, pady=10)
 # warn_label = tk.Label(root, text="", foreground="red")
 # warn_label.pack(padx=20, pady=10)
 
-result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.", font=('Arial', 10))
+result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.\n\nVous disposez d'une fenêtre avec les logs qui afficherons les erreurs", font=('Arial', 10))
 
 # Créer des boutons pour les différentes opérations
 btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des chauffeurs', command=traiter_chauffeur, image = ico_excel, compound='left', font=('Arial', 10))
