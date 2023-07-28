@@ -14,8 +14,6 @@ import webbrowser
 import logging as log
 import colorama
 import openpyxl
-from openpyxl.styles import Font
-from openpyxl.utils.dataframe import dataframe_to_rows
 
 
 colorama.init()
