@@ -287,6 +287,9 @@ def comparer_fichiers():
             ecarts = descartes_values - chauffeur_values
             df_ecarts[colonne_descartes] = ecarts
 
+    # Supprimer les clients sans écart du DataFrame "df_ecarts"
+    df_ecarts = df_ecarts[df_ecarts.iloc[:, 1:].ne(0).any(axis=1)]
+
     # Exporter les écarts en fichier Excel dans le dossier des téléchargements
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
     df_ecarts.reset_index(inplace=True)  # Réinitialiser l'index pour inclure à nouveau la colonne "Client" dans le fichier Excel
