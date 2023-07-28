@@ -129,77 +129,44 @@ def traiter_chauffeur():
 
 # Fonction pour traiter le fichier des vidanges
 def traiter_descartes():
-    log.info(colorama.Fore.YELLOW +"Traitement du fichier des vidanges"+ colorama.Style.RESET_ALL)
+    log.info(colorama.Fore.YELLOW + "Traitement du fichier des vidanges" + colorama.Style.RESET_ALL)
     fichier_descartes = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
 
-     # Valider le fichier avant de continuer
+    # Valider le fichier avant de continuer
     if not valider_fichier_descartes(fichier_descartes):
-        log.error(colorama.Fore.RED +"Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
+        log.error(colorama.Fore.RED + "Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues." + colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
 
     df_vidanges = pd.read_excel(fichier_descartes)
 
-    # Extraire les colonnes des clients, des quantités facturées et des articles                                                              MODIF A FAIRE POUR NOUV EXCEL
-    colonnes_clients = ['Client']
-    colonnes_quantites = ['Lignes de la commande/Quantité facturée']
-    colonnes_articles = ['Lignes de la commande/Article']
-    log.debug("Extraction des colonnes des clients, des quantités facturées et des articles")
+    print("Contenu du DataFrame df_vidanges:")
+    print(df_vidanges.head())
 
-    # Créer un dictionnaire pour stocker les articles et leurs quantités par client
-    articles_par_client = {}
+    # Remplir les valeurs manquantes dans la colonne "Client" pour associer chaque article au client approprié
+    df_vidanges['Client'].fillna(method='ffill', inplace=True)
 
-    # Variables temporaires pour stocker le client actuel et les articles associés
-    client_actuel = None
-    articles_actuels = {}
+    print("Contenu du DataFrame df_vidanges après remplissage des valeurs manquantes:")
+    print(df_vidanges.head())
 
-    print('--------------------')
-    print(f"Lecture du fichier '{fichier_descartes}' en cours...")
-    result_label.config(text=f"Lecture du fichier '{fichier_descartes}' en cours...")
+    # Prendre la valeur absolue des montants pour les considérer comme positifs
+    df_vidanges['Lignes de la commande/Quantité facturée'] = df_vidanges['Lignes de la commande/Quantité facturée'].abs()
 
-    # Parcourir chaque ligne du DataFrame
-    for _, row in df_vidanges.iterrows():
-        client = row[colonnes_clients[0]]
-        quantite = row[colonnes_quantites[0]]
-        article = row[colonnes_articles[0]]
+    print("Contenu du DataFrame df_vidanges après prise de valeur absolue:")
+    print(df_vidanges.head())
 
-        # Si on rencontre un nouveau client, on ajoute les articles associés au client actuel au dictionnaire
-        if pd.notna(client):
-            if client_actuel is not None:
-                articles_par_client[client_actuel] = articles_actuels
+    # Pivoter les données pour obtenir la nouvelle structure avec la somme des quantités facturées
+    df_descartes = df_vidanges.pivot_table(index='Client', columns='Lignes de la commande/Article', values='Lignes de la commande/Quantité facturée', aggfunc='sum')
 
-            # Réinitialiser les articles actuels pour le nouveau client
-            client_actuel = client
-            articles_actuels = {}
+    print("Contenu du DataFrame df_descartes après pivotage:")
+    print(df_descartes.head())
 
-        # Ajouter l'article et sa quantité au dictionnaire des articles actuels
-        if article not in articles_actuels:
-            articles_actuels[article] = quantite
-        else:
-            articles_actuels[article] += quantite
-
-    # Ajouter les articles et quantités du dernier client rencontré
-    if client_actuel is not None:
-        articles_par_client[client_actuel] = articles_actuels
-
-    # Créer une liste de toutes les colonnes possibles en combinant les articles de tous les clients
-    toutes_colonnes = sorted(set(article for articles_quantites in articles_par_client.values() for article in articles_quantites))
-
-    # Créer une liste de listes pour le tableau final
-    table_data = []
-    for client, articles_quantites in articles_par_client.items():
-        log.debug(f"Création de la ligne {client}")
-        row_data = [client] + [articles_quantites.get(article, 0) for article in toutes_colonnes]
-        table_data.append(row_data)
-
-    # Afficher le tableau
-    headers = ['Client'] + toutes_colonnes
-    # print(tabulate(table_data, headers=headers, tablefmt='grid'))
+    # Remplacer les valeurs NaN par 0
+    df_descartes.fillna(0, inplace=True)
 
     # Exporter le tableau en fichier Excel
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
-    df_export = pd.DataFrame(table_data, columns=headers)
-    df_export.to_excel(fichier_sortie, index=False)
+    df_descartes.to_excel(fichier_sortie)
 
     def update_progress(progress):
         progress_bar.step(progress)
@@ -211,10 +178,11 @@ def traiter_descartes():
     for i in range(1, nb_etapes + 1):
         log.debug(f"Etape de traitement {i} sur {nb_etapes}")
         root.after(i * 100, update_progress, 50 // nb_etapes)
-    print(colorama.Fore.BLUE +f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements."+ colorama.Style.RESET_ALL)
+    print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements." + colorama.Style.RESET_ALL)
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès \n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
     up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
+
 
 
 # Fonctions de validation pour les fichiers
@@ -300,12 +268,28 @@ def comparer_fichiers():
         log.critical(colorama.Fore.RED + "Les fichiers ne contiennent pas de données." + colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #103", "Les fichiers ne contiennent pas de données.")
         return
-
-    # Extraire les colonnes des articles du DataFrame df_descartes
-    colonnes_articles = list(df_descartes.columns)[1:]
-
+    
+    # Correspondance des colonnes entre les deux fichiers
+    correspondance_colonnes = {
+        'Client': 'Client',
+        'PALETTE EU 11': 'Palette Euro NEW',
+        'EPS 246': 'Caisses vertes',
+        'EPS - T': 'VID-T',
+        'EPS - M': 'VID-S',
+        'VID F': 'Vidange F',
+        'FRIGOBOX': 'FRIGO BOX',
+        'PALETTE TRUVAL': 'Palette Truval',
+        'PALETTE BANANE': 'Palette banane',
+        'PALETTE PLASTIQUE': 'Palette Plastique',
+        'PALETTE POOL': 'Palette Pool'        
+    }
+    
     # Filtrer les lignes avec des écarts non nuls dans au moins une colonne
-    df_diff = df_descartes[df_descartes[colonnes_articles].ne(0).any(axis=1)]
+    colonnes_articles_descartes = list(df_descartes.columns)[1:]
+    colonnes_articles_chauffeur = [correspondance_colonnes[col] for col in colonnes_articles_descartes]
+    df_diff = df_descartes[
+        df_descartes[colonnes_articles_descartes].ne(df_chauffeur[colonnes_articles_chauffeur]).any(axis=1)
+    ]
 
     # Exporter les différences en fichier Excel dans le dossier des téléchargements
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
@@ -316,6 +300,7 @@ def comparer_fichiers():
     messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
     result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
     up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
+
 
 
 # Fonction pour ouvrir le dernier fichier généré
