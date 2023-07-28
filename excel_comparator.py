@@ -205,7 +205,7 @@ def valider_fichier_chauffeur(fichier):
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
     print(colorama.Fore.GREEN +'Vérification du contenu du fichier en cours...'+ colorama.Style.RESET_ALL)
-    colonnes_attendues = ['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidanges champignons', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool' ]
+    colonnes_attendues = ['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool' ]
     df = pd.read_excel(fichier)
     colonnes_fichier = df.columns.tolist()
 
@@ -259,6 +259,7 @@ def comparer_fichiers():
     correspondance_colonnes = {
         'Client': 'Client',
         'PALETTE EU 11': 'Palette Euro NEW',
+        'PALETTE EU 9' : 'Palette Euro NEW',
         'EPS 246': 'Caisses vertes',
         'EPS - T': 'VID-T',
         'EPS - M': 'VID-S',
