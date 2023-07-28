@@ -244,6 +244,7 @@ def comparer_fichiers():
     df_descartes = charger_df_descartes()
     df_chauffeur = charger_df_chauffeur()
 
+    log.debug("Vérification de l'existance des fichiers")
     if df_descartes is None or df_chauffeur is None:
         log.critical(colorama.Fore.RED + "Il n'y a pas de fichier à comparer et/ou il en manque un !" + colorama.Style.RESET_ALL)
         print(colorama.Fore.RED + "Les fichiers 'df_descartes' et/ou 'df_chauffeur' n'existent pas." + colorama.Style.RESET_ALL)
@@ -251,12 +252,14 @@ def comparer_fichiers():
         messagebox.showerror("Erreur #200", "Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
         return
 
+    log.debug("Vérification du contenu des fichiers")
     # Vérifier que les fichiers contiennent des données
     if df_descartes.empty or df_chauffeur.empty:
         log.critical(colorama.Fore.RED + "Les fichiers ne contiennent pas de données." + colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #103", "Les fichiers ne contiennent pas de données.")
         return
 
+    log.debug("Mise en relation des colonnes des deux fichiers")
     # Correspondance des colonnes entre les deux fichiers
     correspondance_colonnes = {
         'Client': 'Client',
@@ -276,9 +279,11 @@ def comparer_fichiers():
     df_descartes.set_index('Client', inplace=True)
     df_chauffeur.set_index('Client', inplace=True)
 
+    log.debug("Création d'un DataFrame pour stocker les écarts")
     # Créer un DataFrame df_ecarts pour stocker les écarts entre les quantités de vidanges
     df_ecarts = df_descartes.copy()
 
+    log.info("Calcul des écarts")
     # Calculer les écarts pour les quantités de vidanges
     for colonne_descartes, colonne_chauffeur in correspondance_colonnes.items():
         if colonne_descartes in df_descartes.columns and colonne_chauffeur in df_chauffeur.columns:
@@ -287,9 +292,11 @@ def comparer_fichiers():
             ecarts = descartes_values - chauffeur_values
             df_ecarts[colonne_descartes] = ecarts
 
+    log.debug("Suppression des clients sans écarts")
     # Supprimer les clients sans écart du DataFrame "df_ecarts"
     df_ecarts = df_ecarts[df_ecarts.iloc[:, 1:].ne(0).any(axis=1)]
 
+    log.debug("Enregistrement du fichier Excel dans le dossier des téléchargements")
     # Exporter les écarts en fichier Excel dans le dossier des téléchargements
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
     df_ecarts.reset_index(inplace=True)  # Réinitialiser l'index pour inclure à nouveau la colonne "Client" dans le fichier Excel
@@ -299,6 +306,7 @@ def comparer_fichiers():
     wb = openpyxl.load_workbook(fichier_sortie)
     ws = wb.active
 
+    log.debug("Mise en forme du fichier Excel")
     # Parcourir les cellules du fichier Excel et appliquer le format en rouge pour les valeurs négatives et en vert pour les valeurs positives
     for idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
         for col_idx, cell in enumerate(row[1:], start=2):  # Commencer à partir de la deuxième colonne (la première colonne est le client)
