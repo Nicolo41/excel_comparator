@@ -268,7 +268,7 @@ def comparer_fichiers():
         log.critical(colorama.Fore.RED + "Les fichiers ne contiennent pas de données." + colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #103", "Les fichiers ne contiennent pas de données.")
         return
-    
+
     # Correspondance des colonnes entre les deux fichiers
     correspondance_colonnes = {
         'Client': 'Client',
@@ -281,25 +281,35 @@ def comparer_fichiers():
         'PALETTE TRUVAL': 'Palette Truval',
         'PALETTE BANANE': 'Palette banane',
         'PALETTE PLASTIQUE': 'Palette Plastique',
-        'PALETTE POOL': 'Palette Pool'        
+        'PALETTE POOL': 'Palette Pool'
     }
-    
-    # Filtrer les lignes avec des écarts non nuls dans au moins une colonne
-    colonnes_articles_descartes = list(df_descartes.columns)[1:]
-    colonnes_articles_chauffeur = [correspondance_colonnes[col] for col in colonnes_articles_descartes]
-    df_diff = df_descartes[
-        df_descartes[colonnes_articles_descartes].ne(df_chauffeur[colonnes_articles_chauffeur]).any(axis=1)
-    ]
 
-    # Exporter les différences en fichier Excel dans le dossier des téléchargements
+    # Utiliser les colonnes "Client" comme index pour les deux DataFrames
+    df_descartes.set_index('Client', inplace=True)
+    df_chauffeur.set_index('Client', inplace=True)
+
+    # Créer un DataFrame df_ecarts pour stocker les écarts entre les quantités de vidanges
+    df_ecarts = df_descartes.copy()
+
+    # Calculer les écarts pour les quantités de vidanges
+    for colonne_descartes, colonne_chauffeur in correspondance_colonnes.items():
+        if colonne_descartes in df_descartes.columns and colonne_chauffeur in df_chauffeur.columns:
+            descartes_values = pd.to_numeric(df_descartes[colonne_descartes], errors='coerce')
+            chauffeur_values = pd.to_numeric(df_chauffeur[colonne_chauffeur], errors='coerce')
+            ecarts = descartes_values - chauffeur_values
+            df_ecarts[colonne_descartes] = ecarts
+
+    # Exporter les écarts en fichier Excel dans le dossier des téléchargements
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
-    df_diff.to_excel(fichier_sortie, index=False)
+    df_ecarts.reset_index(inplace=True)  # Réinitialiser l'index pour inclure à nouveau la colonne "Client" dans le fichier Excel
+    df_ecarts.to_excel(fichier_sortie, index=False)
 
     print(colorama.Fore.BLUE + 'La comparaison est terminée !' + colorama.Style.RESET_ALL)
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
     messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
     result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
     up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
+
 
 
 
