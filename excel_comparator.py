@@ -13,9 +13,9 @@ from datetime import date
 import webbrowser
 import logging as log
 import colorama
+import openpyxl
 from openpyxl.styles import Font
-# from openpyxl.utils.dataframe import dataframe_to_rows
-# from openpyxl import Workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
 
 
 colorama.init()
@@ -294,6 +294,21 @@ def comparer_fichiers():
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
     df_ecarts.reset_index(inplace=True)  # Réinitialiser l'index pour inclure à nouveau la colonne "Client" dans le fichier Excel
     df_ecarts.to_excel(fichier_sortie, index=False)
+    
+    # Ouvrir le fichier Excel avec openpyxl
+    wb = openpyxl.load_workbook(fichier_sortie)
+    ws = wb.active
+
+    # Parcourir les cellules du fichier Excel et appliquer le format en rouge pour les valeurs négatives et en vert pour les valeurs positives
+    for idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+        for col_idx, cell in enumerate(row[1:], start=2):  # Commencer à partir de la deuxième colonne (la première colonne est le client)
+            if isinstance(cell, (int, float)) and cell < 0:
+                ws.cell(row=idx, column=col_idx).font = openpyxl.styles.Font(color='FF0000')  # Rouge pour les valeurs négatives
+            elif isinstance(cell, (int, float)) and cell > 0:
+                ws.cell(row=idx, column=col_idx).font = openpyxl.styles.Font(color='00FF00')  # Vert pour les valeurs positives
+
+    # Sauvegarder le fichier Excel modifié
+    wb.save(fichier_sortie)
 
     print(colorama.Fore.BLUE + 'La comparaison est terminée !' + colorama.Style.RESET_ALL)
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
