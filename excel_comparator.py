@@ -140,26 +140,14 @@ def traiter_descartes():
 
     df_vidanges = pd.read_excel(fichier_descartes)
 
-    print("Contenu du DataFrame df_vidanges:")
-    print(df_vidanges.head())
-
     # Remplir les valeurs manquantes dans la colonne "Client" pour associer chaque article au client approprié
     df_vidanges['Client'].fillna(method='ffill', inplace=True)
-
-    print("Contenu du DataFrame df_vidanges après remplissage des valeurs manquantes:")
-    print(df_vidanges.head())
 
     # Prendre la valeur absolue des montants pour les considérer comme positifs
     df_vidanges['Lignes de la commande/Quantité facturée'] = df_vidanges['Lignes de la commande/Quantité facturée'].abs()
 
-    print("Contenu du DataFrame df_vidanges après prise de valeur absolue:")
-    print(df_vidanges.head())
-
     # Pivoter les données pour obtenir la nouvelle structure avec la somme des quantités facturées
     df_descartes = df_vidanges.pivot_table(index='Client', columns='Lignes de la commande/Article', values='Lignes de la commande/Quantité facturée', aggfunc='sum')
-
-    print("Contenu du DataFrame df_descartes après pivotage:")
-    print(df_descartes.head())
 
     # Remplacer les valeurs NaN par 0
     df_descartes.fillna(0, inplace=True)
