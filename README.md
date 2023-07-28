@@ -20,12 +20,12 @@ Installez les dépendances : `pip install -r requirements.txt`
 
 | Python 3.11.x   | :white_check_mark: |
 | ----------------| ------------------ |
-| pandas==2.0.3   | :white_check_mark: |
-| collections     | :white_check_mark: |
+| pandas==1.3.3   | :white_check_mark: |
+| tk==0.1.0       | :white_check_mark: |
 | tabulate==0.9.0 | :white_check_mark: |
 | PIL             | :x:                |
-| Logging         | :white_check_mark: |
-| Colorama        | :white_check_mark: |
+| openpyxl==3.0.9 | :white_check_mark: |
+| colorama==0.4.4 | :white_check_mark: |
 
 Choix de ne pas utiliser la lib PIL, Pillow car non exempte de failles de sécurité -> gestion des images directement avec Tkinter -> redimentionnement manuel (Gimp)
 
