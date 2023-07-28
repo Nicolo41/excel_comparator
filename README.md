@@ -47,7 +47,7 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 - Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers générés', le script va comparer les deux fichiers générés et créer un nouveau fichier Excel contenant les différences entre les deux. 
 
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
-### >Fonction 1 `traiter_chauffeur` :
+### >`traiter_chauffeur` :
 - Elle extrait les colonnes des vidanges du DataFrame df_livraisons.
 
 - Elle crée un dictionnaire appelé clients_vidanges pour stocker les informations de chaque client, y compris les quantités pour chaque type de vidange.
@@ -59,7 +59,7 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 - Si le même type de vidange pour le même client apparaît dans plusieurs lignes du fichier de livraisons, la fonction ajoute les quantités pour ce type de vidange au sous-dictionnaire correspondant du dictionnaire clients_vidanges.
 
 La fonction regroupe les données de vidanges pour chaque client et chaque type de vidange séparément dans le dictionnaire clients_vidanges. Ainsi, à la fin du traitement, clients_vidanges contiendra toutes les informations nécessaires pour chaque client, y compris les quantités pour chaque type de vidange.
-### >Fonction 2 `traiter_descartes()` :
+### >`traiter_descartes()` :
 - Cette fonction extrait les colonnes des vidanges du DataFrame df_livraisons.
 
 - Elle crée un dictionnaire appelé clients_vidanges pour stocker les informations de chaque client, y compris les quantités pour chaque type de vidange.
