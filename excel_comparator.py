@@ -124,7 +124,6 @@ def traiter_chauffeur():
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès\n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
-    up_label.config(text="Vous pouvez maintenant traiter le fichier des vidanges !")
 
 
 # Fonction pour traiter le fichier des vidanges
@@ -169,7 +168,6 @@ def traiter_descartes():
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements." + colorama.Style.RESET_ALL)
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès \n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
-    up_label.config(text="Vous pouvez maintenant comparer les deux fichiers générés.", foreground="blue")
 
 
 
@@ -248,7 +246,6 @@ def comparer_fichiers():
     if df_descartes is None or df_chauffeur is None:
         log.critical(colorama.Fore.RED + "Il n'y a pas de fichier à comparer et/ou il en manque un !" + colorama.Style.RESET_ALL)
         print(colorama.Fore.RED + "Les fichiers 'df_descartes' et/ou 'df_chauffeur' n'existent pas." + colorama.Style.RESET_ALL)
-        warn_label.config(text="!! ATTENTION !! Les fichiers 'df_descartes' \net/ou 'df_chauffeur' n'existent pas.", foreground="red")
         messagebox.showerror("Erreur #200", "Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
         return
 
@@ -301,7 +298,7 @@ def comparer_fichiers():
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
     df_ecarts.reset_index(inplace=True)  # Réinitialiser l'index pour inclure à nouveau la colonne "Client" dans le fichier Excel
     df_ecarts.to_excel(fichier_sortie, index=False)
-    
+
     # Ouvrir le fichier Excel avec openpyxl
     wb = openpyxl.load_workbook(fichier_sortie)
     ws = wb.active
@@ -322,7 +319,6 @@ def comparer_fichiers():
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
     messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
     result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
-    up_label.config(text="Vous pouvez maintenant ouvrir le fichier généré !")
 
 
 
@@ -346,7 +342,6 @@ def ouvrir_dernier_fichier():
     else:
         log.critical(colorama.Fore.RED +"Le fichier des comparaisons n'existe pas."+ colorama.Style.RESET_ALL)
         print(colorama.Fore.RED +f"Le fichier '{fichier_ecarts}' n'existe pas."+ colorama.Style.RESET_ALL)
-        warn_label.config(text=f"Le fichier '{fichier_ecarts}' n'existe pas.")
         messagebox.showerror("Erreur #300", "Le fichier des comparaisons n'existe pas.\nVeuillez traiter les fichiers avant de les comparer")
 
 
@@ -563,12 +558,12 @@ result_label = tk.Label(root, text="")
 result_label.pack(padx=20, pady=10)
 
 # Ajouter un widget Label pour afficher les instructions
-up_label = tk.Label(root, text="", foreground="blue")
-up_label.pack(padx=20, pady=10)
+# up_label = tk.Label(root, text="", foreground="blue")
+# up_label.pack(padx=20, pady=10)
 
 # Ajouter un widget Label pour afficher les erreurs
-warn_label = tk.Label(root, text="", foreground="red")
-warn_label.pack(padx=20, pady=10)
+# warn_label = tk.Label(root, text="", foreground="red")
+# warn_label.pack(padx=20, pady=10)
 
 result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.", font=('Arial', 10))
 
