@@ -298,11 +298,10 @@ def comparer_fichiers():
         log.info(colorama.Fore.GREEN + "Il n'y a pas d'écarts concernant les clients à cette date !" + colorama.Style.RESET_ALL)
         return
     
-    messagebox.showwarning("Présence d'écarts", "Des écarts sont présents concernant les clients à cette date !")
 
     log.debug("Enregistrement du fichier Excel dans le dossier des téléchargements")
     # Exporter les écarts en fichier Excel dans le dossier des téléchargements
-    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'differences_{date.today()}.xlsx')
+    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{date.today()}.xlsx')
     df_ecarts.reset_index(inplace=True)  # Réinitialiser l'index pour inclure à nouveau la colonne "Client" dans le fichier Excel
     df_ecarts.to_excel(fichier_sortie, index=False)
 
@@ -324,7 +323,8 @@ def comparer_fichiers():
 
     print(colorama.Fore.BLUE + 'La comparaison est terminée !' + colorama.Style.RESET_ALL)
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
-    messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nVous pouvez maintenant ouvrir le fichier généré.\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
+    messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
+    messagebox.showwarning("Présence d'écarts", "Des écarts sont présents concernant les clients à cette date !\n\nVeuillez ouvrir le fichier Excel des écarts pour les consulter.")
     result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
 
 
