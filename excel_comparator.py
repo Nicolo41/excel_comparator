@@ -402,6 +402,32 @@ def convert_to_xlsx():
     """
     messagebox.showinfo("Conversion en .xlsx", message_xlsx)
     log.debug(colorama.Fore.GREEN +"Affichage de la convertion"+ colorama.Style.RESET_ALL)
+    
+
+def convert_csv_to_xlsx():
+    # Demander à l'utilisateur de sélectionner un fichier CSV
+    file_path = filedialog.askopenfilename(filetypes=[("Fichiers CSV", "*.csv")])
+    log.debug(colorama.Fore.YELLOW +"Ouverture boite de dialogue"+ colorama.Style.RESET_ALL)
+
+    if not file_path:
+        # L'utilisateur a annulé la sélection du fichier
+        log.info(colorama.Fore.RED +"Annulation de la sélection du fichier"+ colorama.Style.RESET_ALL)
+        return
+
+    # Charger le fichier CSV en utilisant pandas
+    df = pd.read_csv(file_path, sep='\t')
+
+    output_file =  os.path.join(os.path.expanduser('~'), 'Downloads', f'excel_convert{date.today()}.xlsx')
+
+
+    # Enregistrement du fichier XLSX dans le dossier des téléchargements
+    df.to_excel(output_file, index=False)
+
+    # Message de confirmation
+    print("Le fichier CSV a été converti en XLSX et enregistré dans le dossier des téléchargements.")
+    output_file = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{date.today()}.xlsx')
+
+
 
 def afficher_instructions_boutons():
     message = f"""
@@ -609,6 +635,9 @@ btn_ouvrir_dossier.pack(padx=20, pady=10)
 # Ajouter une barre de progression
 progress_bar = ttk.Progressbar(root, mode='determinate', maximum=100)
 progress_bar.pack(fill='x', padx=20, pady=10)
+
+# button = tk.Button(root, text="Convertir un fichier CSV", command=convert_csv_to_xlsx)
+# button.pack()
 
 # Créer un bouton pour quitter la fenêtre
 btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=quitter_fenetre, image = ico_exit, compound='left', font=('Arial', 10))
