@@ -599,7 +599,7 @@ btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers généré
 btn_comparer_fichiers.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dernier fichier généré
-btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le dernier fichier généré', command=ouvrir_dernier_fichier, image = ico_fichier, compound='left', font=('Arial', 10))
+btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le fichier des écarts', command=ouvrir_dernier_fichier, image = ico_fichier, compound='left', font=('Arial', 10))
 btn_ouvrir_fichier.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dossier des téléchargements
