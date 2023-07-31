@@ -377,7 +377,9 @@ def afficher_aide():
     RUBRIQUE D'AIDE : \n\n
     Tous les fichiers générés sont disponibles dans le dossier des téléchargements. \n\nLeur nom contient la date du jour. \n\n
     IMPORTANT : \n
-    - Seuls les fichiers Excel en .xlsx sont acceptés.
+    - Seuls les fichiers Excel en .xlsx sont acceptés.\n
+    - Le fichier des livreurs doit avoir ces colonnes : 'Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool' et les noms ne doivent pas être changés. Peu engendrer des erreurs.\n
+    - Le fichier Descartes doit avoir ces colonnes : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité' et les noms ne doivent pas être changés. Peu engendrer des erreurs.\n
     - Bien attendre la fenêtre pop-up avant de cliquer sur le bouton suivant.
     - Il est conseillé de suivre l'ordre des boutons pour éviter les erreurs. \n\n
     En cas d'erreur : \n
