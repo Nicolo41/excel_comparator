@@ -336,7 +336,7 @@ def ouvrir_dernier_fichier():
     progress_bar.step(100)
     dossier_telechargements = Path.home() / 'Downloads'
 
-    fichier_ecarts = f'differences_{date.today()}.xlsx'
+    fichier_ecarts = f'ecarts_{date.today()}.xlsx'
 
     chemin_fichier_genere = dossier_telechargements / fichier_ecarts
 
