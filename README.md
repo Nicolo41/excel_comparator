@@ -7,7 +7,7 @@ Programme pour l'entreprise ***SA Jacques Remy & Fils***.
 Programme `excel_comparator.py` permettant une comparaison rapide et efficace de grands tableaux Excel.
 ***
 ## Objectif
-L'enjeu était de trouver un moyen de voir rapidement les écarts qui peuvent survenir entre deux tableurs Excel et d'avoir un executable pour des machines sans dépendances Python;
+L'enjeu était de trouver un moyen de voir rapidement les écarts qui peuvent survenir entre deux tableurs Excel et d'avoir un executable pour des machines sans dépendances Python.
 
 ## Fonctionnalités
 Traitement de fichiers Excel pour extraire et regrouper les données.
@@ -34,9 +34,9 @@ Exécutez le programme en utilisant Python : `python excel_comparator.py`
 
 
 ## Environnement virtuel
-Je voulais faire en sorte que le programme soit executable depuis n'importe quelle machine.
+Pour que le programme soit executable depuis n'importe quelle machine.
 
-Création d'un environnement virtuel PyInstaller -> pas de dépendance à avoir pour executer le programme.
+Création d'un environnement virtuel PyInstaller -> pas de dépendance à avoir pour executer le programme ni d'installation python.
 
 Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py`
 ## Processus
@@ -71,9 +71,6 @@ La fonction regroupe les données de vidanges pour chaque client et chaque type 
 - Si le même type de vidange pour le même client apparaît dans plusieurs lignes du fichier de livraisons, la fonction ajoute les quantités pour ce type de vidange au sous-dictionnaire correspondant du dictionnaire clients_vidanges.
 
 La fonction regroupe les données de vidanges pour chaque client et chaque type de vidange séparément dans le dictionnaire clients_vidanges. Ainsi, à la fin du traitement, clients_vidanges contiendra toutes les informations nécessaires pour chaque client, y compris les quantités pour chaque type de vidange.
-### >Fonctions de validation `valider_fichier_descartes` et `valider_fichier_chauffeur`
-
-
 
 
 ## Auteur
