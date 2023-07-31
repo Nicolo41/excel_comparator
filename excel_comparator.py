@@ -291,6 +291,14 @@ def comparer_fichiers():
     log.debug("Suppression des clients sans écarts")
     # Supprimer les clients sans écart du DataFrame "df_ecarts"
     df_ecarts = df_ecarts[df_ecarts.iloc[:, 1:].ne(0).any(axis=1)]
+    
+    # Vérifier si le DataFrame est vide
+    if df_ecarts.empty:
+        messagebox.showinfo("Aucun écart", "Il n'y a pas d'écart concernant les clients à cette date !")
+        log.info(colorama.Fore.GREEN + "Il n'y a pas d'écarts concernant les clients à cette date !" + colorama.Style.RESET_ALL)
+        return
+    
+    messagebox.showwarning("Présence d'écarts", "Des écarts sont présents concernant les clients à cette date !")
 
     log.debug("Enregistrement du fichier Excel dans le dossier des téléchargements")
     # Exporter les écarts en fichier Excel dans le dossier des téléchargements
