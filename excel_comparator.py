@@ -182,7 +182,7 @@ def valider_fichier_descartes(fichier):
 
     # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
     print(colorama.Fore.GREEN +'Vérification du contenu du fichier en cours...'+ colorama.Style.RESET_ALL)
-    colonnes_attendues = ['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée' ]
+    colonnes_attendues = ['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité']
     df = pd.read_excel(fichier)
     colonnes_fichier = df.columns.tolist()
 
