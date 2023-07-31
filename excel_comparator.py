@@ -391,6 +391,17 @@ def afficher_aide():
     messagebox.showinfo("Aide", message_aide)
     log.debug(colorama.Fore.GREEN +"Affichage de l'aide"+ colorama.Style.RESET_ALL)
 
+def convert_to_xlsx():
+    message_xlsx = """
+    Pour convertir un fichier Excel en .xlsx : \n
+    - Ouvrez le fichier Excel à convertir.\n
+    - Cliquez sur 'Fichier' puis 'Enregistrer sous'.\n
+    - Dans la liste déroulante 'Type', sélectionnez 'Classeur Excel (*.xlsx)'.\n
+    
+    Le fichier est maintenant converti en .xlsx.
+    """
+    messagebox.showinfo("Conversion en .xlsx", message_xlsx)
+    log.debug(colorama.Fore.GREEN +"Affichage de la convertion"+ colorama.Style.RESET_ALL)
 
 def afficher_instructions_boutons():
     message = f"""
@@ -557,6 +568,7 @@ menu_bar.add_cascade(label='Aide', menu=menu_aide)
 
 # Ajouter un élément dans le sous-menu "Aide" pour afficher l'aide
 menu_aide.add_command(label='Général', command=afficher_aide)
+menu_aide.add_command(label='Conversion en .xlsx', command=convert_to_xlsx)
 menu_aide.add_command(label='Fonctionnement de l\'application', command=afficher_fct)
 menu_aide.add_command(label='Afficher les instructions d\'utilisation des boutons', command=afficher_instructions_boutons)
 menu_aide.add_command(label='Types d\'erreurs', command=type_erreur)
