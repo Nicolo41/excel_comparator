@@ -141,10 +141,10 @@ def traiter_descartes():
     df_vidanges['Client'].fillna(method='ffill', inplace=True)
 
     # Prendre la valeur absolue des montants pour les considérer comme positifs
-    df_vidanges['Lignes de la commande/Quantité facturée'] = df_vidanges['Lignes de la commande/Quantité facturée'].abs()
+    df_vidanges['Lignes de la commande/Quantité'] = df_vidanges['Lignes de la commande/Quantité'].abs()
 
     # Pivoter les données pour obtenir la nouvelle structure avec la somme des quantités facturées
-    df_descartes = df_vidanges.pivot_table(index='Client', columns='Lignes de la commande/Article', values='Lignes de la commande/Quantité facturée', aggfunc='sum')
+    df_descartes = df_vidanges.pivot_table(index='Client', columns='Lignes de la commande/Article', values='Lignes de la commande/Quantité', aggfunc='sum')
 
     # Remplacer les valeurs NaN par 0
     df_descartes.fillna(0, inplace=True)
