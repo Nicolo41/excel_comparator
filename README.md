@@ -2,12 +2,11 @@
 ***
 ![logo_jr](https://github.com/Nicolo41/excel_comparator/assets/72193849/02109d10-a47e-44f4-a301-e4a39d5796ac)
 
-Programme pour l'entreprise ***SA Jacques Remy & Fils***.
 
 Programme `excel_comparator.py` permettant une comparaison rapide et efficace de grands tableaux Excel.
 ***
 ## Objectif
-L'enjeu était de trouver un moyen de voir rapidement les écarts qui peuvent survenir entre deux tableurs Excel et d'avoir un executable pour des machines sans dépendances Python.
+L'enjeu était de trouver un moyen de voir rapidement les écarts qui peuvent survenir entre deux tableurs Excel et d'en avoir un executable pour des machines sans dépendances Python.
 
 ## Fonctionnalités
 Traitement de fichiers Excel pour extraire et regrouper les données.
@@ -42,12 +41,12 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 ## Processus
 - L'utilisateur doit sélectionner un fichier Excel contenant les données des livraisons. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client.
 
-- L'utilisateur doit sélectionner un fichier Excel contenant les données des vidanges. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client.
+- L'utilisateur doit sélectionner un fichier Excel contenant les données de Descartes. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client.
 
 - Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers générés', le script va comparer les deux fichiers générés et créer un nouveau fichier Excel contenant les différences entre les deux. 
 
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
-### >`traiter_chauffeur` :
+### >fonction `traiter_chauffeur` :
 - Elle extrait les colonnes des vidanges du DataFrame df_livraisons.
 
 - Elle crée un dictionnaire appelé clients_vidanges pour stocker les informations de chaque client, y compris les quantités pour chaque type de vidange.
@@ -59,7 +58,7 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 - Si le même type de vidange pour le même client apparaît dans plusieurs lignes du fichier de livraisons, la fonction ajoute les quantités pour ce type de vidange au sous-dictionnaire correspondant du dictionnaire clients_vidanges.
 
 La fonction regroupe les données de vidanges pour chaque client et chaque type de vidange séparément dans le dictionnaire clients_vidanges. Ainsi, à la fin du traitement, clients_vidanges contiendra toutes les informations nécessaires pour chaque client, y compris les quantités pour chaque type de vidange.
-### >`traiter_descartes()` :
+### >fonction `traiter_descartes()` :
 - Cette fonction extrait les colonnes des vidanges du DataFrame df_livraisons.
 
 - Elle crée un dictionnaire appelé clients_vidanges pour stocker les informations de chaque client, y compris les quantités pour chaque type de vidange.
