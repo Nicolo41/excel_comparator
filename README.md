@@ -26,7 +26,7 @@ Installez les dépendances : `pip install -r requirements.txt`
 | openpyxl==3.0.9 | :white_check_mark: |
 | colorama==0.4.4 | :white_check_mark: |
 
-Choix de ne pas utiliser la lib PIL, Pillow car non exempte de failles de sécurité -> gestion des images directement avec Tkinter -> redimentionnement manuel (Gimp)
+Choix de ne pas utiliser la lib PIL, Pillow car il y a des alertes de failles de sécurité -> gestion des images directement avec Tkinter -> redimentionnement manuel (Gimp)
 
 ## Utilisation
 Exécutez le programme en utilisant Python : `python excel_comparator.py`
@@ -39,37 +39,15 @@ Création d'un environnement virtuel PyInstaller -> pas de dépendance à avoir 
 
 Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py`
 ## Processus
-- L'utilisateur doit sélectionner un fichier Excel contenant les données des livraisons. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client.
+- L'utilisateur doit sélectionner un fichier Excel contenant les données encodées des livreurs. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client.
 
-- L'utilisateur doit sélectionner un fichier Excel contenant les données de Descartes. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client.
+- L'utilisateur doit sélectionner un fichier Excel contenant les données de Descartes. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client, ce fichier va être réorganisé pour la comparaison.
 
-- Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers générés', le script va comparer les deux fichiers générés et créer un nouveau fichier Excel contenant les différences entre les deux. 
+- Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers traités', le script va comparer les deux fichiers générés lors des deux précédentes étapes et créer un nouveau fichier Excel contenant les différences entre les deux. S'il n'y a pas de différence, un message l'indique et le fichier des écarts ne sera pas généré.
 
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
-### >fonction `traiter_chauffeur` :
-- Elle extrait les colonnes des vidanges du DataFrame df_livraisons.
 
-- Elle crée un dictionnaire appelé clients_vidanges pour stocker les informations de chaque client, y compris les quantités pour chaque type de vidange.
-
-- Pour chaque ligne du DataFrame df_livraisons, la fonction identifie le client, puis parcourt les colonnes des vidanges pour récupérer les quantités associées à chaque type de vidange pour ce client.
-
-- Elle stocke les informations dans le dictionnaire clients_vidanges en utilisant le client comme clé principale et en ajoutant les quantités de vidanges associées à chaque type de vidange comme valeurs dans des sous-dictionnaires.
-
-- Si le même type de vidange pour le même client apparaît dans plusieurs lignes du fichier de livraisons, la fonction ajoute les quantités pour ce type de vidange au sous-dictionnaire correspondant du dictionnaire clients_vidanges.
-
-La fonction regroupe les données de vidanges pour chaque client et chaque type de vidange séparément dans le dictionnaire clients_vidanges. Ainsi, à la fin du traitement, clients_vidanges contiendra toutes les informations nécessaires pour chaque client, y compris les quantités pour chaque type de vidange.
-### >fonction `traiter_descartes()` :
-- Cette fonction extrait les colonnes des vidanges du DataFrame df_livraisons.
-
-- Elle crée un dictionnaire appelé clients_vidanges pour stocker les informations de chaque client, y compris les quantités pour chaque type de vidange.
-
-- Pour chaque ligne du DataFrame df_livraisons, la fonction identifie le client, puis parcourt les colonnes des vidanges pour récupérer les quantités associées à chaque type de vidange pour ce client.
-
-- Elle stocke les informations dans le dictionnaire clients_vidanges en utilisant le client comme clé principale et en ajoutant les quantités de vidanges associées à chaque type de vidange comme valeurs dans des sous-dictionnaires.
-
-- Si le même type de vidange pour le même client apparaît dans plusieurs lignes du fichier de livraisons, la fonction ajoute les quantités pour ce type de vidange au sous-dictionnaire correspondant du dictionnaire clients_vidanges.
-
-La fonction regroupe les données de vidanges pour chaque client et chaque type de vidange séparément dans le dictionnaire clients_vidanges. Ainsi, à la fin du traitement, clients_vidanges contiendra toutes les informations nécessaires pour chaque client, y compris les quantités pour chaque type de vidange.
+- Une gestion des erreurs est fonctionnelle, des messages d'erreurs apparaîtrons s'il y en a. De plus, un système de logs a également été mis en place pour debug et info.
 
 
 ## Auteur
