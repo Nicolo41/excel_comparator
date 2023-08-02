@@ -1,6 +1,6 @@
 # Ecarts vidanges
 ***
-![logo_jr](https://github.com/Nicolo41/excel_comparator/assets/72193849/02109d10-a47e-44f4-a301-e4a39d5796ac)
+![logo_jr](https://github.com/Nicolo41/excel_comparator/assets/72193849/4d269ab8-575b-4c21-9807-e826af440e03)
 
 
 Programme `excel_comparator.py` permettant une comparaison rapide et efficace de grands tableaux Excel.
