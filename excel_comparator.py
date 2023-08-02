@@ -621,7 +621,7 @@ btn_traiter_livraisons.pack(padx=20, pady=10)
 btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Descartes', command=traiter_descartes, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_vidanges.pack(padx=20, pady=10)
 
-btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers générés', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
+btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers traités', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
 btn_comparer_fichiers.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dernier fichier généré
