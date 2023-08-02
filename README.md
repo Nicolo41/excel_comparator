@@ -48,7 +48,18 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
 
 - Une gestion des erreurs est fonctionnelle, des messages d'erreurs apparaîtrons s'il y en a. De plus, un système de logs a également été mis en place pour debug et info.
+## Format des fichiers
+Seuls les fichier en .xlsx sont prit en charge, la conversion CSV -> XLSX est simple à faire.
 
+- Le fichier encodé par les chauffeurs doit avoir cette structure : 
+
+['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool']
+
+- Le fichier Descartes doit avoir cette structure lors de son export : 
+
+['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité']
+
+D'autres colonnes peuvent être présentes mais ces colonnes spécifiques doivent être là.
 
 ## Auteur
 *Developpé par :* ***BROAGE Nicolas*** */ 07-2023.*
