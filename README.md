@@ -60,9 +60,3 @@ Seuls les fichier en .xlsx sont prit en charge, la conversion CSV -> XLSX est si
 ['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité']
 
 D'autres colonnes peuvent être présentes mais ces colonnes spécifiques doivent être là.
-
-## Auteur
-*Developpé par :* ***BROAGE Nicolas*** */ 07-2023.*
-
-
-*https://www.linkedin.com/in/nicolas-broage/*
