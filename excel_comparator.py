@@ -447,7 +447,7 @@ def err_102():
     message_102 = """
     Erreur 102 : Le fichier sélectionné ne contient pas les données attendues.
     Pour régler cette erreur :
-    - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée'.
+    - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité'.
     """
     messagebox.showinfo("Erreur 102", message_102)
     log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 102"+ colorama.Style.RESET_ALL)
@@ -585,7 +585,7 @@ result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche 
 btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des chauffeurs', command=traiter_chauffeur, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_livraisons.pack(padx=20, pady=10)
 
-btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Descartes', command=traiter_descartes, image = ico_excel, compound='left', font=('Arial', 10))
+btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Odoo', command=traiter_descartes, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_vidanges.pack(padx=20, pady=10)
 
 btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers traités', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
