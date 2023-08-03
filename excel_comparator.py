@@ -54,7 +54,7 @@ def traiter_chauffeur():
     log.info(colorama.Fore.YELLOW +"Traitement du fichier des livraisons"+ colorama.Style.RESET_ALL)
     fichier_chauffeur = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
 
-    # Valider le fichier avant de continuer                                                                              MODIF A FAIRE POUR NOUV EXCEL
+    # Valider le fichier avant de continuer
     if not valider_fichier_chauffeur(fichier_chauffeur):
         log.error(colorama.Fore.RED +"Le fichier des livraisons sélectionné n'est pas au bon format ou ne contient pas les données attendues."+ colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
@@ -64,7 +64,7 @@ def traiter_chauffeur():
 
     # Extraire les colonnes des vidanges (de D à N)
     log.debug("Extraction des colonnes des vidanges")
-    colonnes_vidanges = df_livraisons.columns[3:14]  # Adapté pour les colonnes D à N (indices 3 à 14 exclus)            MODIF A FAIRE POUR NOUV EXCEL
+    colonnes_vidanges = df_livraisons.columns[3:14]  # colonnes D à N 
     # Créer un dictionnaire pour stocker les clients, leurs vidanges et les quantités correspondantes
     log.debug("Création d'un dictionnaire pour stocker les clients, leurs vidanges et les quantités correspondantes")
     clients_vidanges = defaultdict(dict)
@@ -168,7 +168,6 @@ def traiter_descartes():
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
 
 
-
 # Fonctions de validation pour les fichiers
 
 def valider_fichier_descartes(fichier):
@@ -180,7 +179,7 @@ def valider_fichier_descartes(fichier):
         messagebox.showerror("Erreur #101", "Le fichier sélectionné n'est pas au bon format.")
         return False
 
-    # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
+    # Vérifier que le fichier contient les colonnes attendues
     print(colorama.Fore.GREEN +'Vérification du contenu du fichier en cours...'+ colorama.Style.RESET_ALL)
     colonnes_attendues = ['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité']
     df = pd.read_excel(fichier)
@@ -203,7 +202,7 @@ def valider_fichier_chauffeur(fichier):
         messagebox.showerror("Erreur #101", "Le fichier sélectionné n'est pas au bon format.")
         return False
 
-    # Vérifier que le fichier contient les colonnes attendues                                                                   MODIF A FAIRE POUR NOUV EXCEL
+    # Vérifier que le fichier contient les colonnes attendues
     print(colorama.Fore.GREEN +'Vérification du contenu du fichier en cours...'+ colorama.Style.RESET_ALL)
     colonnes_attendues = ['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool' ]
     df = pd.read_excel(fichier)
@@ -404,31 +403,6 @@ def convert_to_xlsx():
     log.debug(colorama.Fore.GREEN +"Affichage de la convertion"+ colorama.Style.RESET_ALL)
     
 
-def convert_csv_to_xlsx():
-    # Demander à l'utilisateur de sélectionner un fichier CSV
-    file_path = filedialog.askopenfilename(filetypes=[("Fichiers CSV", "*.csv")])
-    log.debug(colorama.Fore.YELLOW +"Ouverture boite de dialogue"+ colorama.Style.RESET_ALL)
-
-    if not file_path:
-        # L'utilisateur a annulé la sélection du fichier
-        log.info(colorama.Fore.RED +"Annulation de la sélection du fichier"+ colorama.Style.RESET_ALL)
-        return
-
-    # Charger le fichier CSV en utilisant pandas
-    df = pd.read_csv(file_path, sep='\t')
-
-    output_file =  os.path.join(os.path.expanduser('~'), 'Downloads', f'excel_convert{date.today()}.xlsx')
-
-
-    # Enregistrement du fichier XLSX dans le dossier des téléchargements
-    df.to_excel(output_file, index=False)
-
-    # Message de confirmation
-    print("Le fichier CSV a été converti en XLSX et enregistré dans le dossier des téléchargements.")
-    output_file = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{date.today()}.xlsx')
-
-
-
 def afficher_instructions_boutons():
     message = f"""
     Instructions d'utilisation :
@@ -604,13 +578,6 @@ menu_aide.add_command(label='Types d\'erreurs', command=type_erreur)
 result_label = tk.Label(root, text="")
 result_label.pack(padx=20, pady=10)
 
-# Ajouter un widget Label pour afficher les instructions
-# up_label = tk.Label(root, text="", foreground="blue")
-# up_label.pack(padx=20, pady=10)
-
-# Ajouter un widget Label pour afficher les erreurs
-# warn_label = tk.Label(root, text="", foreground="red")
-# warn_label.pack(padx=20, pady=10)
 
 result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche pour plus d'informations\nUne pop-up vous indiquera quand vous pourrez cliquer sur le bouton suivant.\n\nVous disposez d'une fenêtre avec les logs qui afficherons les erreurs", font=('Arial', 10))
 
@@ -635,9 +602,6 @@ btn_ouvrir_dossier.pack(padx=20, pady=10)
 # Ajouter une barre de progression
 progress_bar = ttk.Progressbar(root, mode='determinate', maximum=100)
 progress_bar.pack(fill='x', padx=20, pady=10)
-
-# button = tk.Button(root, text="Convertir un fichier CSV", command=convert_csv_to_xlsx)
-# button.pack()
 
 # Créer un bouton pour quitter la fenêtre
 btn_quitter = Button(root, text='Quitter l\'application', foreground="red", command=quitter_fenetre, image = ico_exit, compound='left', font=('Arial', 10))
