@@ -153,21 +153,25 @@ def traiter_descartes():
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
     df_descartes.to_excel(fichier_sortie)
     
-    dossier_telechargements = Path.home() / 'Downloads'
+    # dossier_telechargements = Path.home() / 'Downloads'
 
-    df_descartes = f'df_descartes_{date.today()}.xlsx'
+    # df_descartes = f'df_descartes_{date.today()}.xlsx'
 
-    chemin_df_descartes = dossier_telechargements / fichier_descartes
+    # chemin_df_descartes = dossier_telechargements / fichier_descartes
     
     # Charger le fichier Excel
-    df_descartes = pd.read_excel(chemin_df_descartes)
+    df_descartes = pd.read_excel(fichier_sortie, index_col='Client')
 
-    # Ajouter une colonne "Palette Euro NEW" qui contient la somme de "PALETTE EU 11" et "PALETTE EU 9"
-    if 'PALETTE EU 11' in df_descartes.columns and 'PALETTE EU 9' in df_descartes.columns:
-        df_descartes['Palette Euro NEW'] = df_descartes['PALETTE EU 11'].fillna(0) + df_descartes['PALETTE EU 9'].fillna(0)
-        df_descartes.drop(columns=['PALETTE EU 11', 'PALETTE EU 9'], inplace=True)
+    # Vérifier si la colonne "PALETTE EU 9" existe
+    if 'PALETTE EU 9' in df_descartes.columns:
+        # Ajouter les valeurs de "PALETTE EU 9" à celles de "PALETTE EU 11" et stocker le résultat dans "PALETTE EU 11"
+        df_descartes['PALETTE EU 11'] = df_descartes['PALETTE EU 11'].fillna(0) + df_descartes['PALETTE EU 9'].fillna(0)
+        df_descartes.drop(columns=['PALETTE EU 9'], inplace=True)
 
-
+    # Enregistrer le DataFrame traité dans un nouveau fichier Excel
+    # fichier_traité = os.path.join(os.path.expanduser('~'), 'Downloads', f'descartes_traite.xlsx')
+    # df_descartes.to_excel(fichier_traité, index=False)
+    df_descartes.to_excel(fichier_sortie)
     def update_progress(progress):
         progress_bar.step(progress)
         root.update_idletasks()
@@ -305,19 +309,6 @@ def comparer_fichiers():
     log.debug("Suppression des clients sans écarts")
     # Supprimer les clients sans écart du DataFrame "df_ecarts"
     df_ecarts = df_ecarts[df_ecarts.iloc[:, 1:].ne(0).any(axis=1)]
-    
-    log.info("Comparaison de la colonne 'Palette Euro NEW'")
-    # Comparer la colonne 'Palette Euro NEW' du df_descartes et du df_chauffeur
-    colonne_palette_euro_new_descartes = 'Palette Euro NEW'
-    colonne_palette_euro_new_chauffeur = 'Palette Euro NEW'
-    if colonne_palette_euro_new_descartes in df_descartes.columns and colonne_palette_euro_new_chauffeur in df_chauffeur.columns:
-        descartes_values = pd.to_numeric(df_descartes[colonne_palette_euro_new_descartes], errors='coerce')
-        chauffeur_values = pd.to_numeric(df_chauffeur[colonne_palette_euro_new_chauffeur], errors='coerce')
-        ecarts_palette_euro_new = descartes_values - chauffeur_values
-        df_ecarts[colonne_palette_euro_new_descartes] = ecarts_palette_euro_new
-
-
-
 
     
     # Vérifier si le DataFrame est vide
