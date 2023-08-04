@@ -121,16 +121,16 @@ def traiter_chauffeur():
     print(colorama.Fore.BLUE +f"Le fichier Excel concernant '{fichier_chauffeur}' a été enregistré avec succès dans le dossier téléchargements sous le nom:", nom_fichier_excel+ colorama.Style.RESET_ALL)
     # Afficher le résultat dans la fenêtre
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès\n")
-    messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier des vidanges.")
+    messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant traiter le fichier d' Odoo.")
 
 
 # Fonction pour traiter le fichier des vidanges
-def traiter_descartes():
+def traiter_odoo():
     log.info(colorama.Fore.YELLOW + "Traitement du fichier des vidanges" + colorama.Style.RESET_ALL)
     fichier_descartes = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
 
     # Valider le fichier avant de continuer
-    if not valider_fichier_descartes(fichier_descartes):
+    if not valider_fichier_odoo(fichier_descartes):
         log.error(colorama.Fore.RED + "Le fichier des vidanges sélectionné n'est pas au bon format ou ne contient pas les données attendues." + colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
         return
@@ -150,14 +150,8 @@ def traiter_descartes():
     df_descartes.fillna(0, inplace=True)
 
     # Exporter le tableau en fichier Excel
-    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
+    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_odoo_{date.today()}.xlsx')
     df_descartes.to_excel(fichier_sortie)
-    
-    # dossier_telechargements = Path.home() / 'Downloads'
-
-    # df_descartes = f'df_descartes_{date.today()}.xlsx'
-
-    # chemin_df_descartes = dossier_telechargements / fichier_descartes
     
     # Charger le fichier Excel
     df_descartes = pd.read_excel(fichier_sortie, index_col='Client')
@@ -189,7 +183,7 @@ def traiter_descartes():
 
 # Fonctions de validation pour les fichiers
 
-def valider_fichier_descartes(fichier):
+def valider_fichier_odoo(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
     print(colorama.Fore.GREEN +"Vérification du format du fichier en cours..."+ colorama.Style.RESET_ALL)
@@ -236,7 +230,7 @@ def valider_fichier_chauffeur(fichier):
 
 
 def charger_df_descartes():
-    fichier_descartes = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_descartes_{date.today()}.xlsx')
+    fichier_descartes = os.path.join(os.path.expanduser('~'), 'Downloads', f'df_odoo_{date.today()}.xlsx')
     if os.path.exists(fichier_descartes):
         df_descartes = pd.read_excel(fichier_descartes)
         return df_descartes
@@ -261,7 +255,7 @@ def comparer_fichiers():
     log.debug("Vérification de l'existance des fichiers")
     if df_descartes is None or df_chauffeur is None:
         log.critical(colorama.Fore.RED + "Il n'y a pas de fichier à comparer et/ou il en manque un !" + colorama.Style.RESET_ALL)
-        print(colorama.Fore.RED + "Les fichiers 'df_descartes' et/ou 'df_chauffeur' n'existent pas." + colorama.Style.RESET_ALL)
+        print(colorama.Fore.RED + "Les fichiers 'df_odoo' et/ou 'df_chauffeur' n'existent pas." + colorama.Style.RESET_ALL)
         messagebox.showerror("Erreur #200", "Il n'y a pas de fichier à comparer et/ou il en manque un !\nVeuillez traiter les fichiers avant de les comparer")
         return
 
@@ -398,7 +392,7 @@ def afficher_aide():
     IMPORTANT : \n
     - Seuls les fichiers Excel en .xlsx sont acceptés.\n
     - Le fichier des livreurs doit avoir ces colonnes : 'Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool' et les noms ne doivent pas être changés. Peu engendrer des erreurs.\n
-    - Le fichier Descartes doit avoir ces colonnes : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité' et les noms ne doivent pas être changés. Peu engendrer des erreurs.\n
+    - Le fichier Odoo doit avoir ces colonnes : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité' et les noms ne doivent pas être changés. Peu engendrer des erreurs.\n
     - Bien attendre la fenêtre pop-up avant de cliquer sur le bouton suivant.
     - Il est conseillé de suivre l'ordre des boutons pour éviter les erreurs. \n\n
     En cas d'erreur : \n
@@ -428,9 +422,9 @@ def afficher_instructions_boutons():
     Instructions d'utilisation :
     - Bouton 'Traiter le fichier des livraisons': Cliquez sur ce bouton pour traiter le fichier des livraisons. Une fois le traitement terminé, le fichier généré sera enregistré dans le dossier des téléchargements.
 
-    - Bouton 'Traiter le fichier des vidanges': Cliquez sur ce bouton pour traiter le fichier des vidanges. Une fois le traitement terminé, le fichier généré sera enregistré dans le dossier des téléchargements.
+    - Bouton 'Traiter le fichier de Odoo': Cliquez sur ce bouton pour traiter le fichier des vidanges. Une fois le traitement terminé, le fichier généré sera enregistré dans le dossier des téléchargements.
 
-    - Bouton 'Comparer les fichiers générés': Cliquez sur ce bouton pour comparer les deux fichiers générés. Une fois la comparaison terminée, le résultat sera enregistré dans un nouveau fichier Excel dans le dossier des téléchargements.
+    - Bouton 'Comparer les fichiers traités': Cliquez sur ce bouton pour comparer les deux fichiers traités précédement. Une fois la comparaison terminée, le résultat sera enregistré dans un nouveau fichier Excel dans le dossier des téléchargements.
 
     - Bouton 'Ouvrir le dernier fichier généré': Cliquez sur ce bouton pour ouvrir le dernier fichier Excel généré. Assurez-vous que le fichier existe dans le dossier des téléchargements.
 
@@ -449,7 +443,7 @@ def err_100():
     Erreur 100 : Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.
     Pour régler cette erreur :
     - Assurez-vous que le fichier est au format Excel (.xlsx).
-    - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité facturée'.
+    - Vérifiez que le fichier contient les colonnes attendues : 'Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité'.
     """
     messagebox.showinfo("Erreur 100", message_100)
     log.debug(colorama.Fore.GREEN +"Affichage de l'erreur 100"+ colorama.Style.RESET_ALL)
@@ -527,8 +521,8 @@ def afficher_fct() :
     L'application permet de comparer deux fichiers Excel et de voir s'il y a des différences entre les deux. \n\n
 
     PROCESUS : \n
-    - L'utilisateur doit sélectionner un fichier Excel contenant les données des livraisons. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client. \n\n
-    - L'utilisateur doit sélectionner un fichier Excel contenant les données des vidanges. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client. \n\n
+    - L'utilisateur doit sélectionner un fichier Excel contenant les données des chauffeurs. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client. \n\n
+    - L'utilisateur doit sélectionner un fichier Excel contenant les données de Odoo. \n Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des vidanges par client. \n\n
     - Lorsque l'utilisateur appuie sur le bouton 'Comparer les fichiers générés', le script va comparer les deux fichiers générés et créer un nouveau fichier Excel contenant les différences entre les deux. \n\n
 
     Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de la création. \n\n
@@ -605,7 +599,7 @@ result_label.config(text="Rendez-vous dans la rubrique 'Aide' en haut à gauche 
 btn_traiter_livraisons = tk.Button(root, text='1. Traiter le fichier des chauffeurs', command=traiter_chauffeur, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_livraisons.pack(padx=20, pady=10)
 
-btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Odoo', command=traiter_descartes, image = ico_excel, compound='left', font=('Arial', 10))
+btn_traiter_vidanges = tk.Button(root, text='2. Traiter le fichier de Odoo', command=traiter_odoo, image = ico_excel, compound='left', font=('Arial', 10))
 btn_traiter_vidanges.pack(padx=20, pady=10)
 
 btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers traités', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
