@@ -369,40 +369,35 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
     # Ajouter la colonne 'Date' au DataFrame des écarts
     df_ecarts['Date'] = None
     
-# Parcourir chaque ligne du DataFrame des écarts
+    # Parcourir chaque ligne du DataFrame des écarts
     for index, row in df_ecarts.iterrows():
-            client = row['Client']
-            has_positive_value = False  # Variable pour suivre si une valeur positive est trouvée
-            for colonne_descartes, colonne_dates in correspondance_colonnes.items():
-                if colonne_descartes in df_ecarts.columns and colonne_dates in df_dates.columns:
-                    quantite_ecarts = row[colonne_descartes]
-                    try:
-                        quantite_ecarts = int(quantite_ecarts)  # Convertir en entier
-                        if quantite_ecarts > 0:
-                            has_positive_value = True  # Mettre à jour si une valeur positive est trouvée
-                            break  # Sortir de la boucle dès qu'une valeur positive est trouvée
-                    except ValueError:
-                        pass  # Ignorer les valeurs non numériques
+        client = row['Client']
+        for colonne_descartes, colonne_dates in correspondance_colonnes.items():
+            if colonne_descartes in df_ecarts.columns and colonne_dates in df_dates.columns:
+                quantite_ecarts = row[colonne_descartes]
+                try:
+                    quantite_ecarts = int(quantite_ecarts)  # Convertir en entier
+                    if quantite_ecarts < 0:
+                        # Rechercher les dates correspondantes dans le fichier des dates
+                        matching_date = df_dates[
+                            (df_dates['Customer Name'] == client) & (df_dates[colonne_dates] == abs(quantite_ecarts))
+                        ]['Delivery Date'].min()
+                        if pd.notna(matching_date):
+                            formatted_date = matching_date.strftime('%d/%m/%Y')
+                            df_ecarts.at[index, 'Date'] = formatted_date
+                            break  # Sortir de la boucle dès qu'une date est associée
+                except ValueError:
+                    pass  # Ignorer les valeurs non numériques
             
-        # Si aucune valeur positive n'est trouvée, rechercher les dates correspondantes dans le fichier des dates
-            if not has_positive_value:
-                matching_dates = df_dates[df_dates['Customer Name'] == client]['Delivery Date']
-                
-                # Sélectionner la dernière date correspondante
-                if not matching_dates.empty:
-                    date_ecart = matching_dates.iloc[-1]
-                    
-                    # Si la date est valide, ajouter la date dans la colonne 'Date'
-                    if pd.notna(date_ecart):
-                        df_ecarts.at[index, 'Date'] = date_ecart.strftime('%d/%m/%Y')
-    
-
-
+ 
 
     # Enregistrer le DataFrame mis à jour dans le même fichier
-    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{pd.Timestamp.today().strftime("%Y-%m-%d")}.xlsx')
+    fichier_sortie = os.path.join(
+        os.path.expanduser('~'),
+        'Downloads',
+        f'ecarts_{pd.Timestamp.today().strftime("%Y-%m-%d")}.xlsx'
+    )
     df_ecarts.to_excel(fichier_sortie, index=False)
-    
     
     # Ouvrir le fichier Excel avec openpyxl
     wb = openpyxl.load_workbook(fichier_sortie)
@@ -417,10 +412,11 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
             elif isinstance(cell, (int, float)) and cell > 0:
                 ws.cell(row=idx, column=col_idx).font = openpyxl.styles.Font(color='00FF00')  # Vert pour les valeurs positives
 
+
     # Sauvegarder le fichier Excel modifié
     wb.save(fichier_sortie)
     
-    log.info(f"Le fichier Excel des écarts a été mis à jour avec les dates.")
+    log.info(colorama.Fore.BLUE + f"Le fichier Excel des écarts a été mis à jour avec les dates." + colorama.Style.RESET_ALL)
 
 def add_date():
     log.info("Appel de la fonction pour ajouter les dates aux écarts")
@@ -437,7 +433,7 @@ def add_date():
         # Appeler la fonction pour ajouter les dates aux écarts
         ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts)
         
-        log.info("Les dates ont été ajoutées avec succès aux écarts.")
+        log.info(colorama.Fore.BLUE + "Les dates ont été ajoutées avec succès aux écarts." + colorama.Style.RESET_ALL)
 
 # Fonction pour sélectionner le fichier contenant les dates
 def selectionner_fichier_dates():
