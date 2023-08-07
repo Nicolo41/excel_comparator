@@ -371,21 +371,32 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
     
 # Parcourir chaque ligne du DataFrame des écarts
     for index, row in df_ecarts.iterrows():
-        client = row['Client']
-        for colonne_descartes, colonne_dates in correspondance_colonnes.items():
-            if colonne_descartes in df_ecarts.columns and colonne_dates in df_dates.columns:
-                quantite_ecarts = row[colonne_descartes]
-                
-                # Trouver les dates correspondantes dans le fichier des dates
+            client = row['Client']
+            has_positive_value = False  # Variable pour suivre si une valeur positive est trouvée
+            for colonne_descartes, colonne_dates in correspondance_colonnes.items():
+                if colonne_descartes in df_ecarts.columns and colonne_dates in df_dates.columns:
+                    quantite_ecarts = row[colonne_descartes]
+                    try:
+                        quantite_ecarts = int(quantite_ecarts)  # Convertir en entier
+                        if quantite_ecarts > 0:
+                            has_positive_value = True  # Mettre à jour si une valeur positive est trouvée
+                            break  # Sortir de la boucle dès qu'une valeur positive est trouvée
+                    except ValueError:
+                        pass  # Ignorer les valeurs non numériques
+            
+        # Si aucune valeur positive n'est trouvée, rechercher les dates correspondantes dans le fichier des dates
+            if not has_positive_value:
                 matching_dates = df_dates[df_dates['Customer Name'] == client]['Delivery Date']
                 
                 # Sélectionner la dernière date correspondante
                 if not matching_dates.empty:
                     date_ecart = matching_dates.iloc[-1]
                     
-                    # Si la date est valide et la quantité nulle, ajouter la date dans la colonne 'Date'
-                    if pd.notna(date_ecart) and quantite_ecarts != 0:
+                    # Si la date est valide, ajouter la date dans la colonne 'Date'
+                    if pd.notna(date_ecart):
                         df_ecarts.at[index, 'Date'] = date_ecart.strftime('%d/%m/%Y')
+    
+
 
 
     # Enregistrer le DataFrame mis à jour dans le même fichier
