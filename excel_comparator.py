@@ -14,6 +14,9 @@ import webbrowser
 import logging as log
 import colorama
 import openpyxl
+from datetime import datetime
+import numpy as np
+
 
 
 colorama.init()
@@ -342,6 +345,86 @@ def comparer_fichiers():
 
 
 
+def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
+    log.info("Ajout des dates au fichier des écarts")
+    
+    correspondance_colonnes = {
+        'Client': 'Customer Name',
+        'PALETTE EU 11': 'Palette Euro NEW',
+        'PALETTE EU 9' : 'Palette Euro NEW',
+        'EPS 246': 'Caisses vertes',
+        'EPS - T': 'VID-T',
+        'EPS - M': 'VID-S',
+        'VID F': 'Vidange F',
+        'FRIGOBOX': 'FRIGO BOX',
+        'PALETTE TRUVAL': 'Palette Truval',
+        'PALETTE BANANE': 'Palette banane',
+        'PALETTE PLASTIQUE': 'Palette Plastique',
+        'PALETTE POOL': 'Palette Pool'
+    }
+    
+    # Convertir les dates du format 'dd/mm/yyyy' en objets datetime
+    df_dates['Delivery Date'] = pd.to_datetime(df_dates['Delivery Date'], format='%d/%m/%Y')
+    
+    # Ajouter la colonne 'Date' au DataFrame des écarts
+    df_ecarts['Date'] = None
+    
+# Parcourir chaque ligne du DataFrame des écarts
+    for index, row in df_ecarts.iterrows():
+        client = row['Client']
+        for colonne_descartes, colonne_dates in correspondance_colonnes.items():
+            if colonne_descartes in df_ecarts.columns and colonne_dates in df_dates.columns:
+                quantite_ecarts = row[colonne_descartes]
+                date_ecart = df_dates.loc[df_dates['Customer Name'] == client, 'Delivery Date'].values
+                print(f"Client: {client}, colonne_descartes: {colonne_descartes}, date_ecart: {date_ecart}")
+                
+                if np.any(pd.notna(date_ecart)) and quantite_ecarts != 0 and not isinstance(date_ecart[0], float):
+                    df_ecarts.at[index, 'Date'] = pd.Timestamp(date_ecart[0]).strftime('%d/%m/%Y')
+
+    
+    # Enregistrer le DataFrame mis à jour dans le même fichier
+    fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{pd.Timestamp.today().strftime("%Y-%m-%d")}.xlsx')
+    df_ecarts.to_excel(fichier_sortie, index=False)
+    
+    log.info(f"Le fichier Excel des écarts a été mis à jour avec les dates.")
+
+def add_date():
+    log.info("Appel de la fonction pour ajouter les dates aux écarts")
+    
+    # Sélectionner le fichier contenant les dates
+    df_dates = selectionner_fichier_dates()
+    
+    
+    if df_dates is not None:
+        # Charger le fichier des écarts
+        fichier_ecarts = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{date.today()}.xlsx')
+        df_ecarts = pd.read_excel(fichier_ecarts)
+        
+        # Appeler la fonction pour ajouter les dates aux écarts
+        ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts)
+        
+        log.info("Les dates ont été ajoutées avec succès aux écarts.")
+
+# Fonction pour sélectionner le fichier contenant les dates
+def selectionner_fichier_dates():
+    log.info("Sélection du fichier contenant les dates")
+    
+    # Demander à l'utilisateur de sélectionner le fichier
+    fichier_dates = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
+    
+    # Valider le fichier avant de continuer
+    if not valider_fichier_chauffeur(fichier_dates):
+        log.error("Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        messagebox.showerror("Erreur #100", "Le fichier sélectionné n'est pas au bon format ou ne contient pas les données attendues.")
+        return None
+    
+    # Charger le fichier Excel dans un DataFrame
+    df_dates = pd.read_excel(fichier_dates)
+    
+    return df_dates
+
+
+
 
 # Fonction pour ouvrir le dernier fichier généré
 def ouvrir_dernier_fichier():
@@ -612,6 +695,12 @@ btn_ouvrir_fichier.pack(padx=20, pady=10)
 # Créer un bouton pour ouvrir le dossier des téléchargements
 btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements, image = ico_folder, compound='left', font=('Arial', 10))
 btn_ouvrir_dossier.pack(padx=20, pady=10)
+
+# Créer un bouton pour ajouter les dates au fichier des écarts
+btn_add_date = tk.Button(root, text='5. Ajouter les dates aux écarts', command=add_date, image=ico_fichier, compound='left', font=('Arial', 10))
+btn_add_date.pack(padx=20, pady=10)
+
+
 
 # Ajouter une barre de progression
 progress_bar = ttk.Progressbar(root, mode='determinate', maximum=100)
