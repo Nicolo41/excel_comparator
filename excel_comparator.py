@@ -14,8 +14,6 @@ import webbrowser
 import logging as log
 import colorama
 import openpyxl
-from datetime import datetime
-import numpy as np
 
 
 
