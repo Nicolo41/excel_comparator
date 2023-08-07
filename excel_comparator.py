@@ -386,6 +386,23 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{pd.Timestamp.today().strftime("%Y-%m-%d")}.xlsx')
     df_ecarts.to_excel(fichier_sortie, index=False)
     
+    
+    # Ouvrir le fichier Excel avec openpyxl
+    wb = openpyxl.load_workbook(fichier_sortie)
+    ws = wb.active
+
+    log.debug("Mise en forme du fichier Excel")
+    # Parcourir les cellules du fichier Excel et appliquer le format en rouge pour les valeurs négatives et en vert pour les valeurs positives
+    for idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+        for col_idx, cell in enumerate(row[1:], start=2):  # Commencer à partir de la deuxième colonne (la première colonne est le client)
+            if isinstance(cell, (int, float)) and cell < 0:
+                ws.cell(row=idx, column=col_idx).font = openpyxl.styles.Font(color='FF0000')  # Rouge pour les valeurs négatives
+            elif isinstance(cell, (int, float)) and cell > 0:
+                ws.cell(row=idx, column=col_idx).font = openpyxl.styles.Font(color='00FF00')  # Vert pour les valeurs positives
+
+    # Sauvegarder le fichier Excel modifié
+    wb.save(fichier_sortie)
+    
     log.info(f"Le fichier Excel des écarts a été mis à jour avec les dates.")
 
 def add_date():
