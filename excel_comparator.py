@@ -340,7 +340,7 @@ def comparer_fichiers():
     print(colorama.Fore.BLUE + 'La comparaison est terminée !' + colorama.Style.RESET_ALL)
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
     messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
-    messagebox.showwarning("Présence d'écarts", "Des écarts sont présents concernant les clients à cette date !\n\nVeuillez ouvrir le fichier Excel des écarts pour les consulter.")
+    messagebox.showwarning("Présence d'écarts", "Des écarts sont présents concernant les clients à cette date !\n\nVeuillez ouvrir le fichier Excel des écarts pour les consulter. Vous pouvez également ajouter les dates aux écarts.")
     result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
 
 
@@ -397,6 +397,7 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
 
                             formatted_date = matching_date.strftime('%d/%m/%Y')
                             df_ecarts.at[index, 'Date'] = formatted_date
+                            log.debug(f"Date associée à l'écart {row[colonne_descartes]} pour le client {client} : {formatted_date}")
                             break  # Sortir de la boucle dès qu'une date est associée
                 except ValueError:
                     pass  # Ignorer les valeurs non numériques
@@ -446,10 +447,12 @@ def add_date():
         ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts)
         
         log.info(colorama.Fore.BLUE + "Les dates ont été ajoutées avec succès aux écarts." + colorama.Style.RESET_ALL)
+        messagebox.showinfo("Prêt", "Les dates ont été ajoutées avec succès aux écarts !\n\nVous pouvez maintenant ouvrir le fichier Excel des écarts.")
 
 # Fonction pour sélectionner le fichier contenant les dates
 def selectionner_fichier_dates():
     log.info("Sélection du fichier contenant les dates")
+    messagebox.showinfo("Sélection du fichier", "Veuillez sélectionner à nouveau le fichier des chauffeurs.")
     
     # Demander à l'utilisateur de sélectionner le fichier
     fichier_dates = filedialog.askopenfilename(filetypes=[('Fichiers Excel', '*.xlsx')])
@@ -730,17 +733,18 @@ btn_traiter_vidanges.pack(padx=20, pady=10)
 btn_comparer_fichiers = tk.Button(root, text='3. Comparer les fichiers traités', command=comparer_fichiers, image = ico_compare, compound='left', font=('Arial', 10))
 btn_comparer_fichiers.pack(padx=20, pady=10)
 
+# Créer un bouton pour ajouter les dates au fichier des écarts
+btn_add_date = tk.Button(root, text='4. Ajouter les dates aux écarts', command=add_date, image=ico_excel, compound='left', font=('Arial', 10))
+btn_add_date.pack(padx=20, pady=10)
+
 # Créer un bouton pour ouvrir le dernier fichier généré
-btn_ouvrir_fichier = tk.Button(root, text='4. Ouvrir le fichier des écarts', command=ouvrir_dernier_fichier, image = ico_fichier, compound='left', font=('Arial', 10))
+btn_ouvrir_fichier = tk.Button(root, text='5. Ouvrir le fichier des écarts', command=ouvrir_dernier_fichier, image = ico_fichier, compound='left', font=('Arial', 10))
 btn_ouvrir_fichier.pack(padx=20, pady=10)
 
 # Créer un bouton pour ouvrir le dossier des téléchargements
 btn_ouvrir_dossier = tk.Button(root, text='Ouvrir le dossier des téléchargements', command=ouvrir_dossier_telechargements, image = ico_folder, compound='left', font=('Arial', 10))
 btn_ouvrir_dossier.pack(padx=20, pady=10)
 
-# Créer un bouton pour ajouter les dates au fichier des écarts
-btn_add_date = tk.Button(root, text='5. Ajouter les dates aux écarts', command=add_date, image=ico_fichier, compound='left', font=('Arial', 10))
-btn_add_date.pack(padx=20, pady=10)
 
 
 
