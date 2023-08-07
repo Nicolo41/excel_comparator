@@ -14,8 +14,6 @@ import webbrowser
 import logging as log
 import colorama
 import openpyxl
-from datetime import datetime
-import numpy as np
 
 
 
@@ -397,13 +395,17 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
 
                             formatted_date = matching_date.strftime('%d/%m/%Y')
                             df_ecarts.at[index, 'Date'] = formatted_date
-                            log.debug(f"Date associée à l'écart {row[colonne_descartes]} pour le client {client} : {formatted_date}")
+                            
+                            # Trouver et imprimer le numéro de ligne de la date choisie
+                            date_row_index = df_dates[
+                                (df_dates['Customer Name'] == client) & (df_dates[colonne_dates] == abs(quantite_ecarts))
+                            ].index[0]
+                            print(f"Numéro de ligne de la date choisie: {date_row_index}")
+                            
                             break  # Sortir de la boucle dès qu'une date est associée
                 except ValueError:
                     pass  # Ignorer les valeurs non numériques
             
- 
-
     # Enregistrer le DataFrame mis à jour dans le même fichier
     fichier_sortie = os.path.join(
         os.path.expanduser('~'),
@@ -425,11 +427,11 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
             elif isinstance(cell, (int, float)) and cell > 0:
                 ws.cell(row=idx, column=col_idx).font = openpyxl.styles.Font(color='00FF00')  # Vert pour les valeurs positives
 
-
     # Sauvegarder le fichier Excel modifié
     wb.save(fichier_sortie)
     
     log.info(colorama.Fore.BLUE + f"Le fichier Excel des écarts a été mis à jour avec les dates." + colorama.Style.RESET_ALL)
+
 
 def add_date():
     log.info("Appel de la fonction pour ajouter les dates aux écarts")
