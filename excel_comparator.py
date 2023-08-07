@@ -375,13 +375,19 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
         for colonne_descartes, colonne_dates in correspondance_colonnes.items():
             if colonne_descartes in df_ecarts.columns and colonne_dates in df_dates.columns:
                 quantite_ecarts = row[colonne_descartes]
-                date_ecart = df_dates.loc[df_dates['Customer Name'] == client, 'Delivery Date'].values
-                print(f"Client: {client}, colonne_descartes: {colonne_descartes}, date_ecart: {date_ecart}")
                 
-                if np.any(pd.notna(date_ecart)) and quantite_ecarts != 0 and not isinstance(date_ecart[0], float):
-                    df_ecarts.at[index, 'Date'] = pd.Timestamp(date_ecart[0]).strftime('%d/%m/%Y')
+                # Trouver les dates correspondantes dans le fichier des dates
+                matching_dates = df_dates[df_dates['Customer Name'] == client]['Delivery Date']
+                
+                # Sélectionner la dernière date correspondante
+                if not matching_dates.empty:
+                    date_ecart = matching_dates.iloc[-1]
+                    
+                    # Si la date est valide et la quantité nulle, ajouter la date dans la colonne 'Date'
+                    if pd.notna(date_ecart) and quantite_ecarts != 0:
+                        df_ecarts.at[index, 'Date'] = date_ecart.strftime('%d/%m/%Y')
 
-    
+
     # Enregistrer le DataFrame mis à jour dans le même fichier
     fichier_sortie = os.path.join(os.path.expanduser('~'), 'Downloads', f'ecarts_{pd.Timestamp.today().strftime("%Y-%m-%d")}.xlsx')
     df_ecarts.to_excel(fichier_sortie, index=False)
