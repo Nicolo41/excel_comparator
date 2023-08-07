@@ -369,7 +369,10 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
     # Ajouter la colonne 'Date' au DataFrame des écarts
     df_ecarts['Date'] = None
     
-    # Parcourir chaque ligne du DataFrame des écarts
+    # Créer un dictionnaire pour stocker le nombre de fois que chaque écart se produit pour chaque client
+    ecart_occurrences = {}
+    
+     # Parcourir chaque ligne du DataFrame des écarts
     for index, row in df_ecarts.iterrows():
         client = row['Client']
         for colonne_descartes, colonne_dates in correspondance_colonnes.items():
@@ -383,6 +386,15 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
                             (df_dates['Customer Name'] == client) & (df_dates[colonne_dates] == abs(quantite_ecarts))
                         ]['Delivery Date'].min()
                         if pd.notna(matching_date):
+                            # Vérifier si cet écart s'est déjà produit pour ce client
+                            if client in ecart_occurrences:
+                                if row[colonne_descartes] in ecart_occurrences[client]:
+                                    continue  # Ne pas associer de date si l'écart s'est déjà produit avec cette même quantité pour ce client
+                                else:
+                                    ecart_occurrences[client].append(row[colonne_descartes])
+                            else:
+                                ecart_occurrences[client] = [row[colonne_descartes]]
+
                             formatted_date = matching_date.strftime('%d/%m/%Y')
                             df_ecarts.at[index, 'Date'] = formatted_date
                             break  # Sortir de la boucle dès qu'une date est associée
