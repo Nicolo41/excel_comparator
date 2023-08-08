@@ -370,9 +370,21 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
     # Créer un dictionnaire pour stocker le nombre de fois que chaque écart se produit pour chaque client
     ecart_occurrences = {}
     
+    # Créer un dictionnaire pour stocker les lignes identiques déjà traitées pour chaque client
+    lignes_identiques_traitees = {}
+    
      # Parcourir chaque ligne du DataFrame des écarts
     for index, row in df_ecarts.iterrows():
         client = row['Client']
+        ligne_actuelle = row.drop('Date')  # Exclure la colonne 'Date' pour la comparaison
+        
+        if client in lignes_identiques_traitees and ligne_actuelle.to_dict() in lignes_identiques_traitees[client]:
+            continue  # Ne pas associer de date si cette ligne identique a déjà été traitée
+        else:
+            if client not in lignes_identiques_traitees:
+                lignes_identiques_traitees[client] = []
+            lignes_identiques_traitees[client].append(ligne_actuelle.to_dict())
+            
         for colonne_descartes, colonne_dates in correspondance_colonnes.items():
             if colonne_descartes in df_ecarts.columns and colonne_dates in df_dates.columns:
                 quantite_ecarts = row[colonne_descartes]
