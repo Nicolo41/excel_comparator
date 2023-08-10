@@ -157,11 +157,15 @@ def traiter_odoo():
     # Charger le fichier Excel
     df_descartes = pd.read_excel(fichier_sortie, index_col='Client')
 
-    # Vérifier si la colonne "PALETTE EU 9" existe
+     # Vérifier si la colonne "PALETTE EU 9" existe
     if 'PALETTE EU 9' in df_descartes.columns:
-        # Ajouter les valeurs de "PALETTE EU 9" à celles de "PALETTE EU 11" et stocker le résultat dans "PALETTE EU 11"
-        df_descartes['PALETTE EU 11'] = df_descartes['PALETTE EU 11'].fillna(0) + df_descartes['PALETTE EU 9'].fillna(0)
-        df_descartes.drop(columns=['PALETTE EU 9'], inplace=True)
+        if 'PALETTE EU 11' in df_descartes.columns:
+            # Ajouter les valeurs de "PALETTE EU 9" à celles de "PALETTE EU 11"
+            df_descartes['PALETTE EU 11'] = df_descartes['PALETTE EU 11'].fillna(0) + df_descartes['PALETTE EU 9'].fillna(0)
+            df_descartes.drop(columns=['PALETTE EU 9'], inplace=True)
+        else:
+            # Si "PALETTE EU 11" n'existe pas, simplement renommer "PALETTE EU 9" en "PALETTE EU 11"
+            df_descartes.rename(columns={'PALETTE EU 9': 'PALETTE EU 11'}, inplace=True)
 
     # Enregistrer le DataFrame traité dans un nouveau fichier Excel
     # fichier_traité = os.path.join(os.path.expanduser('~'), 'Downloads', f'descartes_traite.xlsx')
@@ -180,6 +184,7 @@ def traiter_odoo():
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès dans le dossier téléchargements." + colorama.Style.RESET_ALL)
     result_label.config(text=f"Le fichier Excel a été enregistré avec succès \n")
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
+
 
 
 # Fonctions de validation pour les fichiers
