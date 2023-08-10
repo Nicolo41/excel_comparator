@@ -8,7 +8,7 @@ a = Analysis(
     ['excel_comparator.py'],
     pathex=[],
     binaries=[],
-    datas=[('requirements.txt', '.'), ('img/logo_jr2.png', '.'), ('img/excel2.png', '.'), ('img/compare2.png', '.'), ('img/exit2.png', '.'), ('img/fichier2.png', '.'), ('img/folder2.png', '.'), ('img/error2.png', '.'), ('img/git2.png', '.'), ('img/ok.png', '.'), ('img/logo_jr.png', '.')],
+    datas=[('C:\\Users\\nicol\\AppData\\Roaming\\Python\\Python311\\site-packages', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
