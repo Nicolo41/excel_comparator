@@ -1,4 +1,4 @@
-('C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\build\\excel_comparator\\PYZ-00.pyz',
+('c:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\build\\excel_comparator\\PYZ-00.pyz',
  [('PIL', 'C:\\Python311\\Lib\\site-packages\\PIL\\__init__.py', 'PYMODULE'),
   ('PIL.BlpImagePlugin',
    'C:\\Python311\\Lib\\site-packages\\PIL\\BlpImagePlugin.py',
