@@ -428,7 +428,7 @@ def ajouter_dates_au_fichier_ecarts(df_dates, df_ecarts):
     fichier_sortie = os.path.join(
         os.path.expanduser('~'),
         'Downloads',
-        f'ecarts_date_{pd.Timestamp.today().strftime("%d-%m-%Y")}.xlsx'
+        f'ecarts_{date.today()}.xlsx'
     )
     df_ecarts.to_excel(fichier_sortie, index=False)
     
