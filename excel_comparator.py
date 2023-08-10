@@ -33,7 +33,7 @@ root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 print('-----------------------')
 #icone fenêtres
-icone = tk.PhotoImage(file='img/logo_jr2.png')
+icone = tk.PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\logo_jr2.png')
 # Définir l'icône pour la fenêtre principale
 root.tk.call('wm', 'iconphoto', root._w, icone)
 
@@ -697,16 +697,16 @@ def afficher_fct() :
 # Charger les icônes au format .png avec tkinter
 
 log.debug("Chargement des icônes")
-ico_excel = PhotoImage(file='img/excel2.png')
-ico_compare = PhotoImage(file='img/compare2.png')
-ico_exit = PhotoImage(file='img/exit2.png')
-ico_fichier = PhotoImage(file='img/fichier2.png')
-ico_folder = PhotoImage(file='img/folder2.png')
-ico_error = PhotoImage(file='img/error2.png')
-ico_git = PhotoImage(file='img/git2.png')
-ico_ok = PhotoImage(file='img/ok.png')
+ico_excel = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\excel2.png')
+ico_compare = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\compare2.png')
+ico_exit = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\exit2.png')
+ico_fichier = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\fichier2.png')
+ico_folder = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\folder2.png')
+ico_error = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\error2.png')
+ico_git = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\git2.png')
+ico_ok = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\ok.png')
 #background
-bg = PhotoImage(file='img/logo_jr.png')
+bg = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\logo_jr.png')
 
 
                                             ### WIDGETS, BOUTONS ET MENUS ###
