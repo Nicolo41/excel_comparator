@@ -308,7 +308,8 @@ def comparer_fichiers():
 
     log.debug("Suppression des clients sans écarts")
     # Supprimer les clients sans écart du DataFrame "df_ecarts"
-    df_ecarts = df_ecarts[df_ecarts.iloc[:, 1:].ne(0).any(axis=1)]
+    df_ecarts = df_ecarts[~df_ecarts.iloc[:, 1:].eq(0).all(axis=1)]
+    df_ecarts.dropna(subset=df_ecarts.columns[1:], how='all', inplace=True)
 
     
     # Vérifier si le DataFrame est vide
