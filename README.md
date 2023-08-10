@@ -12,6 +12,8 @@ L'enjeu était de trouver un moyen de voir rapidement les écarts qui peuvent su
 Traitement de fichiers Excel pour extraire et regrouper les données.
 Comparaison de deux fichiers Excel pour identifier les différences entre eux.
 Export des résultats dans un nouveau fichier Excel.
+## Téléchargement de l'executable
+Cliquez sur le lien pour accèder au téléchargement : [Télécharger l'application](https://github.com/Nicolo41/excel_comparator/blob/main/dist/excel_comparator.exe) 
 ## Installation
 Clonez le dépôt : `git clone https://github.com/Nicolo41/excel_comparator.git`
 
