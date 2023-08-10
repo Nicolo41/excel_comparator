@@ -343,7 +343,7 @@ def comparer_fichiers():
 
     print(colorama.Fore.BLUE + 'La comparaison est terminée !' + colorama.Style.RESET_ALL)
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
-    messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
+    # messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
     messagebox.showwarning("Présence d'écarts", "Des écarts sont présents concernant les clients à cette date !\n\nVeuillez ouvrir le fichier Excel des écarts pour les consulter. Vous pouvez également ajouter les dates aux écarts.")
     result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
 
