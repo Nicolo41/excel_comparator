@@ -8,7 +8,7 @@ a = Analysis(
     ['excel_comparator.py'],
     pathex=[],
     binaries=[],
-    datas=[('img/*.png', 'img/')],
+    datas=[('img/*.png', 'img/'), ('requirements.txt', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
