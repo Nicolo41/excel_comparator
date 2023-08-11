@@ -54,7 +54,7 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
 
 - Une gestion des erreurs est fonctionnelle, des messages d'erreurs apparaîtrons s'il y en a. De plus, un système de logs a également été mis en place pour debug et info.
-## Format des fichiers
+## Format des fichiers / Conseils d'utilisation
 Seuls les fichier en .xlsx sont prit en charge, la conversion CSV -> XLSX est simple à faire.
 
 - Le fichier encodé par les chauffeurs doit avoir cette structure : 
