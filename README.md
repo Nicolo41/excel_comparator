@@ -43,7 +43,7 @@ Pour que le programme soit executable depuis n'importe quelle machine.
 
 Création d'un environnement virtuel PyInstaller -> pas de dépendance à avoir pour executer le programme ni d'installation python.
 
-Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstaller --onefile --add-data "requirements.txt;." excel_comparator.py`
+Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstaller --onefile --add-data "img/*.png:img/" excel_comparator.py`
 ## Processus
 - L'utilisateur doit sélectionner un fichier Excel contenant les données encodées des livreurs. Le script va lire le fichier et créer un nouveau fichier Excel contenant les données des livraisons par client.
 
