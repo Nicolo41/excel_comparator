@@ -69,3 +69,5 @@ D'autres colonnes peuvent être présentes mais ces colonnes spécifiques doiven
 Bien faire attention à prendre les quantités réelles et non facturées pour éviter de faux négatifs. Pensez également à prendre des dates de comparaison cohérentes, par exemple, 2 fichiers du 01 au 30 juin, ne pas oublier que certains écarts apparents peuvent avoir été crédité à une date ultérieure ! L'ajout des dates aux écarts n'est pas sûr à 100%, le mieux est de vérifier.
 
 Les 'PALETTE EU 11' et 'PALETTE EU 9' sont gérées, si de nouvelles vidanges s'ajoutent des erreurs peuvent être causées !
+
+Si des modifications du code sont effectuées, il faudra télécharger à nouveau la solution pour en bénéficier.
