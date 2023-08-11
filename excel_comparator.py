@@ -37,7 +37,6 @@ root.title('Traitement des fichiers Excel')
 print('Ouverture fenêtre principale...')
 print('-----------------------')
 #icone fenêtres
-# icone = tk.PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\logo_jr2.png')
 icone = PhotoImage(file=img_folder / "logo_jr2.png")
 # Définir l'icône pour la fenêtre principale
 root.tk.call('wm', 'iconphoto', root._w, icone)
@@ -68,7 +67,7 @@ def traiter_chauffeur():
 
     df_livraisons = pd.read_excel(fichier_chauffeur)
 
-    # Extraire les colonnes des vidanges (de D à N)
+    # Extraire les colonnes des vidanges
     log.debug("Extraction des colonnes des vidanges")
     colonnes_vidanges = df_livraisons.columns[3:14]  # colonnes D à N 
     # Créer un dictionnaire pour stocker les clients, leurs vidanges et les quantités correspondantes
@@ -173,8 +172,6 @@ def traiter_odoo():
             df_descartes.rename(columns={'PALETTE EU 9': 'PALETTE EU 11'}, inplace=True)
 
     # Enregistrer le DataFrame traité dans un nouveau fichier Excel
-    # fichier_traité = os.path.join(os.path.expanduser('~'), 'Downloads', f'descartes_traite.xlsx')
-    # df_descartes.to_excel(fichier_traité, index=False)
     df_descartes.to_excel(fichier_sortie)
     def update_progress(progress):
         progress_bar.step(progress)
@@ -191,9 +188,7 @@ def traiter_odoo():
     messagebox.showinfo("Prêt", "Le fichier a bien été enregistré !\n\nVous pouvez maintenant comparer les deux fichiers générés.")
 
 
-
 # Fonctions de validation pour les fichiers
-
 def valider_fichier_odoo(fichier):
     # Vérifier que le fichier est au format xlsx
     print('----------')
@@ -348,7 +343,6 @@ def comparer_fichiers():
 
     print(colorama.Fore.BLUE + 'La comparaison est terminée !' + colorama.Style.RESET_ALL)
     print(colorama.Fore.BLUE + f"Le fichier Excel '{fichier_sortie}' a été créé avec succès." + colorama.Style.RESET_ALL)
-    # messagebox.showinfo("Validation", "Les fichiers ont bien été comparés !\n\nTous les fichiers générés sont disponibles dans le dossier des téléchargements.")
     messagebox.showwarning("Présence d'écarts", "Des écarts sont présents concernant les clients à cette date !\n\nVeuillez ouvrir le fichier Excel des écarts pour les consulter. Vous pouvez également ajouter les dates aux écarts.")
     result_label.config(text="La comparaison est terminée !\nLe fichier Excel a été enregistré avec succès\n")
 
@@ -702,17 +696,6 @@ def afficher_fct() :
 # Charger les icônes au format .png avec tkinter
 
 log.debug("Chargement des icônes")
-# ico_excel = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\excel2.png')
-# ico_compare = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\compare2.png')
-# ico_exit = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\exit2.png')
-# ico_fichier = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\fichier2.png')
-# ico_folder = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\folder2.png')
-# ico_error = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\error2.png')
-# ico_git = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\git2.png')
-# ico_ok = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\ok.png')
-# #background
-# bg = PhotoImage(file='C:\\Users\\nicol\\Documents\\Documents\\Code\\Python\\Vidanges\\ecarts_vidanges\\img\\logo_jr.png')
-
 ico_excel = PhotoImage(file=img_folder / 'excel2.png')
 ico_compare = PhotoImage(file=img_folder / 'compare2.png')
 ico_exit = PhotoImage(file=img_folder / 'exit2.png')
@@ -721,7 +704,6 @@ ico_folder = PhotoImage(file=img_folder / 'folder2.png')
 ico_error = PhotoImage(file=img_folder / 'error2.png')
 ico_git = PhotoImage(file=img_folder / 'git2.png')
 ico_ok = PhotoImage(file=img_folder / 'ok.png')
-
 #background
 bg = PhotoImage(file=img_folder / 'logo_jr.png')
 
