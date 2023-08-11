@@ -26,6 +26,7 @@ log.basicConfig(level=log.DEBUG, format='%(asctime)s - %(levelname)s - %(message
 
 # Chemin d'accès relatif au dossier "img"
 img_folder = Path(__file__).parent / "img"
+print(img_folder)
 
 # Créer la fenêtre principale
 print('-----------------------')

@@ -8,7 +8,7 @@ a = Analysis(
     ['excel_comparator.py'],
     pathex=[],
     binaries=[],
-    datas=[('C:\\Users\\nicol\\AppData\\Roaming\\Python\\Python311\\site-packages', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\logo_jr2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\excel2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\compare2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\exit2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\fichier2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\folder2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\error2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\git2.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\ok.png', '.'), ('C:\\\\Users\\\\nicol\\\\Documents\\\\Documents\\\\Code\\\\Python\\\\Vidanges\\\\ecarts_vidanges\\\\img\\\\logo_jr.png', '.')],
+    datas=[('img/*.png', 'img/')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
