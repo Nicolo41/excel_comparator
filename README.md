@@ -18,7 +18,6 @@ Selectionnez "<> Code" en haut à droite puis -> "Download ZIP".
 Décompressez le dossier et placez le où vous le souhaitez, lancer le programme avec le fichier `excel_comparator.exe` dans le dossier `dist`.
 (Vous pouvez créer un raccourci sur le bureau)
 
-Et cliquez sur le bouton de téléchargement en haut à droite
 ## Installation
 Clonez le dépôt : `git clone https://github.com/Nicolo41/excel_comparator.git`
 
