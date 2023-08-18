@@ -54,8 +54,8 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 - Le code est fait pour que chaque fichier généré soit enregistré dans le dossier des téléchargements à la date de sa création.
 
 - Une gestion des erreurs est fonctionnelle, des messages d'erreurs apparaîtrons s'il y en a. De plus, un système de logs a également été mis en place pour debug et info.
-## Format des fichiers / Conseils d'utilisation
-Seuls les fichier en .xlsx sont prit en charge, la conversion CSV -> XLSX est simple à faire (ouvrir le fichier -> "enregistrer sous" -> dans la selection du format, choisir "Classeur Excel (*.xlsx)")
+## Générer ses fichiers pour la comparaison
+Seuls les fichier en .xlsx sont prit en charge, la conversion CSV -> XLSX est simple à faire (ouvrir le fichier -> "enregistrer sous" -> dans la selection du format choisir "Classeur Excel (*.xlsx)")
 
 ### Obtenir le fichier de Odoo
 Le fichier encodé par les chauffeurs (provenant de Odoo) doit avoir cette structure : 
@@ -98,9 +98,18 @@ Le fichier Descartes doit avoir cette structure lors de son export :
 
 ['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool']
 
-D'autres colonnes peuvent être présentes mais ces colonnes spécifiques doivent être là.
-Bien faire attention à prendre les quantités réelles et non facturées pour éviter de faux négatifs. Pensez également à prendre des dates de comparaison cohérentes, par exemple, 2 fichiers du 01 au 30 juin, ne pas oublier que certains écarts apparents peuvent avoir été crédité à une date ultérieure ! L'ajout des dates aux écarts n'est pas sûr à 100%, le mieux est de vérifier.
+* Sélectionnez "Rapports" à gauche dans Descartes puis ```Export_Livraisons``` :
 
-Les 'PALETTE EU 11' et 'PALETTE EU 9' sont gérées, si de nouvelles vidanges s'ajoutent des erreurs peuvent être causées !
+![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/75488bfe-ce9e-469c-b64f-478f2e4e416d)
 
-Si des modifications du code sont effectuées, il faudra télécharger à nouveau la solution pour en bénéficier.
+* Sélectionnez vos dates et cliquez sur "Générer"
+
+![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/f47367fa-02e4-4738-b948-e4d01540acdd)
+
+ATTENTION ! Ce fichier est automatiquement généré en ```.csv``` et nécessite donc une conversion en ```.xlsx```.
+
+Pensez également à prendre des dates de comparaison cohérentes, par exemple, 2 fichiers du 01 au 30 juin, ne pas oublier que certains écarts apparents peuvent avoir été crédité à une date ultérieure ! L'ajout des dates aux écarts n'est pas sûr à 100%, le mieux est de vérifier.
+
+Les 'PALETTE EU 11' et 'PALETTE EU 9' sont gérées, si de nouvelles vidanges s'ajoutent des erreurs peuvent être causées ! Dans ce cas il faudra modifier le code de l'application.
+
+Si des modifications du code sont effectuées, il faudra télécharger à nouveau la solution pour pouvoir en bénéficier.
