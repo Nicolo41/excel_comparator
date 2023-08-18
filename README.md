@@ -55,15 +55,48 @@ Créer un exécutable à partir du script en utilisant Pyinstaller : `pyinstalle
 
 - Une gestion des erreurs est fonctionnelle, des messages d'erreurs apparaîtrons s'il y en a. De plus, un système de logs a également été mis en place pour debug et info.
 ## Format des fichiers / Conseils d'utilisation
-Seuls les fichier en .xlsx sont prit en charge, la conversion CSV -> XLSX est simple à faire.
+Seuls les fichier en .xlsx sont prit en charge, la conversion CSV -> XLSX est simple à faire (ouvrir le fichier -> "enregistrer sous" -> dans la selection du format, choisir "Classeur Excel (*.xlsx)")
 
-- Le fichier encodé par les chauffeurs doit avoir cette structure : 
-
-['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool']
-
-- Le fichier Descartes doit avoir cette structure lors de son export : 
+### Obtenir le fichier de Odoo
+Le fichier encodé par les chauffeurs (provenant de Odoo) doit avoir cette structure : 
 
 ['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité']
+
+Pour générer le fichier d'Odoo :
+* Se rendre dans le module "Cockpit des ventes"
+* Dans favoris, appliquez le filtre "RETOURS VIDANGES DESCARTES"
+
+![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/c921d06a-7971-4ede-94a8-bb955a7d21b3)
+
+* Appliquer un filtre pour selectionner les dates : ```Filtres -> Ajouter un filtre personnalisé``` et sélectionner comme suit :
+![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/16d843e4-439d-472b-91d6-cd3d26701d6b)
+
+Le mieux est de prendre sur un mois complet, évitez des plages trop grande. 
+
+N.B : Certains écarts peuvent être présent car les dates d'encodage dans Odoo et dans Descartes ne sont pas les mêmes et se retrouver sur le mois d'après -> Nécessite une supervision.
+
+* Une fois les filtres appliqués, il faut selectionner tous les SO en cliquant sur la case (entourée en rouge) puis sur "Tout sélectionner" (surligné en vert) :
+
+![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/a769c38c-3f77-47f5-b359-bad086e152cd)
+
+* Un bouton ```Action``` est maintenant disponible, sélectionnez "Exporter" :
+
+![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/0c7924ed-b467-422a-b716-e90950fc92e6)
+
+Ici vous pouvez choisir les champs à exporter dans un tableur Excel, il faut obligatoirement ces champs :
+
+['Client', 'Lignes de la commande/Article', 'Lignes de la commande/Quantité']
+
+Pour simplifier le processus, sélectionnez le modèle créé à cet effet (```Export Vidanges Descartes```) : 
+
+![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/2b22a2b8-5672-4123-b3ab-b4fad8dd7538)
+
+* Cliquez sur "Exporter"
+
+### Obtenir le fichier de Descartes
+Le fichier Descartes doit avoir cette structure lors de son export : 
+
+['Customer Name', 'Palette Euro NEW', 'Caisses vertes', 'VID-T', 'VID-S', 'Vidange F', 'FRIGO BOX', 'Palette Truval', 'Palette banane', 'Palette Plastique', 'Palette Pool']
 
 D'autres colonnes peuvent être présentes mais ces colonnes spécifiques doivent être là.
 Bien faire attention à prendre les quantités réelles et non facturées pour éviter de faux négatifs. Pensez également à prendre des dates de comparaison cohérentes, par exemple, 2 fichiers du 01 au 30 juin, ne pas oublier que certains écarts apparents peuvent avoir été crédité à une date ultérieure ! L'ajout des dates aux écarts n'est pas sûr à 100%, le mieux est de vérifier.
