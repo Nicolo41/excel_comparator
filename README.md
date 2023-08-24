@@ -75,7 +75,7 @@ Le mieux est de prendre sur un mois complet, évitez des plages trop grande.
 
 N.B : Certains écarts peuvent être présent car les dates d'encodage dans Odoo et dans Descartes ne sont pas les mêmes et se retrouver sur le mois d'après -> Nécessite une supervision.
 
-* Une fois les filtres appliqués, il faut selectionner tous les SO en cliquant sur la case (entourée en rouge) puis sur "Tout sélectionner" (surligné en vert) :
+* Une fois les filtres appliqués, il faut selectionner tous les SO en cliquant sur la case (entourée en rouge) puis sur "Tout sélectionner" (souligné en vert) :
 
 ![image](https://github.com/Nicolo41/excel_comparator/assets/72193849/a769c38c-3f77-47f5-b359-bad086e152cd)
 
